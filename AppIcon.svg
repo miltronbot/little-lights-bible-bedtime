@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Main gradient background -->
+    <radialGradient id="nightSkyGradient" cx="50%" cy="30%">
+      <stop offset="0%" style="stop-color:#4A3A7F;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1A1030;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0A0A1F;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- Glow effect for moon -->
+    <filter id="moonGlow">
+      <feGaussianBlur stdDeviation="20" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Glow effect for stars -->
+    <filter id="starGlow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Soft glow for book -->
+    <filter id="bookGlow">
+      <feGaussianBlur stdDeviation="12" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#nightSkyGradient)"/>
+
+  <!-- Distant stars (small, subtle) -->
+  <circle cx="150" cy="200" r="6" fill="#FFF8DC" opacity="0.6"/>
+  <circle cx="850" cy="180" r="5" fill="#FFF8DC" opacity="0.5"/>
+  <circle cx="200" cy="700" r="5" fill="#FFF8DC" opacity="0.4"/>
+  <circle cx="900" cy="650" r="6" fill="#FFF8DC" opacity="0.5"/>
+  <circle cx="100" cy="500" r="4" fill="#FFF8DC" opacity="0.6"/>
+  <circle cx="950" cy="400" r="5" fill="#FFF8DC" opacity="0.5"/>
+
+  <!-- Moon glow layer (subtle) -->
+  <circle cx="720" cy="280" r="200" fill="#FFE4B5" opacity="0.1" filter="url(#moonGlow)"/>
+
+  <!-- Moon itself -->
+  <circle cx="720" cy="280" r="160" fill="#FFF8DC" filter="url(#moonGlow)"/>
+
+  <!-- Moon crater details -->
+  <circle cx="680" cy="250" r="18" fill="#F5E6D3" opacity="0.6"/>
+  <circle cx="750" cy="290" r="14" fill="#F5E6D3" opacity="0.5"/>
+  <circle cx="720" cy="320" r="12" fill="#F5E6D3" opacity="0.4"/>
+
+  <!-- Crescent moon shadow (creates sleeping moon effect) -->
+  <path d="M 720 120 Q 800 180 800 280 Q 800 380 720 440 Q 760 400 760 280 Q 760 160 720 120" fill="#1A1030" opacity="0.7"/>
+
+  <!-- Gleaming highlight on moon -->
+  <ellipse cx="700" cy="240" rx="50" ry="40" fill="#FFFACD" opacity="0.5" filter="url(#moonGlow)"/>
+
+  <!-- Stars around the moon (glowing yellow/gold stars) -->
+  <!-- Top left star -->
+  <g filter="url(#starGlow)">
+    <polygon points="380,200 390,225 415,230 400,245 405,270 380,255 355,270 360,245 345,230 370,225" fill="#FFD700" opacity="0.9"/>
+  </g>
+
+  <!-- Top right star -->
+  <g filter="url(#starGlow)">
+    <polygon points="900,220 908,242 932,246 916,260 920,285 900,271 880,285 884,260 868,246 892,242" fill="#FFC700" opacity="0.85"/>
+  </g>
+
+  <!-- Bottom left star -->
+  <g filter="url(#starGlow)">
+    <polygon points="280,680 290,705 315,710 300,725 305,750 280,735 255,750 260,725 245,710 270,705" fill="#FFD700" opacity="0.8"/>
+  </g>
+
+  <!-- Bottom right star -->
+  <g filter="url(#starGlow)">
+    <polygon points="920,700 930,725 955,730 940,745 945,770 920,755 895,770 900,745 885,730 910,725" fill="#FFC700" opacity="0.75"/>
+  </g>
+
+  <!-- Open Book/Bible Element -->
+  <!-- Book is positioned in lower portion, roughly centered -->
+
+  <!-- Left book page -->
+  <path d="M 380 520 L 380 780 Q 390 800 410 800 L 500 800 L 500 520 Z"
+        fill="#F5DEB3" stroke="#D4A574" stroke-width="8" stroke-linejoin="round" filter="url(#bookGlow)"/>
+
+  <!-- Right book page -->
+  <path d="M 524 520 L 524 800 L 614 800 Q 634 800 644 780 L 644 520 Z"
+        fill="#FFFACD" stroke="#D4A574" stroke-width="8" stroke-linejoin="round" filter="url(#bookGlow)"/>
+
+  <!-- Book spine/binding -->
+  <rect x="500" y="520" width="24" height="280" fill="#8B6914" opacity="0.7"/>
+
+  <!-- Decorative lines on left page (representing text) -->
+  <line x1="400" y1="570" x2="480" y2="570" stroke="#CD853F" stroke-width="6" opacity="0.6" stroke-linecap="round"/>
+  <line x1="400" y1="620" x2="480" y2="620" stroke="#CD853F" stroke-width="5" opacity="0.5" stroke-linecap="round"/>
+  <line x1="400" y1="665" x2="475" y2="665" stroke="#CD853F" stroke-width="5" opacity="0.5" stroke-linecap="round"/>
+  <line x1="400" y1="710" x2="480" y2="710" stroke="#CD853F" stroke-width="5" opacity="0.5" stroke-linecap="round"/>
+  <line x1="400" y1="750" x2="470" y2="750" stroke="#CD853F" stroke-width="5" opacity="0.4" stroke-linecap="round"/>
+
+  <!-- Decorative lines on right page (representing text) -->
+  <line x1="544" y1="570" x2="620" y2="570" stroke="#CD853F" stroke-width="6" opacity="0.6" stroke-linecap="round"/>
+  <line x1="544" y1="620" x2="620" y2="620" stroke="#CD853F" stroke-width="5" opacity="0.5" stroke-linecap="round"/>
+  <line x1="544" y1="665" x2="615" y2="665" stroke="#CD853F" stroke-width="5" opacity="0.5" stroke-linecap="round"/>
+  <line x1="544" y1="710" x2="620" y2="710" stroke="#CD853F" stroke-width="5" opacity="0.5" stroke-linecap="round"/>
+  <line x1="544" y1="750" x2="610" y2="750" stroke="#CD853F" stroke-width="5" opacity="0.4" stroke-linecap="round"/>
+
+  <!-- Small decorative element - cross or light on book -->
+  <circle cx="512" cy="650" r="20" fill="#FFD700" opacity="0.3" filter="url(#starGlow)"/>
+  <path d="M 512 630 L 512 670 M 492 650 L 532 650" stroke="#FFD700" stroke-width="5" opacity="0.7" stroke-linecap="round"/>
+</svg>

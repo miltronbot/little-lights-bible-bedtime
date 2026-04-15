@@ -1,0 +1,826 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA0007777777777777777777 /* Views/Components/StarryNightBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0008888888888888888888 /* Views/Components/StarryNightBackground.swift */; };
+		13C1E9C726B24B19A576923B /* Views/Components/StoryArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96676012CC704549AA33D4E3 /* Views/Components/StoryArtworkView.swift */; };
+		16A2946A22B24F14A6D573F4 /* Views/Components/AudioPlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3BD000CC74318986CF0B9 /* Views/Components/AudioPlayerBar.swift */; };
+		1EFB1E51965441DA8AE914BF /* Resources/stories.json in Resources */ = {isa = PBXBuildFile; fileRef = C15D29E166BB42E79151ED6B /* Resources/stories.json */; };
+		23CC952B31D5495BB648E90A /* Services/StoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05363EE37F0F4807903B97F3 /* Services/StoryRepository.swift */; };
+		2603E65F59324506ADAB8461 /* Views/SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF77D5E72104DF48B81B3CF /* Views/SupportView.swift */; };
+		2WGRHUQBNMCLVCYTGH0LGK25 /* Resources/Audio/joseph_and_his_colorful_coat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = TQUHOJEDG543V7KNNTYY9VXD /* Resources/Audio/joseph_and_his_colorful_coat.mp3 */; };
+		36095C8C302148CFA6CC53BE /* Views/Components/CategoryChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D004358A32047C49CFBF701 /* Views/Components/CategoryChipView.swift */; };
+		3DE85EA4DF0648A2A25523C3 /* Views/Components/StoryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE65188825664D9AA392841A /* Views/Components/StoryCardView.swift */; };
+		427DC511C0B84D45A4AFD2EE /* Views/Components/PremiumTeaserCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCEF0C5FFB5400A9D9216AD /* Views/Components/PremiumTeaserCard.swift */; };
+		503C0C502F234C25B5F5C0E1 /* Views/FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4C9814C531439592D3341B /* Views/FavoritesView.swift */; };
+		53B4310578EA438FB18274DC /* ViewModels/StoryLibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229C55CBD4CC41DB982139AF /* ViewModels/StoryLibraryViewModel.swift */; };
+		5577FFC09D89468BB0FF3345 /* ViewModels/PurchaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257E9DA7C84F4184956063B7 /* ViewModels/PurchaseViewModel.swift */; };
+		6710588A2E78461DBD3652E6 /* Views/StoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1426D7B09C749858EF39788 /* Views/StoryDetailView.swift */; };
+		6DBF034000544EEEB079F583 /* Models/AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC861C6FDC74506BE91EB6C /* Models/AppSettings.swift */; };
+		6F984D0C62894DE98F0D090F /* ViewModels/AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C241A1DBDFD4684B7760D81 /* ViewModels/AudioPlayerViewModel.swift */; };
+		7E6A533FA23B447DACD1C8BB /* Views/SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD1852CF1844797B22EA2F2 /* Views/SettingsView.swift */; };
+		7EFAE402F90E4970A6E0BBD4 /* Views/LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B331FB044C42D18B764BF6 /* Views/LibraryView.swift */; };
+		824J87HXI2LGJMSUZKB4BKQ3 /* Resources/Audio/zacchaeus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = UHUIM5QYRHWM2QQ5FLOUFGOU /* Resources/Audio/zacchaeus.mp3 */; };
+		8FCFFCAF6DFF48B7A6CB7419 /* Views/StoryDestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7C13FB7E2D48D58033A3D1 /* Views/StoryDestinationView.swift */; };
+		8GNKBIGXYZPNBG7LEXJRAZ93 /* Resources/Audio/creation_story.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = Q2D6RZC7MBJWBC661PM15M03 /* Resources/Audio/creation_story.mp3 */; };
+		8S0ZCDXY6O2U4AXPWW0KFU6E /* Resources/Audio/jonah_and_the_big_fish.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = GXP403ZGNBRWYR9NX7ZYW6SM /* Resources/Audio/jonah_and_the_big_fish.mp3 */; };
+		8UYCDSW25RB9YOURRFDGYTMW /* Resources/Audio/david_and_goliath.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8QSC28KLN7UK20HWEE4SBTI5 /* Resources/Audio/david_and_goliath.mp3 */; };
+		9535864F2F7E4349AAE91FAE /* Views/ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6187E74E644EC7A588CAB9 /* Views/ContentView.swift */; };
+		9B532D2EBD24444DA1B00CC6 /* Models/Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198D30632ECD4C8997B1D7EF /* Models/Story.swift */; };
+		9D3D8D4207A64F7DA722FA26 /* Support/PrivacyPolicy.md in Resources */ = {isa = PBXBuildFile; fileRef = 1A647295A38840BBBB507252 /* Support/PrivacyPolicy.md */; };
+		A2459E201BF54BC68D82BE8D /* Services/PurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10473F560014486B220FC10 /* Services/PurchaseService.swift */; };
+		AF9914F061E4446D9D3B58AF /* LittleLightsBibleBedtime/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6762195B6980405CBE063BD0 /* LittleLightsBibleBedtime/Assets.xcassets */; };
+		B34D286F7674491CA05AC450 /* Views/Components/FeaturedStoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6FCA89FC5742C1ACD837E3 /* Views/Components/FeaturedStoryCard.swift */; };
+		B3746E7DC15745C9B61E422D /* App/LittleLightsBibleBedtimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD11EE5883F54E158784803A /* App/LittleLightsBibleBedtimeApp.swift */; };
+		B54F78FBA3BA4CB48B0FF135 /* Resources/Audio/the_lost_sheep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 88D8769996C64CC2B9DB4EDE /* Resources/Audio/the_lost_sheep.mp3 */; };
+		BD0807DE8D8A4428A7CB7EF2 /* Resources/Audio/the_birth_of_jesus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9BF30F5E47B4446698D3D0F1 /* Resources/Audio/the_birth_of_jesus.mp3 */; };
+		BE5C07B7DFF34120A42809A3 /* Resources/Audio/noah_big_boat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0A16104D77A6429489D36815 /* Resources/Audio/noah_big_boat.mp3 */; };
+		C3951351DD204F11901544A2 /* Views/HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81720FEAC7494AF882025CEA /* Views/HomeView.swift */; };
+		C44D45724B764D6D8AB6B64A /* Views/PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6A1EDDA5294575B6F3E251 /* Views/PremiumView.swift */; };
+		C58C87323A9543BF8DB4B3FB /* Resources/Audio/daniel_and_the_lions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 60A3A16996994013A6C27922 /* Resources/Audio/daniel_and_the_lions.mp3 */; };
+		DFC21816B43444F284C8A67C /* Resources/Audio/jesus_calms_the_storm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2FD8119B0AA14A258215132B /* Resources/Audio/jesus_calms_the_storm.mp3 */; };
+		E19469C0A16643028F84DCC0 /* Support/AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DAC9807A664C049891E9D0 /* Support/AppTheme.swift */; };
+		E74A1E3616FE493DA827DDC9 /* Support/TermsOfUse.md in Resources */ = {isa = PBXBuildFile; fileRef = A49DE46ECE3C45AF88FA68CD /* Support/TermsOfUse.md */; };
+		F1A8051BA6D34C26AE74EC4D /* ViewModels/FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DCA518B08C4718A9095096 /* ViewModels/FavoritesViewModel.swift */; };
+		F85E0077D8284EEA8A33ECD2 /* Views/PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044628A8F6746DDA5250863 /* Views/PrivacyPolicyView.swift */; };
+		FA713AEF9C1340E799464F6A /* Services/AudioPlaybackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211FADD73727435A82FE0AD7 /* Services/AudioPlaybackService.swift */; };
+		ELABS001BUILD00001ELABS01 /* Services/ElevenLabsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ELABS002FILEREF0001ELABS2 /* Services/ElevenLabsService.swift */; };
+		FA90859D9C4F4EDAAF6E7389 /* Views/Components/PremiumFeatureRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DE5E0575D740E790D7AF44 /* Views/Components/PremiumFeatureRow.swift */; };
+		FBA8756B29D144C5BEBB03D4 /* Views/TermsOfUseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71371371FEE14078BDBF060B /* Views/TermsOfUseView.swift */; };
+		BB1111111111111111111111 /* Views/Components/LumiMascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001111111111111111111 /* Views/Components/LumiMascotView.swift */; };
+		BB2222222222222222222222 /* Models/Collectible.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0002222222222222222222 /* Models/Collectible.swift */; };
+		BB3333333333333333333333 /* Views/Components/CollectiblesShowcaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0003333333333333333333 /* Views/Components/CollectiblesShowcaseView.swift */; };
+		BB4444444444444444444444 /* Views/Components/ConfettiCelebrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0004444444444444444444 /* Views/Components/ConfettiCelebrationView.swift */; };
+		BB5555555555555555555555 /* Views/Components/InteractiveTouchOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0005555555555555555555 /* Views/Components/InteractiveTouchOverlay.swift */; };
+		BB6666666666666666666666 /* Views/Components/ReadAlongTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0006666666666666666666 /* Views/Components/ReadAlongTextView.swift */; };
+		FBAEC69F7CB8432386B98632 /* Support/StoryArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368C5E173BBC473CAE213683 /* Support/StoryArtwork.swift */; };
+		FV7I9333AMPFJWN5WGGKY7GU /* Resources/Audio/esthers_courage.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = I2806V5QUQBTRGLW9LFSSC69 /* Resources/Audio/esthers_courage.mp3 */; };
+		H33C9GICYVYEAWZG7ZZU7W6X /* Resources/Audio/the_good_samaritan.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5FYA7XQYNIF9BHNSEUKF7FCN /* Resources/Audio/the_good_samaritan.mp3 */; };
+		HY5PZZJZ3IV4QLV25YBASUCO /* Resources/Audio/baby_moses.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = PP5K675BCFQ28HSNJ6KH5U2F /* Resources/Audio/baby_moses.mp3 */; };
+		I8MQM1QZX582MPQR92BH66ZB /* Resources/Audio/the_boy_samuel.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9LU0S6MUXP8BCL5HHSAL4NCS /* Resources/Audio/the_boy_samuel.mp3 */; };
+		IUBC16OIBQ6JUV0NTJRC6245 /* Resources/Audio/the_prodigal_son.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = I43NOW3HAQMWI9XIY835LCF7 /* Resources/Audio/the_prodigal_son.mp3 */; };
+		KKB0IBZ2BHKS6OUEXOHHHQIG /* Resources/Audio/elijah_and_the_whisper.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3NQWRE5INCW8M0OFX0C6QWM6 /* Resources/Audio/elijah_and_the_whisper.mp3 */; };
+		M4835HN1Q0D4WKVXRBV92PRZ /* Resources/Audio/feeding_the_five_thousand.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = JCJOPHGV1LMM4AYAZ1JMJ703 /* Resources/Audio/feeding_the_five_thousand.mp3 */; };
+		NACU4X71RCSJTMXITRR4QE17 /* Resources/Audio/joshua_and_jericho.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6WG4V5FEGMXG3A34Q0D283EI /* Resources/Audio/joshua_and_jericho.mp3 */; };
+		WD77RIKTDY7WFI56ZHO5V9M8 /* Resources/Audio/the_wise_men.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = ILG3R87P24RIRRD77RVGWG4K /* Resources/Audio/the_wise_men.mp3 */; };
+		Y0MXZWDI4LCPJRUYTQN23O6W /* Resources/Audio/jesus_loves_the_children.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = INN0XTAHIRTKMEFNJJGACOK1 /* Resources/Audio/jesus_loves_the_children.mp3 */; };
+		Y2VKS9D1D45BA0C6IO384POT /* Resources/Audio/christmas_the_birth_of_jesus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BOP11BPXP5XAU477HKJMEYPL /* Resources/Audio/christmas_the_birth_of_jesus.mp3 */; };
+		Y8H13EZXFX4Q2CYX8Y1D4UCS /* abraham_and_stars.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FYTZM8I5T7F1NW28T4S0UDIX /* abraham_and_stars.mp3 */; };
+		R448YCNTIMXL1GZ648TBM9JX /* david_shepherd_boy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = X0R85O5Y3DI5VBF9U8R4FS5V /* david_shepherd_boy.mp3 */; };
+		3JYBHMZ7Q8E871ISBLO6LRA5 /* elijah_ravens.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = Q0EWPZTUY1X6NI2VMURTQSJJ /* elijah_ravens.mp3 */; };
+		GZJBEVRLVVM6456R3BTEH1JK /* garden_of_eden.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = SNX3AEBX0GNP99RVC7E69FEV /* garden_of_eden.mp3 */; };
+		BIVKTSZX9ACC28Q2MDFZ43FK /* gideons_brave_300.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 11FUYFTG02CA2UYCW17UKYXP /* gideons_brave_300.mp3 */; };
+		QIGBUWIHR3SBDEENDMTSUXF9 /* hannahs_prayer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = JFWO435F9RTC8I2N2ZVEDALT /* hannahs_prayer.mp3 */; };
+		8YXWJA6CGDYQBQGZEREL51HX /* jacobs_ladder_dream.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = S1620XVKJKDK0RIKSYPL5M90 /* jacobs_ladder_dream.mp3 */; };
+		G703VWUMSBUL3OH81C3ERZSM /* jesus_and_the_woman_at_the_well.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = XLR9SKI3T4KC2UFXQQ6ZMK7K /* jesus_and_the_woman_at_the_well.mp3 */; };
+		DF8OSTX0WEN3TUWRIE7PJGR8 /* jesus_heals_the_blind_man.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B5FJ2C6N3DYEJNP0D8SV2VK /* jesus_heals_the_blind_man.mp3 */; };
+		ZPSKCIC4OCZJJH0LYPOU2BFD /* jesus_in_the_garden_of_gethsemane.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = VXAKSQ4W7NTD1ZSAWR3MA3PG /* jesus_in_the_garden_of_gethsemane.mp3 */; };
+		IWIZEZM50LRO6J6FFEURCPK6 /* jesus_walks_on_water.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5V34DS1JG2NYNRW29OV0FTIY /* jesus_walks_on_water.mp3 */; };
+		1V0RFVBWBXBR1DH9SK6HRK3R /* jesus_washes_the_disciples_feet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = WZNHJ55UGX9U856783D8Z845 /* jesus_washes_the_disciples_feet.mp3 */; };
+		6FVB1IV1QSDD6X1W5QRT47F1 /* joseph_forgives_brothers.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = IJDM5KCUIU6YDX2FRJDV2HJX /* joseph_forgives_brothers.mp3 */; };
+		KWJ8MFZMA6CRI1YMUSSWVV10 /* mary_and_martha.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = YDV89T4TAH9A70XJ6CZDIIGP /* mary_and_martha.mp3 */; };
+		6301JPM9GGU05QRBHI7CDL74 /* miriams_song.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = H1ROWGZJMICV3SP0KS1WOK5R /* miriams_song.mp3 */; };
+		4T6PIAUH73S72T1MIRKOBTM8 /* moses_burning_bush.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = RA0WJU5X17R4TWG3QS3R5MQM /* moses_burning_bush.mp3 */; };
+		BQJ3JT7ISMZIRFNGHWVJ7XEV /* nehemiah_builds_wall.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = JV654JF2NUSV5XWVLN6BIPDG /* nehemiah_builds_wall.mp3 */; };
+		U77HS8SYXHLEDOTCCATO41TJ /* peter_walks_on_water.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DJUWICVZCUAA2JEPK4NSMQAA /* peter_walks_on_water.mp3 */; };
+		01GJSSNET58K02GBSYWIMM7P /* ruth_and_naomi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = PZMDDMZROJANKGK4Q7D3X8XM /* ruth_and_naomi.mp3 */; };
+		SOJQGHRLG2B9TYJ0J1Y0TND2 /* shadrach_meshach_abednego.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = QDI7PXQGRJFEZEQ0IP5U42LE /* shadrach_meshach_abednego.mp3 */; };
+		KVN5WG0BB6JCLGMWHRJILL8X /* solomon_asks_wisdom.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = NECNJEX34393SF3YBSF2AW9V /* solomon_asks_wisdom.mp3 */; };
+		GFZXNRN97SRXMVIGZ0NW961R /* the_empty_tomb.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = NZP7G2JFQ0RAFNOKTQN9510G /* the_empty_tomb.mp3 */; };
+		LHQ20G04IFYAO9VUUIBHH52K /* the_light_of_the_world.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 35N6A83V49HT6BP8AVSZAQA3 /* the_light_of_the_world.mp3 */; };
+		I18RW5HVO3RGRJYJ7D9EAI50 /* the_mustard_seed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = N9K1AFOQZL4VU0M9VFMZW71J /* the_mustard_seed.mp3 */; };
+		LYFNR60PLVZNZ4TLJMMIFJTK /* the_sower_and_the_seeds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = PYO1PBDO74YQ9VK39U02358L /* the_sower_and_the_seeds.mp3 */; };
+		1L45ZIEEN1TPUPHHKWHR1GID /* the_talents.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = MG6FYEE6H6RD5JUVHIRHNY8M /* the_talents.mp3 */; };
+		LLVMVXUQ7FS27JVPC4PWZX3P /* the_ten_lepers.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = UB3BBX9JP1WT5W6ZFCADOVER /* the_ten_lepers.mp3 */; };
+		982E0Y1ND8I3PLWZ9SEIPY09 /* the_widows_offering.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7SGAYUYHKSO5HJK98J3N4CRV /* the_widows_offering.mp3 */; };
+		A0Z6IL0577QM21DAZ9HLHAEV /* walls_of_water.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = Q1L56HS8R4O34VSJAEOX3Z4K /* walls_of_water.mp3 */; };
+		A5RAIN001RAINRAIN001RAIN /* Resources/Ambient/rain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B5RAIN001RAINRAIN001RAIN /* Resources/Ambient/rain.mp3 */; };
+		C6OCEAN01OCEANOCEAN01OCN /* Resources/Ambient/ocean.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6OCEAN01OCEANOCEAN01OCN /* Resources/Ambient/ocean.mp3 */; };
+		E7CRICKET7CRICKETCRICKET7 /* Resources/Ambient/crickets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F7CRICKET7CRICKETCRICKET7 /* Resources/Ambient/crickets.mp3 */; };
+		G8FIREPL08FIREPLACEFIREPL8 /* Resources/Ambient/fireplace.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = H8FIREPL08FIREPLACEFIREPL8 /* Resources/Ambient/fireplace.mp3 */; };
+		I9WHITENO09WHITENOISEWNO09 /* Resources/Ambient/white_noise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = J9WHITENO09WHITENOISEWNO09 /* Resources/Ambient/white_noise.mp3 */; };
+		K0LULLABY0LULLABYULLABY0K /* Resources/Ambient/lullaby.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = L0LULLABY0LULLABYULLABY0L /* Resources/Ambient/lullaby.mp3 */; };
+		FD8A7AE8155044B8A73111A7 /* ReadingStreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BA021E484E4DB5C3596D /* Models/ReadingStreak.swift */; };
+		F987ED1FD5A74E5ABED8B5F2 /* AmbientSoundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0E486B2354F0AA8DF3E0F /* Services/AmbientSoundService.swift */; };
+		CC491244E78149039C925AD3 /* SleepTimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F18B7494F2420C9F2D066F /* Services/SleepTimerService.swift */; };
+		NTSVC001NOTIFY001SVC001N /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = NTSVC002NOTIFY002SVC002N /* Services/NotificationService.swift */; };
+		415AC801E3D74D42BE8A1A28 /* ReadingStreakViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC059F15B414E308DB623A6 /* ViewModels/ReadingStreakViewModel.swift */; };
+		35CC739522FF447C8B8463B1 /* BedtimeRoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3FDE266AFB472C8AD4F322 /* Views/BedtimeRoutineView.swift */; };
+		5AF58ADDF60D48D58D9B21C8 /* RewardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7DF1E87CC44948B2B4681B /* Views/RewardsView.swift */; };
+		E0ABCDEF1234567890ABCA1 /* BreathingExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A1 /* Views/Components/BreathingExerciseView.swift */; };
+		E0ABCDEF1234567890ABCA2 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A2 /* Views/OnboardingView.swift */; };
+		E0ABCDEF1234567890ABCA3 /* ParentDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A3 /* Views/ParentDashboardView.swift */; };
+		E0ABCDEF1234567890ABCA4 /* GoodnightAffirmationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A4 /* Views/Components/GoodnightAffirmationsView.swift */; };
+		E0ABCDEF1234567890ABCA5 /* DiscussionQuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A5 /* Views/Components/DiscussionQuestionsView.swift */; };
+		E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA0008888888888888888888 /* Views/Components/StarryNightBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/StarryNightBackground.swift; sourceTree = "<group>"; };
+		05363EE37F0F4807903B97F3 /* Services/StoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/StoryRepository.swift; sourceTree = "<group>"; };
+		06B331FB044C42D18B764BF6 /* Views/LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/LibraryView.swift; sourceTree = "<group>"; };
+		0A16104D77A6429489D36815 /* Resources/Audio/noah_big_boat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/noah_big_boat.mp3; sourceTree = "<group>"; };
+		0CF77D5E72104DF48B81B3CF /* Views/SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/SupportView.swift; sourceTree = "<group>"; };
+		198D30632ECD4C8997B1D7EF /* Models/Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Story.swift; sourceTree = "<group>"; };
+		1A647295A38840BBBB507252 /* Support/PrivacyPolicy.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Support/PrivacyPolicy.md; sourceTree = "<group>"; };
+		1B7C13FB7E2D48D58033A3D1 /* Views/StoryDestinationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/StoryDestinationView.swift; sourceTree = "<group>"; };
+		1FD1852CF1844797B22EA2F2 /* Views/SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/SettingsView.swift; sourceTree = "<group>"; };
+		211FADD73727435A82FE0AD7 /* Services/AudioPlaybackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/AudioPlaybackService.swift; sourceTree = "<group>"; };
+		ELABS002FILEREF0001ELABS2 /* Services/ElevenLabsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/ElevenLabsService.swift; sourceTree = "<group>"; };
+		229C55CBD4CC41DB982139AF /* ViewModels/StoryLibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/StoryLibraryViewModel.swift; sourceTree = "<group>"; };
+		257E9DA7C84F4184956063B7 /* ViewModels/PurchaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/PurchaseViewModel.swift; sourceTree = "<group>"; };
+		2FD8119B0AA14A258215132B /* Resources/Audio/jesus_calms_the_storm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/jesus_calms_the_storm.mp3; sourceTree = "<group>"; };
+		3044628A8F6746DDA5250863 /* Views/PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		368C5E173BBC473CAE213683 /* Support/StoryArtwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support/StoryArtwork.swift; sourceTree = "<group>"; };
+		3NQWRE5INCW8M0OFX0C6QWM6 /* Resources/Audio/elijah_and_the_whisper.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/elijah_and_the_whisper.mp3; sourceTree = "<group>"; };
+		4EC861C6FDC74506BE91EB6C /* Models/AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/AppSettings.swift; sourceTree = "<group>"; };
+		55DAC9807A664C049891E9D0 /* Support/AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support/AppTheme.swift; sourceTree = "<group>"; };
+		59DCA518B08C4718A9095096 /* ViewModels/FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/FavoritesViewModel.swift; sourceTree = "<group>"; };
+		5C241A1DBDFD4684B7760D81 /* ViewModels/AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/AudioPlayerViewModel.swift; sourceTree = "<group>"; };
+		5FYA7XQYNIF9BHNSEUKF7FCN /* Resources/Audio/the_good_samaritan.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/the_good_samaritan.mp3; sourceTree = "<group>"; };
+		60A3A16996994013A6C27922 /* Resources/Audio/daniel_and_the_lions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/daniel_and_the_lions.mp3; sourceTree = "<group>"; };
+		6762195B6980405CBE063BD0 /* LittleLightsBibleBedtime/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = LittleLightsBibleBedtime/Assets.xcassets; sourceTree = "<group>"; };
+		6D004358A32047C49CFBF701 /* Views/Components/CategoryChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/CategoryChipView.swift; sourceTree = "<group>"; };
+		6WG4V5FEGMXG3A34Q0D283EI /* Resources/Audio/joshua_and_jericho.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/joshua_and_jericho.mp3; sourceTree = "<group>"; };
+		71371371FEE14078BDBF060B /* Views/TermsOfUseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/TermsOfUseView.swift; sourceTree = "<group>"; };
+		71DE5E0575D740E790D7AF44 /* Views/Components/PremiumFeatureRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/PremiumFeatureRow.swift; sourceTree = "<group>"; };
+		81720FEAC7494AF882025CEA /* Views/HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/HomeView.swift; sourceTree = "<group>"; };
+		88D8769996C64CC2B9DB4EDE /* Resources/Audio/the_lost_sheep.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/the_lost_sheep.mp3; sourceTree = "<group>"; };
+		8D6A1EDDA5294575B6F3E251 /* Views/PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/PremiumView.swift; sourceTree = "<group>"; };
+		8QSC28KLN7UK20HWEE4SBTI5 /* Resources/Audio/david_and_goliath.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/david_and_goliath.mp3; sourceTree = "<group>"; };
+		96676012CC704549AA33D4E3 /* Views/Components/StoryArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/StoryArtworkView.swift; sourceTree = "<group>"; };
+		9BF30F5E47B4446698D3D0F1 /* Resources/Audio/the_birth_of_jesus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/the_birth_of_jesus.mp3; sourceTree = "<group>"; };
+		9E6187E74E644EC7A588CAB9 /* Views/ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ContentView.swift; sourceTree = "<group>"; };
+		9E6FCA89FC5742C1ACD837E3 /* Views/Components/FeaturedStoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/FeaturedStoryCard.swift; sourceTree = "<group>"; };
+		9LU0S6MUXP8BCL5HHSAL4NCS /* Resources/Audio/the_boy_samuel.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/the_boy_samuel.mp3; sourceTree = "<group>"; };
+		A49DE46ECE3C45AF88FA68CD /* Support/TermsOfUse.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Support/TermsOfUse.md; sourceTree = "<group>"; };
+		BC4C9814C531439592D3341B /* Views/FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/FavoritesView.swift; sourceTree = "<group>"; };
+		BCD3BD000CC74318986CF0B9 /* Views/Components/AudioPlayerBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/AudioPlayerBar.swift; sourceTree = "<group>"; };
+		BE65188825664D9AA392841A /* Views/Components/StoryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/StoryCardView.swift; sourceTree = "<group>"; };
+		BOP11BPXP5XAU477HKJMEYPL /* Resources/Audio/christmas_the_birth_of_jesus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/christmas_the_birth_of_jesus.mp3; sourceTree = "<group>"; };
+		C0CE10E2EE6544AD95E77615 /* LittleLightsBibleBedtime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LittleLightsBibleBedtime.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C15D29E166BB42E79151ED6B /* Resources/stories.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Resources/stories.json; sourceTree = "<group>"; };
+		CD11EE5883F54E158784803A /* App/LittleLightsBibleBedtimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/LittleLightsBibleBedtimeApp.swift; sourceTree = "<group>"; };
+		E10473F560014486B220FC10 /* Services/PurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/PurchaseService.swift; sourceTree = "<group>"; };
+		E1426D7B09C749858EF39788 /* Views/StoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/StoryDetailView.swift; sourceTree = "<group>"; };
+		FFCEF0C5FFB5400A9D9216AD /* Views/Components/PremiumTeaserCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/PremiumTeaserCard.swift; sourceTree = "<group>"; };
+		GXP403ZGNBRWYR9NX7ZYW6SM /* Resources/Audio/jonah_and_the_big_fish.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/jonah_and_the_big_fish.mp3; sourceTree = "<group>"; };
+		I2806V5QUQBTRGLW9LFSSC69 /* Resources/Audio/esthers_courage.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/esthers_courage.mp3; sourceTree = "<group>"; };
+		I43NOW3HAQMWI9XIY835LCF7 /* Resources/Audio/the_prodigal_son.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/the_prodigal_son.mp3; sourceTree = "<group>"; };
+		ILG3R87P24RIRRD77RVGWG4K /* Resources/Audio/the_wise_men.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/the_wise_men.mp3; sourceTree = "<group>"; };
+		INN0XTAHIRTKMEFNJJGACOK1 /* Resources/Audio/jesus_loves_the_children.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/jesus_loves_the_children.mp3; sourceTree = "<group>"; };
+		JCJOPHGV1LMM4AYAZ1JMJ703 /* Resources/Audio/feeding_the_five_thousand.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/feeding_the_five_thousand.mp3; sourceTree = "<group>"; };
+		PP5K675BCFQ28HSNJ6KH5U2F /* Resources/Audio/baby_moses.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/baby_moses.mp3; sourceTree = "<group>"; };
+		Q2D6RZC7MBJWBC661PM15M03 /* Resources/Audio/creation_story.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/creation_story.mp3; sourceTree = "<group>"; };
+		QQH45ARGFLJWDKB7PHYRXR9V /* LittleLightsBibleBedtime/Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = LittleLightsBibleBedtime/Products.storekit; sourceTree = "<group>"; };
+		TQUHOJEDG543V7KNNTYY9VXD /* Resources/Audio/joseph_and_his_colorful_coat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/joseph_and_his_colorful_coat.mp3; sourceTree = "<group>"; };
+		UHUIM5QYRHWM2QQ5FLOUFGOU /* Resources/Audio/zacchaeus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/zacchaeus.mp3; sourceTree = "<group>"; };
+		FYTZM8I5T7F1NW28T4S0UDIX /* abraham_and_stars.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/abraham_and_stars.mp3"; sourceTree = "<group>"; };
+		X0R85O5Y3DI5VBF9U8R4FS5V /* david_shepherd_boy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/david_shepherd_boy.mp3"; sourceTree = "<group>"; };
+		Q0EWPZTUY1X6NI2VMURTQSJJ /* elijah_ravens.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/elijah_ravens.mp3"; sourceTree = "<group>"; };
+		SNX3AEBX0GNP99RVC7E69FEV /* garden_of_eden.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/garden_of_eden.mp3"; sourceTree = "<group>"; };
+		11FUYFTG02CA2UYCW17UKYXP /* gideons_brave_300.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/gideons_brave_300.mp3"; sourceTree = "<group>"; };
+		JFWO435F9RTC8I2N2ZVEDALT /* hannahs_prayer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/hannahs_prayer.mp3"; sourceTree = "<group>"; };
+		S1620XVKJKDK0RIKSYPL5M90 /* jacobs_ladder_dream.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/jacobs_ladder_dream.mp3"; sourceTree = "<group>"; };
+		XLR9SKI3T4KC2UFXQQ6ZMK7K /* jesus_and_the_woman_at_the_well.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/jesus_and_the_woman_at_the_well.mp3"; sourceTree = "<group>"; };
+		5B5FJ2C6N3DYEJNP0D8SV2VK /* jesus_heals_the_blind_man.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/jesus_heals_the_blind_man.mp3"; sourceTree = "<group>"; };
+		VXAKSQ4W7NTD1ZSAWR3MA3PG /* jesus_in_the_garden_of_gethsemane.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/jesus_in_the_garden_of_gethsemane.mp3"; sourceTree = "<group>"; };
+		5V34DS1JG2NYNRW29OV0FTIY /* jesus_walks_on_water.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/jesus_walks_on_water.mp3"; sourceTree = "<group>"; };
+		WZNHJ55UGX9U856783D8Z845 /* jesus_washes_the_disciples_feet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/jesus_washes_the_disciples_feet.mp3"; sourceTree = "<group>"; };
+		IJDM5KCUIU6YDX2FRJDV2HJX /* joseph_forgives_brothers.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/joseph_forgives_brothers.mp3"; sourceTree = "<group>"; };
+		YDV89T4TAH9A70XJ6CZDIIGP /* mary_and_martha.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/mary_and_martha.mp3"; sourceTree = "<group>"; };
+		H1ROWGZJMICV3SP0KS1WOK5R /* miriams_song.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/miriams_song.mp3"; sourceTree = "<group>"; };
+		RA0WJU5X17R4TWG3QS3R5MQM /* moses_burning_bush.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/moses_burning_bush.mp3"; sourceTree = "<group>"; };
+		JV654JF2NUSV5XWVLN6BIPDG /* nehemiah_builds_wall.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/nehemiah_builds_wall.mp3"; sourceTree = "<group>"; };
+		DJUWICVZCUAA2JEPK4NSMQAA /* peter_walks_on_water.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/peter_walks_on_water.mp3"; sourceTree = "<group>"; };
+		PZMDDMZROJANKGK4Q7D3X8XM /* ruth_and_naomi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/ruth_and_naomi.mp3"; sourceTree = "<group>"; };
+		QDI7PXQGRJFEZEQ0IP5U42LE /* shadrach_meshach_abednego.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/shadrach_meshach_abednego.mp3"; sourceTree = "<group>"; };
+		NECNJEX34393SF3YBSF2AW9V /* solomon_asks_wisdom.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/solomon_asks_wisdom.mp3"; sourceTree = "<group>"; };
+		NZP7G2JFQ0RAFNOKTQN9510G /* the_empty_tomb.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/the_empty_tomb.mp3"; sourceTree = "<group>"; };
+		35N6A83V49HT6BP8AVSZAQA3 /* the_light_of_the_world.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/the_light_of_the_world.mp3"; sourceTree = "<group>"; };
+		N9K1AFOQZL4VU0M9VFMZW71J /* the_mustard_seed.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/the_mustard_seed.mp3"; sourceTree = "<group>"; };
+		PYO1PBDO74YQ9VK39U02358L /* the_sower_and_the_seeds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/the_sower_and_the_seeds.mp3"; sourceTree = "<group>"; };
+		MG6FYEE6H6RD5JUVHIRHNY8M /* the_talents.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/the_talents.mp3"; sourceTree = "<group>"; };
+		UB3BBX9JP1WT5W6ZFCADOVER /* the_ten_lepers.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/the_ten_lepers.mp3"; sourceTree = "<group>"; };
+		7SGAYUYHKSO5HJK98J3N4CRV /* the_widows_offering.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/the_widows_offering.mp3"; sourceTree = "<group>"; };
+		Q1L56HS8R4O34VSJAEOX3Z4K /* walls_of_water.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Audio/walls_of_water.mp3"; sourceTree = "<group>"; };
+		B5RAIN001RAINRAIN001RAIN /* rain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Ambient/rain.mp3"; sourceTree = "<group>"; };
+		D6OCEAN01OCEANOCEAN01OCN /* ocean.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Ambient/ocean.mp3"; sourceTree = "<group>"; };
+		F7CRICKET7CRICKETCRICKET7 /* crickets.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Ambient/crickets.mp3"; sourceTree = "<group>"; };
+		H8FIREPL08FIREPLACEFIREPL8 /* fireplace.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Ambient/fireplace.mp3"; sourceTree = "<group>"; };
+		J9WHITENO09WHITENOISEWNO09 /* white_noise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Ambient/white_noise.mp3"; sourceTree = "<group>"; };
+		L0LULLABY0LULLABYULLABY0L /* lullaby.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Resources/Ambient/lullaby.mp3"; sourceTree = "<group>"; };
+		3485BA021E484E4DB5C3596D /* Models/ReadingStreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/ReadingStreak.swift; sourceTree = "<group>"; };
+		66A0E486B2354F0AA8DF3E0F /* Services/AmbientSoundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/AmbientSoundService.swift; sourceTree = "<group>"; };
+		A0F18B7494F2420C9F2D066F /* Services/SleepTimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/SleepTimerService.swift; sourceTree = "<group>"; };
+		NTSVC002NOTIFY002SVC002N /* Services/NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/NotificationService.swift; sourceTree = "<group>"; };
+		2EC059F15B414E308DB623A6 /* ViewModels/ReadingStreakViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/ReadingStreakViewModel.swift; sourceTree = "<group>"; };
+		BB3FDE266AFB472C8AD4F322 /* Views/BedtimeRoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/BedtimeRoutineView.swift; sourceTree = "<group>"; };
+		4F7DF1E87CC44948B2B4681B /* Views/RewardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/RewardsView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234A1 /* Views/Components/BreathingExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/BreathingExerciseView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234A2 /* Views/OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/OnboardingView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234A3 /* Views/ParentDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ParentDashboardView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234A4 /* Views/Components/GoodnightAffirmationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/GoodnightAffirmationsView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234A5 /* Views/Components/DiscussionQuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/DiscussionQuestionsView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/StoryProgressBar.swift; sourceTree = "<group>"; };
+		AA0001111111111111111111 /* Views/Components/LumiMascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/LumiMascotView.swift; sourceTree = "<group>"; };
+		AA0002222222222222222222 /* Models/Collectible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Collectible.swift; sourceTree = "<group>"; };
+		AA0003333333333333333333 /* Views/Components/CollectiblesShowcaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/CollectiblesShowcaseView.swift; sourceTree = "<group>"; };
+		AA0004444444444444444444 /* Views/Components/ConfettiCelebrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/ConfettiCelebrationView.swift; sourceTree = "<group>"; };
+		AA0005555555555555555555 /* Views/Components/InteractiveTouchOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/InteractiveTouchOverlay.swift; sourceTree = "<group>"; };
+		AA0006666666666666666666 /* Views/Components/ReadAlongTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/ReadAlongTextView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1EB77C95DB034ACD9AA3A45E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0C12E4B6586E43D2B03E4C9A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A4D52FDD1EB946F2B663E9C0 /* Components */,
+				9E6187E74E644EC7A588CAB9 /* Views/ContentView.swift */,
+				BC4C9814C531439592D3341B /* Views/FavoritesView.swift */,
+				81720FEAC7494AF882025CEA /* Views/HomeView.swift */,
+				06B331FB044C42D18B764BF6 /* Views/LibraryView.swift */,
+				8D6A1EDDA5294575B6F3E251 /* Views/PremiumView.swift */,
+				3044628A8F6746DDA5250863 /* Views/PrivacyPolicyView.swift */,
+				1FD1852CF1844797B22EA2F2 /* Views/SettingsView.swift */,
+				1B7C13FB7E2D48D58033A3D1 /* Views/StoryDestinationView.swift */,
+				E1426D7B09C749858EF39788 /* Views/StoryDetailView.swift */,
+				0CF77D5E72104DF48B81B3CF /* Views/SupportView.swift */,
+				71371371FEE14078BDBF060B /* Views/TermsOfUseView.swift */,
+				BB3FDE266AFB472C8AD4F322 /* Views/BedtimeRoutineView.swift */,
+				4F7DF1E87CC44948B2B4681B /* Views/RewardsView.swift */,
+				E01234567890ABCDEF1234A2 /* Views/OnboardingView.swift */,
+				E01234567890ABCDEF1234A3 /* Views/ParentDashboardView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		28AC1C19FE8E41C4ACF267E4 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5C241A1DBDFD4684B7760D81 /* ViewModels/AudioPlayerViewModel.swift */,
+				59DCA518B08C4718A9095096 /* ViewModels/FavoritesViewModel.swift */,
+				257E9DA7C84F4184956063B7 /* ViewModels/PurchaseViewModel.swift */,
+				229C55CBD4CC41DB982139AF /* ViewModels/StoryLibraryViewModel.swift */,
+				2EC059F15B414E308DB623A6 /* ViewModels/ReadingStreakViewModel.swift */,
+			);
+			name = ViewModels;
+			sourceTree = "<group>";
+		};
+		2AFF73582EF344C3AA90651E /* App */ = {
+			isa = PBXGroup;
+			children = (
+				CD11EE5883F54E158784803A /* App/LittleLightsBibleBedtimeApp.swift */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		2C5A80E59968482480C4D54D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				75B87B098B2D4EE5B2AAD48B /* Audio */,
+				C15D29E166BB42E79151ED6B /* Resources/stories.json */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		2E2B57E15FDC4D1AB4DE3993 = {
+			isa = PBXGroup;
+			children = (
+				2AFF73582EF344C3AA90651E /* App */,
+				9CCF0BE5E5FA43128BD05471 /* Models */,
+				28AC1C19FE8E41C4ACF267E4 /* ViewModels */,
+				0C12E4B6586E43D2B03E4C9A /* Views */,
+				3F8F4569DDBF4F3BAAE6F7B5 /* Services */,
+				2C5A80E59968482480C4D54D /* Resources */,
+				388979595319468E98E6FDBD /* Support */,
+				F0446AB76ACA4329AE93BE00 /* Assets.xcassets */,
+				A3114370BC574EC2B27153C1 /* Products */,
+				QQH45ARGFLJWDKB7PHYRXR9V /* LittleLightsBibleBedtime/Products.storekit */,
+				FCE81FBB2F73892800964AE0 /* Recovered References */,
+			);
+			sourceTree = "<group>";
+		};
+		388979595319468E98E6FDBD /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				55DAC9807A664C049891E9D0 /* Support/AppTheme.swift */,
+				368C5E173BBC473CAE213683 /* Support/StoryArtwork.swift */,
+				1A647295A38840BBBB507252 /* Support/PrivacyPolicy.md */,
+				A49DE46ECE3C45AF88FA68CD /* Support/TermsOfUse.md */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		3F8F4569DDBF4F3BAAE6F7B5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				211FADD73727435A82FE0AD7 /* Services/AudioPlaybackService.swift */,
+				ELABS002FILEREF0001ELABS2 /* Services/ElevenLabsService.swift */,
+				E10473F560014486B220FC10 /* Services/PurchaseService.swift */,
+				05363EE37F0F4807903B97F3 /* Services/StoryRepository.swift */,
+				66A0E486B2354F0AA8DF3E0F /* Services/AmbientSoundService.swift */,
+				A0F18B7494F2420C9F2D066F /* Services/SleepTimerService.swift */,
+				NTSVC002NOTIFY002SVC002N /* Services/NotificationService.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		75B87B098B2D4EE5B2AAD48B /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				0A16104D77A6429489D36815 /* Resources/Audio/noah_big_boat.mp3 */,
+				60A3A16996994013A6C27922 /* Resources/Audio/daniel_and_the_lions.mp3 */,
+				2FD8119B0AA14A258215132B /* Resources/Audio/jesus_calms_the_storm.mp3 */,
+				88D8769996C64CC2B9DB4EDE /* Resources/Audio/the_lost_sheep.mp3 */,
+				9BF30F5E47B4446698D3D0F1 /* Resources/Audio/the_birth_of_jesus.mp3 */,
+				8QSC28KLN7UK20HWEE4SBTI5 /* Resources/Audio/david_and_goliath.mp3 */,
+				GXP403ZGNBRWYR9NX7ZYW6SM /* Resources/Audio/jonah_and_the_big_fish.mp3 */,
+				PP5K675BCFQ28HSNJ6KH5U2F /* Resources/Audio/baby_moses.mp3 */,
+				5FYA7XQYNIF9BHNSEUKF7FCN /* Resources/Audio/the_good_samaritan.mp3 */,
+				Q2D6RZC7MBJWBC661PM15M03 /* Resources/Audio/creation_story.mp3 */,
+				TQUHOJEDG543V7KNNTYY9VXD /* Resources/Audio/joseph_and_his_colorful_coat.mp3 */,
+				ILG3R87P24RIRRD77RVGWG4K /* Resources/Audio/the_wise_men.mp3 */,
+				BOP11BPXP5XAU477HKJMEYPL /* Resources/Audio/christmas_the_birth_of_jesus.mp3 */,
+				UHUIM5QYRHWM2QQ5FLOUFGOU /* Resources/Audio/zacchaeus.mp3 */,
+				JCJOPHGV1LMM4AYAZ1JMJ703 /* Resources/Audio/feeding_the_five_thousand.mp3 */,
+				INN0XTAHIRTKMEFNJJGACOK1 /* Resources/Audio/jesus_loves_the_children.mp3 */,
+				I43NOW3HAQMWI9XIY835LCF7 /* Resources/Audio/the_prodigal_son.mp3 */,
+				I2806V5QUQBTRGLW9LFSSC69 /* Resources/Audio/esthers_courage.mp3 */,
+				6WG4V5FEGMXG3A34Q0D283EI /* Resources/Audio/joshua_and_jericho.mp3 */,
+				3NQWRE5INCW8M0OFX0C6QWM6 /* Resources/Audio/elijah_and_the_whisper.mp3 */,
+				9LU0S6MUXP8BCL5HHSAL4NCS /* Resources/Audio/the_boy_samuel.mp3 */,
+				FYTZM8I5T7F1NW28T4S0UDIX /* Resources/Audio/abraham_and_stars.mp3 */,
+				X0R85O5Y3DI5VBF9U8R4FS5V /* Resources/Audio/david_shepherd_boy.mp3 */,
+				Q0EWPZTUY1X6NI2VMURTQSJJ /* Resources/Audio/elijah_ravens.mp3 */,
+				SNX3AEBX0GNP99RVC7E69FEV /* Resources/Audio/garden_of_eden.mp3 */,
+				11FUYFTG02CA2UYCW17UKYXP /* Resources/Audio/gideons_brave_300.mp3 */,
+				JFWO435F9RTC8I2N2ZVEDALT /* Resources/Audio/hannahs_prayer.mp3 */,
+				S1620XVKJKDK0RIKSYPL5M90 /* Resources/Audio/jacobs_ladder_dream.mp3 */,
+				XLR9SKI3T4KC2UFXQQ6ZMK7K /* Resources/Audio/jesus_and_the_woman_at_the_well.mp3 */,
+				5B5FJ2C6N3DYEJNP0D8SV2VK /* Resources/Audio/jesus_heals_the_blind_man.mp3 */,
+				VXAKSQ4W7NTD1ZSAWR3MA3PG /* Resources/Audio/jesus_in_the_garden_of_gethsemane.mp3 */,
+				5V34DS1JG2NYNRW29OV0FTIY /* Resources/Audio/jesus_walks_on_water.mp3 */,
+				WZNHJ55UGX9U856783D8Z845 /* Resources/Audio/jesus_washes_the_disciples_feet.mp3 */,
+				IJDM5KCUIU6YDX2FRJDV2HJX /* Resources/Audio/joseph_forgives_brothers.mp3 */,
+				YDV89T4TAH9A70XJ6CZDIIGP /* Resources/Audio/mary_and_martha.mp3 */,
+				H1ROWGZJMICV3SP0KS1WOK5R /* Resources/Audio/miriams_song.mp3 */,
+				RA0WJU5X17R4TWG3QS3R5MQM /* Resources/Audio/moses_burning_bush.mp3 */,
+				JV654JF2NUSV5XWVLN6BIPDG /* Resources/Audio/nehemiah_builds_wall.mp3 */,
+				DJUWICVZCUAA2JEPK4NSMQAA /* Resources/Audio/peter_walks_on_water.mp3 */,
+				PZMDDMZROJANKGK4Q7D3X8XM /* Resources/Audio/ruth_and_naomi.mp3 */,
+				QDI7PXQGRJFEZEQ0IP5U42LE /* Resources/Audio/shadrach_meshach_abednego.mp3 */,
+				NECNJEX34393SF3YBSF2AW9V /* Resources/Audio/solomon_asks_wisdom.mp3 */,
+				NZP7G2JFQ0RAFNOKTQN9510G /* Resources/Audio/the_empty_tomb.mp3 */,
+				35N6A83V49HT6BP8AVSZAQA3 /* Resources/Audio/the_light_of_the_world.mp3 */,
+				N9K1AFOQZL4VU0M9VFMZW71J /* Resources/Audio/the_mustard_seed.mp3 */,
+				PYO1PBDO74YQ9VK39U02358L /* Resources/Audio/the_sower_and_the_seeds.mp3 */,
+				MG6FYEE6H6RD5JUVHIRHNY8M /* Resources/Audio/the_talents.mp3 */,
+				UB3BBX9JP1WT5W6ZFCADOVER /* Resources/Audio/the_ten_lepers.mp3 */,
+				7SGAYUYHKSO5HJK98J3N4CRV /* Resources/Audio/the_widows_offering.mp3 */,
+				Q1L56HS8R4O34VSJAEOX3Z4K /* Resources/Audio/walls_of_water.mp3 */,
+				B5RAIN001RAINRAIN001RAIN /* Resources/Ambient/rain.mp3 */,
+				D6OCEAN01OCEANOCEAN01OCN /* Resources/Ambient/ocean.mp3 */,
+				F7CRICKET7CRICKETCRICKET7 /* Resources/Ambient/crickets.mp3 */,
+				H8FIREPL08FIREPLACEFIREPL8 /* Resources/Ambient/fireplace.mp3 */,
+				J9WHITENO09WHITENOISEWNO09 /* Resources/Ambient/white_noise.mp3 */,
+				L0LULLABY0LULLABYULLABY0L /* Resources/Ambient/lullaby.mp3 */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
+		9CCF0BE5E5FA43128BD05471 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4EC861C6FDC74506BE91EB6C /* Models/AppSettings.swift */,
+				198D30632ECD4C8997B1D7EF /* Models/Story.swift */,
+				3485BA021E484E4DB5C3596D /* Models/ReadingStreak.swift */,
+				AA0002222222222222222222 /* Models/Collectible.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		A3114370BC574EC2B27153C1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0CE10E2EE6544AD95E77615 /* LittleLightsBibleBedtime.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A4D52FDD1EB946F2B663E9C0 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BCD3BD000CC74318986CF0B9 /* Views/Components/AudioPlayerBar.swift */,
+				6D004358A32047C49CFBF701 /* Views/Components/CategoryChipView.swift */,
+				9E6FCA89FC5742C1ACD837E3 /* Views/Components/FeaturedStoryCard.swift */,
+				71DE5E0575D740E790D7AF44 /* Views/Components/PremiumFeatureRow.swift */,
+				FFCEF0C5FFB5400A9D9216AD /* Views/Components/PremiumTeaserCard.swift */,
+				96676012CC704549AA33D4E3 /* Views/Components/StoryArtworkView.swift */,
+				BE65188825664D9AA392841A /* Views/Components/StoryCardView.swift */,
+				E01234567890ABCDEF1234A1 /* Views/Components/BreathingExerciseView.swift */,
+				E01234567890ABCDEF1234A4 /* Views/Components/GoodnightAffirmationsView.swift */,
+				E01234567890ABCDEF1234A5 /* Views/Components/DiscussionQuestionsView.swift */,
+				E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */,
+				AA0001111111111111111111 /* Views/Components/LumiMascotView.swift */,
+				AA0003333333333333333333 /* Views/Components/CollectiblesShowcaseView.swift */,
+				AA0004444444444444444444 /* Views/Components/ConfettiCelebrationView.swift */,
+				AA0005555555555555555555 /* Views/Components/InteractiveTouchOverlay.swift */,
+				AA0006666666666666666666 /* Views/Components/ReadAlongTextView.swift */,
+				AA0008888888888888888888 /* Views/Components/StarryNightBackground.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		F0446AB76ACA4329AE93BE00 /* Assets.xcassets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Assets.xcassets;
+			sourceTree = "<group>";
+		};
+		FCE81FBB2F73892800964AE0 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				6762195B6980405CBE063BD0 /* LittleLightsBibleBedtime/Assets.xcassets */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		291D8C96C1A24048BDBAF377 /* LittleLightsBibleBedtime */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 591BBEB65960480F991CF94F /* Build configuration list for PBXNativeTarget "LittleLightsBibleBedtime" */;
+			buildPhases = (
+				96E2BF81617C42BEA9F3571B /* Sources */,
+				1EB77C95DB034ACD9AA3A45E /* Frameworks */,
+				449D3CA015424B86B9BFDA55 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LittleLightsBibleBedtime;
+			productName = LittleLightsBibleBedtime;
+			productReference = C0CE10E2EE6544AD95E77615 /* LittleLightsBibleBedtime.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E3354A7129334E4B9DCE227D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					291D8C96C1A24048BDBAF377 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = B8BC518DE53C4F4F9D18CECC /* Build configuration list for PBXProject "LittleLightsBibleBedtime" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2E2B57E15FDC4D1AB4DE3993;
+			productRefGroup = A3114370BC574EC2B27153C1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				291D8C96C1A24048BDBAF377 /* LittleLightsBibleBedtime */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		449D3CA015424B86B9BFDA55 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EFB1E51965441DA8AE914BF /* Resources/stories.json in Resources */,
+				9D3D8D4207A64F7DA722FA26 /* Support/PrivacyPolicy.md in Resources */,
+				E74A1E3616FE493DA827DDC9 /* Support/TermsOfUse.md in Resources */,
+				BE5C07B7DFF34120A42809A3 /* Resources/Audio/noah_big_boat.mp3 in Resources */,
+				C58C87323A9543BF8DB4B3FB /* Resources/Audio/daniel_and_the_lions.mp3 in Resources */,
+				DFC21816B43444F284C8A67C /* Resources/Audio/jesus_calms_the_storm.mp3 in Resources */,
+				B54F78FBA3BA4CB48B0FF135 /* Resources/Audio/the_lost_sheep.mp3 in Resources */,
+				BD0807DE8D8A4428A7CB7EF2 /* Resources/Audio/the_birth_of_jesus.mp3 in Resources */,
+				AF9914F061E4446D9D3B58AF /* LittleLightsBibleBedtime/Assets.xcassets in Resources */,
+				8UYCDSW25RB9YOURRFDGYTMW /* Resources/Audio/david_and_goliath.mp3 in Resources */,
+				8S0ZCDXY6O2U4AXPWW0KFU6E /* Resources/Audio/jonah_and_the_big_fish.mp3 in Resources */,
+				HY5PZZJZ3IV4QLV25YBASUCO /* Resources/Audio/baby_moses.mp3 in Resources */,
+				H33C9GICYVYEAWZG7ZZU7W6X /* Resources/Audio/the_good_samaritan.mp3 in Resources */,
+				8GNKBIGXYZPNBG7LEXJRAZ93 /* Resources/Audio/creation_story.mp3 in Resources */,
+				2WGRHUQBNMCLVCYTGH0LGK25 /* Resources/Audio/joseph_and_his_colorful_coat.mp3 in Resources */,
+				WD77RIKTDY7WFI56ZHO5V9M8 /* Resources/Audio/the_wise_men.mp3 in Resources */,
+				Y2VKS9D1D45BA0C6IO384POT /* Resources/Audio/christmas_the_birth_of_jesus.mp3 in Resources */,
+				824J87HXI2LGJMSUZKB4BKQ3 /* Resources/Audio/zacchaeus.mp3 in Resources */,
+				M4835HN1Q0D4WKVXRBV92PRZ /* Resources/Audio/feeding_the_five_thousand.mp3 in Resources */,
+				Y0MXZWDI4LCPJRUYTQN23O6W /* Resources/Audio/jesus_loves_the_children.mp3 in Resources */,
+				IUBC16OIBQ6JUV0NTJRC6245 /* Resources/Audio/the_prodigal_son.mp3 in Resources */,
+				FV7I9333AMPFJWN5WGGKY7GU /* Resources/Audio/esthers_courage.mp3 in Resources */,
+				NACU4X71RCSJTMXITRR4QE17 /* Resources/Audio/joshua_and_jericho.mp3 in Resources */,
+				KKB0IBZ2BHKS6OUEXOHHHQIG /* Resources/Audio/elijah_and_the_whisper.mp3 in Resources */,
+				I8MQM1QZX582MPQR92BH66ZB /* Resources/Audio/the_boy_samuel.mp3 in Resources */,
+				Y8H13EZXFX4Q2CYX8Y1D4UCS /* abraham_and_stars.mp3 in Resources */,
+				R448YCNTIMXL1GZ648TBM9JX /* david_shepherd_boy.mp3 in Resources */,
+				3JYBHMZ7Q8E871ISBLO6LRA5 /* elijah_ravens.mp3 in Resources */,
+				GZJBEVRLVVM6456R3BTEH1JK /* garden_of_eden.mp3 in Resources */,
+				BIVKTSZX9ACC28Q2MDFZ43FK /* gideons_brave_300.mp3 in Resources */,
+				QIGBUWIHR3SBDEENDMTSUXF9 /* hannahs_prayer.mp3 in Resources */,
+				8YXWJA6CGDYQBQGZEREL51HX /* jacobs_ladder_dream.mp3 in Resources */,
+				G703VWUMSBUL3OH81C3ERZSM /* jesus_and_the_woman_at_the_well.mp3 in Resources */,
+				DF8OSTX0WEN3TUWRIE7PJGR8 /* jesus_heals_the_blind_man.mp3 in Resources */,
+				ZPSKCIC4OCZJJH0LYPOU2BFD /* jesus_in_the_garden_of_gethsemane.mp3 in Resources */,
+				IWIZEZM50LRO6J6FFEURCPK6 /* jesus_walks_on_water.mp3 in Resources */,
+				1V0RFVBWBXBR1DH9SK6HRK3R /* jesus_washes_the_disciples_feet.mp3 in Resources */,
+				6FVB1IV1QSDD6X1W5QRT47F1 /* joseph_forgives_brothers.mp3 in Resources */,
+				KWJ8MFZMA6CRI1YMUSSWVV10 /* mary_and_martha.mp3 in Resources */,
+				6301JPM9GGU05QRBHI7CDL74 /* miriams_song.mp3 in Resources */,
+				4T6PIAUH73S72T1MIRKOBTM8 /* moses_burning_bush.mp3 in Resources */,
+				BQJ3JT7ISMZIRFNGHWVJ7XEV /* nehemiah_builds_wall.mp3 in Resources */,
+				U77HS8SYXHLEDOTCCATO41TJ /* peter_walks_on_water.mp3 in Resources */,
+				01GJSSNET58K02GBSYWIMM7P /* ruth_and_naomi.mp3 in Resources */,
+				SOJQGHRLG2B9TYJ0J1Y0TND2 /* shadrach_meshach_abednego.mp3 in Resources */,
+				KVN5WG0BB6JCLGMWHRJILL8X /* solomon_asks_wisdom.mp3 in Resources */,
+				GFZXNRN97SRXMVIGZ0NW961R /* the_empty_tomb.mp3 in Resources */,
+				LHQ20G04IFYAO9VUUIBHH52K /* the_light_of_the_world.mp3 in Resources */,
+				I18RW5HVO3RGRJYJ7D9EAI50 /* the_mustard_seed.mp3 in Resources */,
+				LYFNR60PLVZNZ4TLJMMIFJTK /* the_sower_and_the_seeds.mp3 in Resources */,
+				1L45ZIEEN1TPUPHHKWHR1GID /* the_talents.mp3 in Resources */,
+				LLVMVXUQ7FS27JVPC4PWZX3P /* the_ten_lepers.mp3 in Resources */,
+				982E0Y1ND8I3PLWZ9SEIPY09 /* the_widows_offering.mp3 in Resources */,
+				A0Z6IL0577QM21DAZ9HLHAEV /* walls_of_water.mp3 in Resources */,
+				A5RAIN001RAINRAIN001RAIN /* Resources/Ambient/rain.mp3 in Resources */,
+				C6OCEAN01OCEANOCEAN01OCN /* Resources/Ambient/ocean.mp3 in Resources */,
+				E7CRICKET7CRICKETCRICKET7 /* Resources/Ambient/crickets.mp3 in Resources */,
+				G8FIREPL08FIREPLACEFIREPL8 /* Resources/Ambient/fireplace.mp3 in Resources */,
+				I9WHITENO09WHITENOISEWNO09 /* Resources/Ambient/white_noise.mp3 in Resources */,
+				K0LULLABY0LULLABYULLABY0K /* Resources/Ambient/lullaby.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		96E2BF81617C42BEA9F3571B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD8A7AE8155044B8A73111A7 /* ReadingStreak.swift in Sources */,
+				F987ED1FD5A74E5ABED8B5F2 /* AmbientSoundService.swift in Sources */,
+				CC491244E78149039C925AD3 /* SleepTimerService.swift in Sources */,
+				NTSVC001NOTIFY001SVC001N /* NotificationService.swift in Sources */,
+				415AC801E3D74D42BE8A1A28 /* ReadingStreakViewModel.swift in Sources */,
+				35CC739522FF447C8B8463B1 /* BedtimeRoutineView.swift in Sources */,
+				5AF58ADDF60D48D58D9B21C8 /* RewardsView.swift in Sources */,
+				B3746E7DC15745C9B61E422D /* App/LittleLightsBibleBedtimeApp.swift in Sources */,
+				6DBF034000544EEEB079F583 /* Models/AppSettings.swift in Sources */,
+				9B532D2EBD24444DA1B00CC6 /* Models/Story.swift in Sources */,
+				FA713AEF9C1340E799464F6A /* Services/AudioPlaybackService.swift in Sources */,
+				ELABS001BUILD00001ELABS01 /* Services/ElevenLabsService.swift in Sources */,
+				A2459E201BF54BC68D82BE8D /* Services/PurchaseService.swift in Sources */,
+				23CC952B31D5495BB648E90A /* Services/StoryRepository.swift in Sources */,
+				E19469C0A16643028F84DCC0 /* Support/AppTheme.swift in Sources */,
+				FBAEC69F7CB8432386B98632 /* Support/StoryArtwork.swift in Sources */,
+				6F984D0C62894DE98F0D090F /* ViewModels/AudioPlayerViewModel.swift in Sources */,
+				F1A8051BA6D34C26AE74EC4D /* ViewModels/FavoritesViewModel.swift in Sources */,
+				5577FFC09D89468BB0FF3345 /* ViewModels/PurchaseViewModel.swift in Sources */,
+				53B4310578EA438FB18274DC /* ViewModels/StoryLibraryViewModel.swift in Sources */,
+				16A2946A22B24F14A6D573F4 /* Views/Components/AudioPlayerBar.swift in Sources */,
+				36095C8C302148CFA6CC53BE /* Views/Components/CategoryChipView.swift in Sources */,
+				B34D286F7674491CA05AC450 /* Views/Components/FeaturedStoryCard.swift in Sources */,
+				FA90859D9C4F4EDAAF6E7389 /* Views/Components/PremiumFeatureRow.swift in Sources */,
+				427DC511C0B84D45A4AFD2EE /* Views/Components/PremiumTeaserCard.swift in Sources */,
+				13C1E9C726B24B19A576923B /* Views/Components/StoryArtworkView.swift in Sources */,
+				3DE85EA4DF0648A2A25523C3 /* Views/Components/StoryCardView.swift in Sources */,
+				9535864F2F7E4349AAE91FAE /* Views/ContentView.swift in Sources */,
+				503C0C502F234C25B5F5C0E1 /* Views/FavoritesView.swift in Sources */,
+				C3951351DD204F11901544A2 /* Views/HomeView.swift in Sources */,
+				7EFAE402F90E4970A6E0BBD4 /* Views/LibraryView.swift in Sources */,
+				C44D45724B764D6D8AB6B64A /* Views/PremiumView.swift in Sources */,
+				F85E0077D8284EEA8A33ECD2 /* Views/PrivacyPolicyView.swift in Sources */,
+				7E6A533FA23B447DACD1C8BB /* Views/SettingsView.swift in Sources */,
+				8FCFFCAF6DFF48B7A6CB7419 /* Views/StoryDestinationView.swift in Sources */,
+				6710588A2E78461DBD3652E6 /* Views/StoryDetailView.swift in Sources */,
+				2603E65F59324506ADAB8461 /* Views/SupportView.swift in Sources */,
+				FBA8756B29D144C5BEBB03D4 /* Views/TermsOfUseView.swift in Sources */,
+				E0ABCDEF1234567890ABCA1 /* BreathingExerciseView.swift in Sources */,
+				E0ABCDEF1234567890ABCA2 /* OnboardingView.swift in Sources */,
+				E0ABCDEF1234567890ABCA3 /* ParentDashboardView.swift in Sources */,
+				E0ABCDEF1234567890ABCA4 /* GoodnightAffirmationsView.swift in Sources */,
+				E0ABCDEF1234567890ABCA5 /* DiscussionQuestionsView.swift in Sources */,
+				E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */,
+				BB1111111111111111111111 /* Views/Components/LumiMascotView.swift in Sources */,
+				BB2222222222222222222222 /* Models/Collectible.swift in Sources */,
+				BB3333333333333333333333 /* Views/Components/CollectiblesShowcaseView.swift in Sources */,
+				BB4444444444444444444444 /* Views/Components/ConfettiCelebrationView.swift in Sources */,
+				BB5555555555555555555555 /* Views/Components/InteractiveTouchOverlay.swift in Sources */,
+				BB6666666666666666666666 /* Views/Components/ReadAlongTextView.swift in Sources */,
+				AA0007777777777777777777 /* Views/Components/StarryNightBackground.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0B65D99F28994F1792D7DF17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LittleLightsBibleBedtime/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Little Lights Bible Bedtime";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.littlelightsbiblebedtime.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		0F59ED002F0E40658CC6B9C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		70D6042C6A8F49D79B3678C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LittleLightsBibleBedtime/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Little Lights Bible Bedtime";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.littlelightsbiblebedtime.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D4D1F9807A734697A382484B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		591BBEB65960480F991CF94F /* Build configuration list for PBXNativeTarget "LittleLightsBibleBedtime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B65D99F28994F1792D7DF17 /* Debug */,
+				70D6042C6A8F49D79B3678C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B8BC518DE53C4F4F9D18CECC /* Build configuration list for PBXProject "LittleLightsBibleBedtime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4D1F9807A734697A382484B /* Debug */,
+				0F59ED002F0E40658CC6B9C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E3354A7129334E4B9DCE227D /* Project object */;
+}

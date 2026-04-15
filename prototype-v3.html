@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Little Lights Bible Bedtime — Prototype v3</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>*{margin:0;padding:0}html,body,#root{height:100%;width:100%}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ━━━━━━━━━━━━━━━ STYLES ━━━━━━━━━━━━━━━ */
+const CSS = `
+@keyframes twinkle{0%{opacity:.12}100%{opacity:.85}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes wave{0%{height:3px}50%{height:var(--h)}100%{height:3px}}
+@keyframes breatheCircle{0%{transform:scale(.5);box-shadow:0 0 20px rgba(129,140,248,.2)}50%{transform:scale(1);box-shadow:0 0 60px rgba(129,140,248,.5)}100%{transform:scale(.5);box-shadow:0 0 20px rgba(129,140,248,.2)}}
+@keyframes popIn{0%{transform:scale(0);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes starBurst{0%{opacity:0;transform:translate(0,0) scale(0)}50%{opacity:1;transform:translate(var(--tx),var(--ty)) scale(1.2)}100%{opacity:0;transform:translate(var(--tx2),var(--ty2)) scale(0)}}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(120px) rotate(var(--rot))}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes glow{0%,100%{filter:brightness(1) drop-shadow(0 0 8px rgba(250,204,21,.3))}50%{filter:brightness(1.2) drop-shadow(0 0 16px rgba(250,204,21,.5))}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes karaoke{0%{background-size:0% 100%}100%{background-size:100% 100%}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.fadeUp{animation:fadeUp .45s ease-out both}
+.d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}.d4{animation-delay:.24s}.d5{animation-delay:.3s}
+*{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+::-webkit-scrollbar{display:none}
+input::placeholder{color:rgba(255,255,255,.25)}
+.glass{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+`;
+
+/* ━━━━━━━━━━━━━━━ DATA ━━━━━━━━━━━━━━━ */
+const STORIES_EXTRA=[
+  {id:"noah-big-boat",title:"Noah and the Big Boat",sub:"A story about trusting God",ref:"Genesis 6–9",cat:"Trust",age:"3-5",dur:4,color:"#3b82f6",emoji:"🌈",text:["Long ago, Noah loved God and wanted to do what was right. At that time, the world had become filled with unkindness and trouble. But Noah listened carefully to God, even when others did not.", "One day, God told Noah something surprising. God said that a great flood was coming and that Noah should build a very big boat called an ark. The ark would keep Noah, his family, and many animals safe.", "That must have sounded like a huge job. Noah had probably never built a boat that big before. But Noah trusted God. Day after day, he worked hard. He hammered wood into place. He built the giant ark just as God told him to.", "Some people may have wondered what Noah was doing. Some may even have laughed. But Noah kept going. He chose to trust God instead of worrying about what others thought.", "When the ark was ready, Noah brought his family inside. Then animals came too\u2014big animals, little animals, fuzzy animals, and flappy animals. Two by two, they came onto the ark. Soon the boat was filled with life, sounds, and the rustle of little feet.", "Then the rain began.", "Rain fell from the sky, and water rose over the land. But Noah and his family were safe inside the ark. God watched over them through the storm. The ark floated on the water, rocking gently as the days passed."],prayer:"Dear God, thank You for loving me and watching over me. Help me trust You, even when I feel unsure. Please give me peace as I sleep tonight. Amen.",takeaway:"God keeps His promises and cares for us through every storm.",verse:"\"I have set my rainbow in the clouds, and it will be the sign of the covenant between me and the earth.\" — Genesis 9:13"},
+  {id:"daniel-and-the-lions",title:"Daniel and the Lions",sub:"A story about courage and faith",ref:"Daniel 6",cat:"Courage",age:"6-8",dur:4,color:"#f97316",emoji:"🦁",text:["Daniel loved God very much. He prayed every day and trusted God in everything he did. Daniel was kind, wise, and honest, and the king thought highly of him.", "But not everyone was happy about that. Some men became jealous of Daniel. They wanted to get him into trouble, so they made a sneaky plan.", "They went to the king and said, \u201cFor the next thirty days, no one should pray to anyone except you, O king.\u201d The king agreed and made it a law.", "Daniel heard about the new law. He knew it would be dangerous to keep praying to God. But Daniel also knew that loving and obeying God mattered most.", "So Daniel went to his room, opened his window, and prayed just as he always had before. He thanked God. He trusted God. He simply would not stop talking to the God he loved.", "The jealous men saw Daniel praying and hurried to tell the king. The king was upset because he cared about Daniel, but the law could not be changed. Daniel had to be thrown into the lions\u2019 den.", "That night, Daniel was lowered into a dark place filled with lions. But Daniel was not alone. God was with him."],prayer:"Dear God, thank You for being with me when I feel scared. Help me be brave, do what is right, and remember that You are always near. Amen.",takeaway:"We can be brave because God is always with us.",verse:"\"My God sent his angel, and he shut the mouths of the lions.\" — Daniel 6:22"},
+  {id:"jesus-calms-the-storm",title:"Jesus Calms the Storm",sub:"A story about peace in the middle of fear",ref:"Mark 4:35–41",cat:"Peace",age:"6-8",dur:4,color:"#22c55e",emoji:"⛵",text:["One evening, after a long day of teaching, Jesus said to His disciples, \u201cLet\u2019s go across the lake.\u201d So they climbed into a boat and began to sail across the water.", "At first, everything seemed calm. The boat moved gently over the waves. The sky stretched above them, and the breeze blew softly.", "Jesus was tired, so He lay down in the boat and fell asleep.", "But soon, the weather changed. Dark clouds rolled in. Wind blew hard across the lake. Waves crashed against the boat and splashed water inside. The boat rocked and shook, and the disciples became very afraid.", "The disciples hurried to Him and cried out, \u201cTeacher, don\u2019t You care if we drown?\u201d", "Jesus stood up. He looked at the wind and the waves and said, \u201cPeace, be still.\u201d", "And just like that, the wind stopped. The waves grew quiet. The lake became still. Everything was calm."],prayer:"Dear Jesus, thank You for being with me when I feel worried or afraid. Please calm my heart and fill me with Your peace tonight. Amen.",takeaway:"Jesus is stronger than every storm and brings peace to our hearts.",verse:"\"Peace, be still!\" — Mark 4:39"},
+  {id:"the-lost-sheep",title:"The Lost Sheep",sub:"A story about how much we are loved",ref:"Luke 15:1–7",cat:"Love",age:"3-5",dur:3,color:"#ec4899",emoji:"🐑",text:["Jesus once told a story about a shepherd and his sheep.", "A shepherd takes care of sheep. He leads them to good grass, keeps them safe, and makes sure they stay close together. Every sheep matters to him.", "In Jesus\u2019 story, the shepherd had one hundred sheep. But one day, one sheep wandered away.", "The shepherd noticed right away. He did not say, \u201cOh well, I still have ninety-nine.\u201d He did not forget the missing sheep. He did not stop caring.", "Instead, he went looking. He left the ninety-nine in a safe place and searched until he found the one that was lost.", "And when he found that little sheep, he did not scold it or push it away. He smiled. He lifted it up. He carried it home with joy.", "Then he called his friends and neighbors and said, \u201cRejoice with me! I found my lost sheep!\u201d"],prayer:"Dear God, thank You for loving me so much. Thank You for knowing me, caring for me, and staying close to me. Help me rest safely in Your love tonight. Amen.",takeaway:"God knows me, loves me, and never stops caring for me.",verse:"\"There will be more rejoicing in heaven over one sinner who repents.\" — Luke 15:7"},
+  {id:"the-birth-of-jesus",title:"The Birth of Jesus",sub:"A story about God’s greatest gift",ref:"Luke 2:1–20",cat:"Hope",age:"3-5",dur:4,color:"#eab308",emoji:"⭐",text:["Long ago, God sent a very special gift into the world.", "A young woman named Mary had been chosen for an important part in God\u2019s plan. She was going to have a baby, and this baby would be called Jesus.", "Mary and Joseph traveled to the town of Bethlehem. It was a long trip, and by the time they arrived, they needed a place to rest.", "But Bethlehem was crowded, and there was no place left for them to stay.", "At last, they found shelter in a place where animals were kept. It was simple and quiet.", "That night, baby Jesus was born. Mary wrapped Him in soft cloths and laid Him in a manger.", "It may not have looked like a palace. But this was the birth of a King\u2014the Son of God, sent to bring love, hope, and peace to the world."],prayer:"Dear God, thank You for sending Jesus. Thank You for Your love, Your hope, and Your peace. Help me rest tonight knowing that You are near. Amen.",takeaway:"Jesus is God’s loving gift to the world and brings hope and peace.",verse:"\"For unto you is born this day in the city of David a Savior, who is Christ the Lord.\" — Luke 2:11"},
+  {id:"david-and-goliath",title:"David and Goliath",sub:"A story about brave faith",ref:"1 Samuel 17",cat:"Courage",age:"6-8",dur:4,color:"#f97316",emoji:"⚔️",text:["David was still young when he came to visit his older brothers at the battle camp. Everyone there was frightened of a giant warrior named Goliath. Day after day, the giant shouted angry words and dared someone to fight him.", "But David remembered something important: God was bigger than the giant.", "David had cared for sheep and trusted God to help him in hard moments before. So while others looked at how large Goliath was, David looked at how great God was.", "David did not wear heavy armor. Instead, he took his sling and a few smooth stones. Then he went forward with courage.", "When Goliath laughed at him, David said that the battle belonged to the Lord.", "Then David swung his sling, and one stone flew straight and true. The giant fell, and God gave His people victory.", "David\u2019s story reminds us that scary things do not have the final word. God can help small people do brave things. We do not need to be the strongest, tallest, or oldest to trust Him."],prayer:"Dear God, help me remember that You are bigger than anything that scares me. Give me courage and peace tonight. Amen.",takeaway:"God helps me be brave when I trust Him.",verse:"\"The Lord who rescued me from the paw of the lion will rescue me from this Philistine.\" — 1 Samuel 17:37"},
+  {id:"jonah-and-the-big-fish",title:"Jonah and the Big Fish",sub:"A story about listening to God",ref:"Jonah 1–4",cat:"Trust",age:"3-5",dur:4,color:"#3b82f6",emoji:"🐋",text:["One day, God told Jonah to go to a city called Nineveh and deliver an important message. But Jonah did not want to go. Instead of obeying, he ran the other way and got on a ship.", "Soon a great storm began. The wind blew, the sea roared, and the sailors were afraid. Jonah knew he had been running from God.", "At last, Jonah was thrown into the sea, and the storm became calm. Then God sent a great fish to swallow Jonah and keep him safe.", "Inside the fish, Jonah prayed. He told God he was sorry and remembered that God is full of mercy.", "After three days, the fish brought Jonah to dry land. This time, Jonah obeyed and went to Nineveh.", "Jonah learned that God gives second chances. Even when we run, God is still near. He lovingly leads us back to the right path.", "Tonight, you can rest knowing that God is patient, kind, and ready to help you listen to Him."],prayer:"Dear God, help me listen to You and follow where You lead. Thank You for being patient and loving with me. Amen.",takeaway:"God lovingly guides me, and I can trust His way.",verse:"\"In my distress I called to the Lord, and he answered me.\" — Jonah 2:2"},
+  {id:"baby-moses",title:"Baby Moses",sub:"A story about God’s protection",ref:"Exodus 2:1–10",cat:"Hope",age:"3-5",dur:3,color:"#eab308",emoji:"🧒",text:["When Moses was only a baby, his mother wanted to keep him safe. She made a small basket, placed Moses inside, and set the basket carefully among the tall reeds by the river.", "His big sister watched nearby.", "Then Pharaoh\u2019s daughter came to the river and noticed the basket. When she opened it, she saw baby Moses and felt compassion for him.", "God was already caring for Moses.", "Pharaoh\u2019s daughter chose to protect him, and soon Moses\u2019 own mother was able to care for him too.", "From the very beginning, God watched over Moses with tender love.", "Tonight, as you lie down to sleep, remember that God watched over baby Moses, and He watches over you too."],prayer:"Dear God, thank You for protecting me and caring for me. Help me rest tonight knowing You are always near. Amen.",takeaway:"God watches over me with love and care.",verse:"\"She named him Moses, saying, 'I drew him out of the water.'\" — Exodus 2:10"},
+  {id:"the-good-samaritan",title:"The Good Samaritan",sub:"A story about kindness",ref:"Luke 10:25–37",cat:"Kindness",age:"6-8",dur:4,color:"#14b8a6",emoji:"💝",text:["Jesus once told a story about a man traveling on the road. While he was walking, robbers attacked him and left him hurt by the roadside.", "Several people passed by, but they did not stop to help.", "Then a Samaritan came along. He saw the injured man and felt compassion. He gently cleaned his wounds, placed him on his animal, and took him somewhere safe to rest. He even paid for the man\u2019s care.", "Jesus told this story to show what love looks like.", "Real kindness notices when someone is hurting. Real love stops to help.", "The Good Samaritan did not ignore the man. He chose mercy.", "Tonight, this story reminds us that God is kind, and He wants us to have kind hearts too. We can care for others the way He cares for us."],prayer:"Dear God, please help me have a kind heart and care for others the way You care for me. Amen.",takeaway:"God wants me to show kindness and care to others.",verse:"\"Love your neighbor as yourself.\" — Luke 10:27"},
+  {id:"creation-story",title:"Creation Story",sub:"A story about God’s beautiful world",ref:"Genesis 1–2",cat:"Hope",age:"3-5",dur:4,color:"#eab308",emoji:"🌍",text:["In the beginning, God made the heavens and the earth.", "First, He said, \u201cLet there be light,\u201d and light began to shine. Then He made the sky above and the land below. He filled the seas with life and the earth with plants and trees.", "He made the sun for the day and the moon and stars for the night. He made birds to fly, fish to swim, and animals to walk and run.", "At last, God made people in His image and loved them very much.", "And when He looked at all He had made, He said it was very good.", "Tonight, when you look at the stars or feel the soft quiet of evening, remember that the same God who made the whole world also made you."],prayer:"Dear God, thank You for the beautiful world You made. Help me rest tonight in the goodness of Your creation. Amen.",takeaway:"God made the world with wisdom, beauty, and love.",verse:"\"In the beginning God created the heavens and the earth.\" — Genesis 1:1"},
+  {id:"joseph-and-his-colorful-coat",title:"Joseph and His Colorful Coat",sub:"A story about God’s plan",ref:"Genesis 37; 39–45",cat:"Hope",age:"6-8",dur:5,color:"#eab308",emoji:"🧥",text:["Joseph was given a beautiful colorful coat by his father, and his brothers became jealous. Later, Joseph\u2019s life became very hard. He was taken far from home and faced many sad and unfair things.", "But God never left Joseph.", "Even in difficult places, God stayed with him, helped him, and gave him wisdom. In time, Joseph was put in an important position where he could help many people.", "Years later, Joseph even helped the very brothers who had hurt him.", "Joseph\u2019s story shows that God can bring good out of hard situations. Even when life feels confusing, God is still working.", "Tonight, remember this: God is with you on good days and hard days, and His plans are full of wisdom and care."],prayer:"Dear God, thank You for staying with me in every season. Help me trust Your good plan tonight. Amen.",takeaway:"God is with me and has a good plan, even in hard times.",verse:"\"You intended to harm me, but God intended it for good.\" — Genesis 50:20"},
+  {id:"the-wise-men",title:"The Wise Men",sub:"A story about seeking Jesus",ref:"Matthew 2:1–12",cat:"Hope",age:"6-8",dur:3,color:"#eab308",emoji:"👑",text:["Far away from Bethlehem, wise men saw a very special star in the sky. They knew it meant a great King had been born.", "So they began a long journey to find Him.", "They followed the shining star until it led them to Jesus. When they found Him, they were filled with joy. They bowed down, worshiped Him, and gave Him precious gifts.", "The wise men show us that Jesus is worth seeking. He is worth our love, our time, and our praise.", "Tonight, as the sky grows dark and quiet, remember the bright star that pointed to the Savior. Jesus is still the greatest treasure of all."],prayer:"Dear God, help me seek Jesus with a joyful heart and rest tonight in His love. Amen.",takeaway:"Jesus is worthy of my love, trust, and praise.",verse:"\"Where is the one who has been born king of the Jews? We saw his star when it rose.\" — Matthew 2:2"},
+  {id:"christmas-the-birth-of-jesus",title:"Christmas: The Birth of Jesus",sub:"A cozy Christmas bedtime story",ref:"Luke 2:1–20; Matthew 1:18–25",cat:"Peace",age:"3-5",dur:4,color:"#22c55e",emoji:"🎄",text:["On a quiet holy night, Mary and Joseph rested in a simple stable because there was no room anywhere else.", "There, surrounded by the hush of evening, baby Jesus was born.", "Mary wrapped Him in soft cloths and laid Him in a manger. Outside, shepherds watched over their sheep beneath the night sky.", "Suddenly, angels appeared with wonderful news: the Savior had been born.", "The shepherds hurried to see Him, and they found everything just as the angels had said. Their hearts were filled with joy.", "Christmas reminds us that God brought light into a dark world. He gave the world His Son, and that gift still brings peace, joy, and hope.", "Tonight, imagine the gentle stable, the glowing sky, and the quiet wonder of that first Christmas night."],prayer:"Dear God, thank You for the gift of Jesus and the joy of Christmas. Fill my heart with peace tonight. Amen.",takeaway:"Jesus brings light, peace, and joy to the world.",verse:"\"Glory to God in the highest, and on earth peace to those on whom his favor rests.\" — Luke 2:14"},
+  {id:"zacchaeus",title:"Zacchaeus",sub:"A story about being seen by Jesus",ref:"Luke 19:1–10",cat:"Love",age:"6-8",dur:3,color:"#ec4899",emoji:"🌳",text:["Zacchaeus was a small man, and one day he wanted very much to see Jesus. Because the crowd was so big, he climbed up into a tree.", "When Jesus came by, He looked up and called Zacchaeus by name.", "Jesus saw him.", "Zacchaeus was surprised and happy. Jesus went to his home, and Zacchaeus\u2019 heart began to change. He wanted to make things right and live a better way.", "This story reminds us that Jesus notices every person. No one is too hidden, too small, or too unimportant for His love.", "Tonight, you can rest knowing that Jesus sees you, knows you, and cares for you with great kindness."],prayer:"Dear Jesus, thank You for seeing me and loving me. Help me stay close to You tonight and always. Amen.",takeaway:"Jesus sees me, knows me, and loves me.",verse:"\"For the Son of Man came to seek and to save the lost.\" — Luke 19:10"},
+  {id:"feeding-the-five-thousand",title:"Feeding the Five Thousand",sub:"A story about God’s provision",ref:"John 6:1–14",cat:"Trust",age:"3-5",dur:4,color:"#3b82f6",emoji:"🍞",text:["A great crowd had gathered to hear Jesus, and by the end of the day many people were hungry. One little boy had five loaves of bread and two fish.", "It did not seem like much.", "But Jesus took the small gift, thanked God, and began to share it. Soon there was enough food for everyone. In fact, there were leftovers too.", "Jesus showed that what seems small can become more than enough in God\u2019s hands.", "Tonight, if you feel small or worried, remember the little lunch that became a great blessing. Jesus can do wonderful things."],prayer:"Dear Jesus, thank You for caring for me and providing what I need. Help me trust You with all I have. Amen.",takeaway:"Jesus provides what I need and can do great things with small gifts.",verse:"\"They all ate and were satisfied.\" — Matthew 14:20"},
+  {id:"jesus-loves-the-children",title:"Jesus Loves the Children",sub:"A story about welcome and love",ref:"Mark 10:13–16",cat:"Love",age:"3-5",dur:3,color:"#ec4899",emoji:"👶",text:["One day, families brought children to Jesus so He could bless them. But some grown-ups tried to send the children away.", "Jesus did not like that.", "He said, \u201cLet the little children come to Me.\u201d Then He welcomed them, held them close, and blessed them.", "Jesus wanted everyone to know that children matter deeply to God.", "Tonight, as you get ready for sleep, remember that Jesus welcomes you and loves you very much."],prayer:"Dear Jesus, thank You for loving children and welcoming me. Please fill my heart with Your gentle love tonight. Amen.",takeaway:"Jesus welcomes me and loves me deeply.",verse:"\"Let the little children come to me, and do not hinder them.\" — Mark 10:14"},
+  {id:"the-prodigal-son",title:"The Prodigal Son",sub:"A story about forgiveness and welcome",ref:"Luke 15:11–32",cat:"Love",age:"6-8",dur:5,color:"#ec4899",emoji:"🏠",text:["Jesus once told a story about a son who chose to leave home and go far away. After a while, the son realized he had made wrong choices and wanted to return.", "He wondered if his father would still want him.", "But while the son was still far off, his father saw him and ran to him with joy. He hugged him, welcomed him home, and celebrated.", "Jesus told this story to show how loving and forgiving God is.", "God\u2019s arms are open. His mercy is wide. He welcomes hearts that come back to Him.", "Tonight, you can rest in this good news: God\u2019s love is warm, joyful, and ready to receive you."],prayer:"Dear God, thank You for Your mercy and love. Help me rest tonight knowing Your arms are always open to me. Amen.",takeaway:"God forgives, welcomes, and loves me completely.",verse:"\"This son of mine was dead and is alive again; he was lost and is found.\" — Luke 15:24"},
+  {id:"esthers-courage",title:"Esther’s Courage",sub:"A story about brave purpose",ref:"Esther 4–8",cat:"Courage",age:"9-12",dur:4,color:"#f97316",emoji:"👸",text:["Esther became a queen, but one day she faced a very important choice. Her people were in danger, and she was in a position to help.", "Esther felt afraid, but she also trusted God.", "With courage, she stepped forward at the right time and spoke up. God used Esther\u2019s bravery to protect many people.", "Esther\u2019s story reminds us that courage does not mean never feeling afraid. It means trusting God enough to do what is right.", "Tonight, if something feels hard, remember Esther. God can help you be brave, and He can use your life for good."],prayer:"Dear God, give me courage like Esther and help me trust You when I need to be brave. Amen.",takeaway:"God can help me be brave and do what is right.",verse:"\"Who knows but that you have come to your royal position for such a time as this?\" — Esther 4:14"},
+  {id:"joshua-and-jericho",title:"Joshua and Jericho",sub:"A story about trusting God’s way",ref:"Joshua 6",cat:"Trust",age:"6-8",dur:4,color:"#3b82f6",emoji:"🏰",text:["God gave Joshua an unusual plan for the city of Jericho. Instead of using ordinary battle ideas, God told the people to march around the city and trust Him.", "So Joshua obeyed.", "For several days, the people marched just as God said. Then, at the right moment, they shouted, and God caused the walls to fall.", "Joshua learned that God\u2019s way is wise, even when it seems surprising.", "Tonight, rest knowing that God is faithful and that His plans are always good."],prayer:"Dear God, help me trust Your way and follow You with a peaceful heart. Thank You for guiding me. Amen.",takeaway:"I can trust God even when I do not understand everything.",verse:"\"Be strong and courageous. Do not be afraid.\" — Joshua 1:9"},
+  {id:"elijah-and-the-whisper",title:"Elijah and the Whisper",sub:"A story about God’s gentle voice",ref:"1 Kings 19:1–13",cat:"Peace",age:"6-8",dur:4,color:"#22c55e",emoji:"🌬️",text:["Elijah had been through a very hard time, and he felt tired and discouraged. God gently cared for him, gave him rest, and then invited him to listen.", "A strong wind came, but God was not in the wind. Then there was an earthquake, and later a fire, but God was not in those either.", "After that came a soft gentle whisper.", "God met Elijah in the quiet.", "Tonight, as your room grows still, remember that God is near in peaceful moments too."],prayer:"Dear God, thank You for speaking gently and caring for me when I feel tired. Please fill me with Your peace tonight. Amen.",takeaway:"God meets me with gentleness, peace, and care.",verse:"\"The Lord was not in the wind... not in the earthquake... but in a gentle whisper.\" — 1 Kings 19:11-12"},
+  {id:"the-boy-samuel",title:"The Boy Samuel",sub:"A story about listening for God",ref:"1 Samuel 3",cat:"Prayer",age:"3-5",dur:3,color:"#8b5cf6",emoji:"🕯️",text:["One night, while Samuel was lying down to sleep, he heard his name being called.", "He got up and went to Eli, but Eli had not called him. This happened again and again until Eli understood that God was speaking to Samuel.", "So Samuel listened and said, \u201cSpeak, Lord, for Your servant is listening.\u201d", "Samuel learned that God knew his name and wanted him to listen with a willing heart.", "Tonight, you can rest knowing that the God who called Samuel knows your name too."],prayer:"Dear God, help me have a quiet heart that listens to You. Thank You for knowing me and loving me. Amen.",takeaway:"God knows my name, and I can listen for His voice.",verse:"\"Speak, Lord, for your servant is listening.\" — 1 Samuel 3:9"},
+  {id:"abraham-and-the-stars",title:"Abraham and the Stars",sub:"A story about trust",ref:"Genesis 15",cat:"Trust",age:"9-12",dur:3,color:"#3b82f6",emoji:"🌟",text:["One night, a man named Abraham looked up at the sky. He saw so many stars\u2014more than he could count. His heart felt a little sad because he had no children of his own.", "Then God spoke to Abraham in a warm, gentle voice: \"Look at all those stars, Abraham. One day, you will have so many children and grandchildren and great-grandchildren that they will be as many as the stars in the sky.\"", "Abraham believed God's promise, even though it seemed impossible. He didn't know how or when it would happen, but he trusted that God would keep His word.", "Years later, Abraham's promise came true. He had a son named Isaac, and Isaac had children, and those children had children. Just like the stars, Abraham's family grew and grew.", "As you close your eyes tonight, remember that God keeps His promises. Even when things seem impossible, you can trust God just like Abraham did. Sweet dreams, little one."],prayer:"Dear God, help me trust you like Abraham did. Give me a peaceful sleep and sweet dreams. Amen.",takeaway:"When we trust God, His promises can come true in wonderful ways.",verse:""},
+  {id:"ruth-and-naomi",title:"Ruth and Naomi",sub:"A story about kindness",ref:"Ruth 1-4",cat:"Kindness",age:"6-8",dur:4,color:"#14b8a6",emoji:"🌾",text:["A long time ago, there was a kind woman named Ruth. Her mother-in-law, Naomi, was sad and lonely. Ruth could have left to find an easier life, but instead, she stayed with Naomi and took care of her.", "Every day, Ruth worked hard in the fields, gathering grain to make sure Naomi had food to eat. Her hands got tired, and the sun was very hot, but Ruth smiled because she was helping someone she loved.", "A kind man named Boaz watched Ruth work. He saw how much she cared for Naomi, and his heart was touched. He helped Ruth, and soon, Ruth and Boaz became husband and wife.", "Ruth's kindness didn't go unnoticed. She and Boaz had a baby boy, and Naomi's heart filled with joy. Her sadness was gone! Ruth's gentle, loving care had made all the difference.", "Remember, little one, kindness is like planting seeds of love. When you're kind to others, your kindness grows into something beautiful. Now close your eyes and dream of kindness all around you."],prayer:"Dear God, help me be kind like Ruth. Bless those I love and help them feel my care. Amen.",takeaway:"Small acts of kindness can bring joy to others and change their lives.",verse:"\"Where you go I will go, and where you stay I will stay.\" — Ruth 1:16"},
+  {id:"moses-and-the-burning-bush",title:"Moses and the Burning Bush",sub:"A story about courage",ref:"Exodus 3",cat:"Courage",age:"9-12",dur:4,color:"#f97316",emoji:"🔥",text:["Moses was a shepherd, taking care of his sheep in the desert. One day, he saw something amazing\u2014a bush that was on fire, but the fire wasn't burning it up!", "Moses walked closer to see this wonderful thing. Then God spoke to him from the bush: \"Moses, I have seen people who are suffering. I want you to help them. I need you to be brave.\"", "Moses felt scared. \"Me? I'm not brave,\" he said. \"I'm not a good speaker. What if people don't listen to me?\"", "But God said, \"Moses, I will be with you. You don't have to be brave all by yourself. I will give you courage.\"", "Moses took a deep breath. He felt God's presence all around him, warm and safe. He said yes. He would be brave because God was with him.", "Moses did brave things that helped so many people. And it all started because he said yes, even when he was afraid.", "You can be brave too, little one. When you're scared, remember that God is with you, just like He was with Moses. Close your eyes and feel God's warmth around you."],prayer:"Dear God, when I'm afraid, help me remember you're with me. Give me courage for tomorrow. Amen.",takeaway:"Courage isn't being unafraid—it's doing brave things even when you're scared, knowing God is with you.",verse:""},
+  {id:"the-walls-of-water",title:"The Walls of Water",sub:"A story about trust",ref:"Exodus 14",cat:"Trust",age:"9-12",dur:4,color:"#3b82f6",emoji:"🌊",text:["The people of Israel were running away from Egypt. Behind them came soldiers on horses, getting closer and closer. In front of them was the Red Sea\u2014so big, so wide, and so deep.", "The people were very scared. \"We're trapped!\" they cried. \"What do we do now?\"", "But Moses said, \"Don't be afraid. Watch what God will do.\"", "Moses held up his staff, and something magical happened. The wind began to blow\u2014a strong, powerful wind. The water of the Red Sea began to move and separate, moving to the left and to the right. Soon, there was a path of dry ground right through the middle of the sea!", "The people walked across the dry ground, with walls of water on both sides of them. It was like walking through a tunnel made of water. The children held their parents' hands and walked safely across.", "When everyone reached the other side, the water came back together. The soldiers couldn't follow them anymore. The people were safe!", "God had kept them safe, just like He promised. As you drift to sleep tonight, remember that even when things seem impossible, God can help us find a way. Sleep peacefully, knowing you are safe."],prayer:"Dear God, thank you for keeping me safe. Help me trust you in everything. Bless my sleep tonight. Amen.",takeaway:"When we trust God, He can do amazing things to help us.",verse:""},
+  {id:"jacobs-ladder-dream",title:"Jacob\'s Ladder Dream",sub:"A story about hope",ref:"Genesis 28:10-22",cat:"Hope",age:"6-8",dur:3,color:"#eab308",emoji:"🪜",text:["Jacob was far away from home, feeling lonely and worried. He had no blanket, no pillow, nothing but the ground beneath him. He lay down to sleep, resting his head on a stone.", "That night, Jacob had the most beautiful dream. He saw a ladder stretching from the ground all the way up to heaven. And all around the ladder were angels\u2014beautiful, glowing angels\u2014going up and down.", "At the top of the ladder was God, and God's voice was kind and warm: \"Jacob, I am with you. I will protect you wherever you go. I will bring you home again, and I will bless you.\"", "When Jacob woke up, his heart was filled with hope. He wasn't alone. God was with him. He wasn't scared anymore.", "Jacob said, \"God is in this place!\" And he knew his dreams would come true.", "You are never alone either, little one. Just like God was with Jacob, He is with you too. As you close your eyes and dream tonight, know that God watches over you. Your sweet dreams are your own special gift. Sleep tight."],prayer:"Dear God, watch over me as I sleep. Let me have peaceful dreams and wake up happy. Amen.",takeaway:"God is always with us, watching over us even in our dreams.",verse:"\"I am with you and will watch over you wherever you go.\" — Genesis 28:15"},
+  {id:"gideons-brave-300",title:"Gideon\'s Brave 300",sub:"A story about courage",ref:"Judges 7",cat:"Courage",age:"6-8",dur:4,color:"#f97316",emoji:"🗡️",text:["Gideon was leading an army, but God had a special plan. \"You have too many soldiers,\" God said. \"I want you to understand that I am the one who gives you strength, not the size of your army.\"", "So Gideon asked his soldiers to go home if they were afraid. Many left. Then God said, \"Still too many. Choose only the bravest ones.\" In the end, Gideon had just 300 soldiers.", "300 against thousands! It seemed impossible. But Gideon trusted God.", "God gave Gideon a clever plan. Each soldier held a torch and carried a horn. In the middle of the night, they surrounded the enemy camp. All at once, they blew their horns and held up their torches.", "The enemy soldiers woke up confused and frightened. They thought they were being attacked by a huge army! They ran away in fear.", "Gideon's 300 brave soldiers had won without even fighting hard. It was all because they trusted God and did what He asked, even when it seemed strange.", "You don't need to be the biggest or the strongest to do great things, little one. You just need to be brave and trust God. Close your eyes now and dream of your own brave adventures."],prayer:"Dear God, make me brave like Gideon. Help me trust you and do the right thing. Amen.",takeaway:"True courage comes from trusting God, not from how big or strong you are.",verse:"\"The Lord said to Gideon, 'With the three hundred men I will save you.'\" — Judges 7:7"},
+  {id:"elijah-and-the-ravens",title:"Elijah and the Ravens",sub:"A story about trust",ref:"1 Kings 17:1-6",cat:"Trust",age:"9-12",dur:3,color:"#3b82f6",emoji:"🐦‍⬛",text:["Elijah was a man who believed in God with all his heart. He went to hide by a stream in the desert because he was afraid of the king.", "Out in the desert, there was no store to buy food, no baker to make bread. How would Elijah eat? Where would food come from?", "But Elijah trusted God completely.", "Every morning, something wonderful happened. Ravens\u2014big black birds\u2014came flying through the sky carrying bread and meat. They landed right near Elijah and left food for him to eat.", "Every evening, the ravens came back with more food. Morning after morning, evening after evening, the ravens brought Elijah everything he needed.", "Elijah never had to worry or wonder, \"Will I have food today?\" He trusted that God would take care of him, and God always did.", "The stream gave him fresh water to drink. The ravens gave him food to eat. God took care of everything."],prayer:"Dear God, help me trust you like Elijah did. Thank you for taking care of me. Amen.",takeaway:"When we trust God, He takes care of all our needs in wonderful ways.",verse:""},
+  {id:"shadrach-meshach-abednego",title:"Shadrach, Meshach, and Abednego",sub:"A story about courage",ref:"Daniel 3",cat:"Courage",age:"9-12",dur:4,color:"#f97316",emoji:"🔥",text:["Three friends named Shadrach, Meshach, and Abednego believed in God very much. The king wanted everyone to bow down to a golden statue, but the three friends said, \"We can only bow to God.\"", "The king was angry. \"Then I will throw you into a fiery furnace!\" he said. \"Your God cannot save you!\"", "The three friends stood together, holding hands. \"Our God can save us,\" they said calmly. \"But even if He doesn't, we will never bow to anyone but God.\"", "The king ordered the furnace to be made seven times hotter. The soldiers threw the three friends into the roaring flames. But something amazing happened!", "The king looked into the furnace and gasped. He saw not three people, but four! And they were walking around in the fire, completely safe. The fourth figure shone like an angel.", "The three friends came out of the furnace without even a smell of smoke on their clothes. Not a single hair was burned. Their trust in God had protected them.", "The king bowed his head. \"Your God is greater than all other gods,\" he said."],prayer:"Dear God, give me courage to do what's right, even when it's hard. Keep me safe. Amen.",takeaway:"When we stay true to God, He is always with us, even in scary times.",verse:"\"The God we serve is able to deliver us from the blazing furnace.\" — Daniel 3:17"},
+  {id:"hannahs-prayer",title:"Hannah\'s Prayer",sub:"A story about prayer",ref:"1 Samuel 1",cat:"Prayer",age:"6-8",dur:3,color:"#8b5cf6",emoji:"🙏",text:["Hannah's heart was very, very sad. She wanted a baby so much, but year after year, no baby came. She felt alone and lonely.", "One day, Hannah went to the temple and sat down quietly. No one could see her lips moving, but she was praying. She was talking to God, telling Him exactly how she felt.", "\"Dear God,\" she whispered, \"if you give me a baby boy, I promise I will give him back to you. I will raise him to love you and serve you all his life.\"", "Hannah poured out her heart in prayer. She didn't ask anybody else to help her\u2014she asked God. She trusted that He could hear her and help her.", "A priest named Eli saw Hannah praying. Her face was peaceful, even though she had been crying. \"Go in peace,\" he said. \"I believe God will answer your prayer.\"", "And He did! God gave Hannah a baby boy named Samuel. Samuel grew up to be a great man of God, just like his mother had promised.", "Your prayers matter, little one. God listens to every word you say. When your heart is full of feelings, you can talk to God, just like Hannah did. As you drift to sleep, know that God hears you. Rest now in His love."],prayer:"Dear God, thank you for listening to my prayers. Help me talk to you every day. Amen.",takeaway:"God listens to our prayers and answers them in His own perfect way.",verse:"\"I prayed for this child, and the Lord has granted me what I asked of him.\" — 1 Samuel 1:27"},
+  {id:"the-garden-of-eden",title:"The Garden of Eden",sub:"A story about love",ref:"Genesis 2-3",cat:"Love",age:"9-12",dur:4,color:"#ec4899",emoji:"🌺",text:["In the beginning, God created a beautiful garden called Eden. It was the most perfect place anyone could imagine. Flowers bloomed in every color. Fruit trees grew tall with delicious fruit. A gentle river flowed through the garden.", "God created two people\u2014Adam and Eve\u2014and placed them in this perfect garden because He loved them so much.", "\"Take care of this beautiful garden,\" God said. \"Everything here is for you. Play here, explore here, be happy here.\" God loved them, and He wanted them to be joyful.", "Adam and Eve walked through the garden together, laughing and playing. The animals were friendly and gentle. There was no sickness, no sadness, no fear\u2014only love and happiness.", "Every day, God would walk in the garden with Adam and Eve. They would talk together like best friends. This is how much God loved them\u2014He wanted to spend time with them.", "You are loved that much too, little one. God made you because He loves you. He wants you to be happy and to know how much He cares about you. As you close your eyes, feel God's love all around you, as safe and beautiful as the Garden of Eden."],prayer:"Dear God, thank you for loving me so much. Help me feel your love as I sleep. Amen.",takeaway:"God created everything out of love, and His love for us is perfect and endless.",verse:""},
+  {id:"joseph-forgives-brothers",title:"Joseph Forgives His Brothers",sub:"A story about kindness",ref:"Genesis 45",cat:"Kindness",age:"9-12",dur:4,color:"#14b8a6",emoji:"🤗",text:["Joseph's brothers had been very mean to him. They were jealous of him, so they sold him to travelers who took him far away to Egypt. For many years, Joseph was alone and sad.", "But Joseph never stopped believing in God. He worked hard and was kind to everyone. God helped him, and soon Joseph became a very important man in Egypt.", "One day, Joseph's brothers came to Egypt looking for food. They didn't recognize Joseph\u2014he had grown up! But Joseph knew who they were.", "Joseph's heart was full of feelings. He could have been angry. He could have punished them. But Joseph remembered God's love.", "\"Don't be afraid,\" Joseph said to his brothers, tears running down his face. \"What you meant to hurt me, God used to help many people. I forgive you.\"", "Joseph hugged his brothers and gave them food. He invited them to live with him in Egypt. He was so kind to them.", "Joseph's brothers cried because they were so sorry, and Joseph's forgiveness felt like a warm blanket around their hearts."],prayer:"Dear God, help me forgive people who hurt me. Give me a kind and loving heart. Amen.",takeaway:"Forgiving others, even when they hurt us, fills our hearts with peace and love.",verse:"\"Do not be afraid. Am I in the place of God?\" — Genesis 50:19"},
+  {id:"miriams-song",title:"Miriam\'s Song",sub:"A story about hope",ref:"Exodus 15",cat:"Hope",age:"3-5",dur:3,color:"#eab308",emoji:"🎵",text:["The people had just crossed the Red Sea. They were safe! The soldiers couldn't chase them anymore. After so many years of being slaves, they were finally free!", "Everyone was happy and excited. The people danced and celebrated. Then a beautiful woman named Miriam had an idea.", "Miriam picked up a tambourine\u2014a drum with little bells on it. She started to sing and dance: \"Sing to the Lord! He is wonderful and mighty! He has saved us!\"", "All the women followed her, singing and dancing too. They danced and sang all around the camp. Their voices filled the air with joy and hope.", "Miriam's song wasn't just about being happy. It was about remembering God's amazing power. It was about celebrating freedom. It was about hope for a beautiful future ahead.", "The music was so lovely that everyone's hearts felt light. Even the children danced and clapped their hands. Everyone remembered that God had kept His promise. He had brought them to safety.", "When you're happy and grateful, you can sing and celebrate too, little one. You can dance and be joyful like Miriam and the other women. As you close your eyes, imagine happy music in your heart. Sweet dreams to you."],prayer:"Dear God, thank you for all the good things in my life. Help me be happy and hopeful. Amen.",takeaway:"Celebrating God's goodness fills our hearts with joy and hope.",verse:"\"Sing to the Lord, for he is highly exalted.\" — Exodus 15:21"},
+  {id:"nehemiah-builds-wall",title:"Nehemiah Builds the Wall",sub:"A story about courage",ref:"Nehemiah 2-6",cat:"Courage",age:"9-12",dur:4,color:"#f97316",emoji:"🧱",text:["Nehemiah loved Jerusalem very much. He heard that the city's walls were broken down, and the people felt sad and unsafe.", "Nehemiah prayed to God: \"Please help me rebuild these walls. Help the people feel safe again.\"", "God gave Nehemiah courage and a plan. Nehemiah asked the king if he could go to Jerusalem to rebuild the walls.", "When Nehemiah arrived, he saw the broken walls. Rocks were scattered everywhere. But instead of feeling discouraged, Nehemiah believed God would help him.", "He told all the people: \"Come, let's rebuild the wall together! God will help us, and we will work as a team.\"", "People came from everywhere to help. Some carried stones. Some mixed cement. Some built the walls. Everyone worked together, side by side.", "There were people who didn't want them to succeed. They tried to stop the work. But Nehemiah and the people didn't give up. They kept working, day after day, even when it was hard."],prayer:"Dear God, help me be brave and work hard like Nehemiah. Bless everyone who helps me. Amen.",takeaway:"With God's help and teamwork, we can accomplish great things.",verse:"\"The God of heaven will give us success.\" — Nehemiah 2:20"},
+  {id:"david-shepherd-boy",title:"David the Shepherd Boy",sub:"A story about peace",ref:"Psalm 23",cat:"Peace",age:"3-5",dur:3,color:"#22c55e",emoji:"🐏",text:["David was a young shepherd boy. Every day, he watched over his sheep, making sure they were safe and had everything they needed.", "David loved his job. He would sit on a quiet hillside, and all around him were his sheep, grazing on soft green grass. The sheep trusted David to take care of them.", "When the sheep felt scared or lost, David would gently call them and they would come running to him. His voice was kind and warm.", "At night, David would watch his sheep while they slept. If a wild animal came near, David was brave and chased it away. The sheep were safe because David was there.", "David thought about how God watched over him the same way he watched over his sheep. God was like a shepherd, and David was like a little lamb.", "David said: \"The Lord is my shepherd. I have everything I need. He leads me to green pastures and beside calm waters. When I'm scared, He comforts me. He makes sure I'm safe.\"", "When you have peace in your heart, you feel calm and safe, just like David's sheep felt safe with David. God is watching over you right now, taking care of you. You are His precious little lamb. Close your eyes and feel peaceful and protected."],prayer:"Dear God, be my shepherd tonight. Keep me safe and peaceful. Amen.",takeaway:"God cares for us and keeps us safe, just like a loving shepherd cares for his sheep.",verse:"\"The Lord is my shepherd, I shall not want.\" — Psalm 23:1"},
+  {id:"solomon-asks-wisdom",title:"Solomon Asks for Wisdom",sub:"A story about prayer",ref:"1 Kings 3:5-14",cat:"Prayer",age:"9-12",dur:4,color:"#8b5cf6",emoji:"📖",text:["Solomon was a young man, and his father had just died. Now Solomon was the king, and he had a very big job. He had to make decisions for all the people.", "Solomon felt worried. \"I'm not wise enough,\" he said. \"I'm still young. How can I be a good king?\"", "So Solomon prayed to God: \"Dear God, I need your help. I don't want to ask for money or power or a long life. I want to ask for wisdom. I want to understand right from wrong. I want to make good decisions for my people.\"", "God was very pleased with Solomon's prayer. God said: \"Because you asked for wisdom instead of other things, I will give you wisdom like no one else has ever had. You will be very wise. And because you were kind and unselfish in your prayer, I will also give you riches and honor.\"", "Solomon woke up happy. He had asked for the right thing. From that day on, Solomon was known as the wisest king in all the land. When people had hard problems, they came to Solomon, and his wise answers helped them.", "Solomon learned that when you ask God for help with the right things, He listens and blesses you. What you ask for in prayer shows what you really care about. As you drift to sleep, think about what matters most in your heart."],prayer:"Dear God, help me be wise and kind. Guide me to make good choices. Amen.",takeaway:"When we ask God for what truly matters, like wisdom and understanding, He listens and helps us.",verse:"\"Give your servant a discerning heart to govern your people.\" — 1 Kings 3:9"},
+  {id:"jesus-walks-on-water",title:"Jesus Walks on Water",sub:"A story about trust",ref:"Matthew 14:22-33",cat:"Trust",age:"6-8",dur:4,color:"#3b82f6",emoji:"🚶",text:["One evening, Jesus's friends, called disciples, were in a boat on a big lake. Jesus had gone up on a mountain to pray. When nighttime came, the wind began to blow very hard, and the water got choppy and scary. The disciples were trying so hard to row the boat, but they were getting tired and worried.", "Then something amazing happened. They saw someone walking toward them... walking on top of the water! At first, they were very scared. \"It's a ghost!\" they cried out. But then they heard a kind voice say, \"Don't be afraid. It's me, Jesus.\"", "Peter, one of Jesus's friends, was so happy to see Jesus that he said, \"Jesus, if that's really you, can I walk on the water too?\" Jesus said, \"Come on!\" So Peter stepped out of the boat and walked on the water toward Jesus. But then Peter looked at the big waves and got scared, and he started to sink. \"Jesus, help me!\" he cried. Right away, Jesus reached out and caught Peter, and they both got into the boat safely.", "As soon as Jesus was in the boat with them, something wonderful happened. The wind stopped blowing. The water became calm and peaceful. All of Jesus's friends were amazed. They said, \"Jesus, you really are God's son!\"", "Now, as you close your eyes tonight, remember that Jesus is always with you, just like he was with his friends in the boat. When things feel scary or hard, you can trust that Jesus is right there beside you, keeping you safe. Sweet dreams, little one."],prayer:"Dear Jesus, thank you for always being with me and keeping me safe. Help me trust you, even when I'm scared. As I sleep tonight, please watch over me and give me peaceful dreams. Amen.",takeaway:"When we trust Jesus, we don't need to be afraid, even when things seem scary.",verse:"\"Take courage! It is I. Don't be afraid.\" — Matthew 14:27"},
+  {id:"the-mustard-seed",title:"The Mustard Seed",sub:"A story about hope",ref:"Matthew 13:31-32",cat:"Hope",age:"3-5",dur:3,color:"#eab308",emoji:"🌱",text:["One day, Jesus sat down with a big group of people who wanted to learn from him. He told them a special story about a tiny, tiny seed.", "\"Listen,\" Jesus said in his gentle voice. \"God's kingdom is like a mustard seed. Do you know what a mustard seed is? It's the smallest seed of all the seeds. It's so tiny that you can barely see it in your hand!\"", "The people leaned in to listen. Jesus continued, \"A farmer took this teeny-tiny seed and planted it in his garden. It was so small, so small! But do you know what happened?\"", "The children listening wondered what could happen to something so small.", "\"That little seed grew and grew and grew!\" Jesus said with excitement in his voice. \"It became a big, big plant. It grew so large that the birds of the sky came and made their nests in its branches. From something so small came something so big and strong!\"", "Jesus wanted his friends to understand something very important. Even the smallest thing can become something wonderful and big. Even tiny hopes can grow into beautiful blessings.", "Now, as you snuggle into bed tonight, think about the little mustard seed. Maybe you have a small hope in your heart\u2014a wish or a dream. That little hope can grow and grow, just like the mustard seed. Trust that good things can come from small beginnings. Close your eyes and let your heart be full of hope. Sleep well, sweet child."],prayer:"Dear God, thank you for showing me that even small things can grow big and beautiful. Help me believe in my hopes and dreams, no matter how small they seem. Bless my sleep tonight with peaceful rest. Amen.",takeaway:"Small things, like tiny seeds and little hopes, can grow into something wonderful.",verse:"\"If you have faith as small as a mustard seed, you can say to this mountain, 'Move.'\" — Matthew 17:20"},
+  {id:"jesus-heals-the-blind-man",title:"Jesus Heals the Blind Man",sub:"A story about love",ref:"John 9:1-11",cat:"Love",age:"9-12",dur:4,color:"#ec4899",emoji:"👁️",text:["One sunny day, Jesus was walking through the streets of Jerusalem with his disciples. They saw a man sitting by the road. This man had been blind since he was born. He couldn't see the beautiful sky or the faces of people he loved. He couldn't see anything at all.", "When the man heard footsteps coming, he called out, \"Jesus! Jesus, is that you? Please help me!\"", "Jesus stopped and looked at the man with so much love in his eyes. Jesus loved this man even though he'd never met him before. Jesus's heart was full of kindness and care. He wanted to help.", "Jesus bent down and made some mud with dirt and his own spit. This might sound yucky, but it was full of love! Jesus put the mud gently on the man's eyes and said, \"Go wash in the pool of Siloam.\"", "The blind man trusted Jesus. He got up and walked to the pool, even though he couldn't see where he was going. And when he washed his eyes in the cool, clean water... something amazing happened! He could see! He could see the blue sky for the first time ever! He could see the trees and the people around him. Tears of joy ran down his face.", "The man ran back to find Jesus, so happy and grateful. \"I can see!\" he shouted. \"Jesus, I can see!\"", "As you drift off to sleep tonight, remember that Jesus loves you just like he loved that blind man. He sees you, he cares for you, and he wants you to be happy and well. You are loved so very much. Sweet dreams, my dear."],prayer:"Dear Jesus, thank you for loving me so much. Thank you for seeing me and caring about me. Help me feel your love as I sleep, and give me peaceful, happy dreams. Amen.",takeaway:"Jesus loves us and cares for us, even when we think nobody sees us.",verse:"\"I was blind but now I see!\" — John 9:25"},
+  {id:"the-sower-and-the-seeds",title:"The Sower and the Seeds",sub:"A story about hope",ref:"Matthew 13:1-23",cat:"Hope",age:"9-12",dur:4,color:"#eab308",emoji:"🌾",text:["Jesus loved to teach people using stories about nature. One day, he told his friends about a farmer who was sowing seeds.", "The farmer walked through his field with a big bag of seeds. He reached into his bag and threw seeds all around. Some seeds fell on the hard, rocky path. Right away, the birds came and ate those seeds up. Those seeds never had a chance to grow.", "Some seeds fell on rocky ground where there wasn't much soil. The seeds started to grow very fast, but because there wasn't enough good soil, the roots couldn't grow deep. When the hot sun came, the little plants got too hot and dried up. They didn't survive.", "Some seeds fell among the thorns and weeds. The seeds tried to grow, but the thorns and weeds grew bigger and stronger, choking out the little plants. They couldn't grow tall and strong.", "But some seeds\u2014oh, some beautiful seeds!\u2014fell on good, rich soil! Those seeds had everything they needed. Their roots grew deep into the good soil. They got plenty of water and sunshine. Those seeds grew and grew and grew! They became strong, healthy plants that made lots of beautiful fruit.", "Jesus was teaching us that we're like the soil in this story. When we open our hearts to God's love and truth, and when we listen and believe, wonderful things grow inside us. Hope grows. Love grows. Joy grows. Your heart is good soil, ready to grow all the beautiful things God wants to plant there.", "As you close your eyes tonight, imagine good seeds of hope and love growing in your heart. Sleep peacefully, knowing you are growing into something beautiful."],prayer:"Dear God, thank you for planting seeds of love and hope in my heart. Help my heart be good soil where your love can grow strong. Bless my sleep and help me grow into all the wonderful things you have planned for me. Amen.",takeaway:"When we open our hearts to God's love, beautiful things grow inside us.",verse:"\"Still other seed fell on good soil, where it produced a crop.\" — Matthew 13:8"},
+  {id:"mary-and-martha",title:"Mary and Martha",sub:"A story about peace",ref:"Luke 10:38-42",cat:"Peace",age:"9-12",dur:3,color:"#22c55e",emoji:"🏡",text:["Once upon a time, two sisters named Mary and Martha were getting ready for a special visitor. Can you guess who their visitor was? It was Jesus himself! He was coming to their house.", "Martha was very busy, very busy indeed. She was cooking and cleaning and getting everything ready. She was making sure the house looked perfect and the food was delicious. \"There's so much to do!\" Martha thought. She was rushing around, her mind spinning with all her tasks.", "But Mary did something different. When Jesus arrived, Mary sat down right at his feet. She wanted to listen to him. She wanted to hear everything he had to say. She was calm and peaceful, just enjoying being near Jesus.", "Martha got busier and busier. She kept running back and forth. Finally, she stopped and said to Jesus, \"Lord, don't you see that Mary isn't helping me? Please tell her to help me!\"", "But Jesus looked at Martha with kindness and said, \"Martha, Martha, you're worried and upset about so many things. But Mary has chosen what is better. She's chosen to sit with me and listen. That's more important than all the cooking and cleaning.\"", "Jesus was teaching Martha something very important: sometimes, the most important thing is to slow down and be peaceful. It's good to be helpful and work hard, but being with the people we love and taking time for what matters most is even better.", "As you snuggle into bed tonight, like Mary sitting peacefully at Jesus's feet, let yourself rest. You don't need to do anything or be busy right now. Just be still. Be peaceful. Just be. Sleep gently, little one."],prayer:"Dear Jesus, help me remember to slow down and find peace, just like Mary did. Thank you for showing me that rest is important. Help me sleep peacefully tonight without worries. Amen.",takeaway:"Sometimes, it's more important to be still and peaceful than to always be busy.",verse:"\"Mary has chosen what is better, and it will not be taken away from her.\" — Luke 10:42"},
+  {id:"the-ten-lepers",title:"The Ten Lepers",sub:"A story about prayer",ref:"Luke 17:11-19",cat:"Prayer",age:"6-8",dur:4,color:"#8b5cf6",emoji:"✋",text:["One day, as Jesus was walking to a village, he saw ten men standing far away. These men were very sad because they had a sickness that made their skin hurt. But here's the beautiful thing: they knew that Jesus could help them.", "The ten men called out to Jesus from where they were standing. They couldn't come close because of their sickness, but they called out with all their hearts. \"Jesus! Jesus, please help us! We believe you can heal us!\"", "Jesus heard them. He felt their faith, their belief, their hope. He said to them, \"Go and show yourselves to the priests.\" And as they went, walking together, something wonderful happened. Their skin got better! They were healed! All ten of them!", "But then something interesting happened. Nine of the men were so excited that they ran off to tell everyone they were healed. They were happy and relieved. But one man... one man stopped. He turned around and came back to find Jesus. He fell on his knees in front of Jesus and thanked him over and over again. \"Thank you, thank you, thank you!\" he said with joy.", "Jesus looked at this man with love and said, \"Weren't there ten men healed? Where are the other nine? Only you came back to say thank you.\"", "Jesus was teaching us something important about prayer. Prayer isn't just asking God for things. Prayer is also about talking to God with a grateful heart. It's about saying thank you. It's about telling God that we appreciate all the good things he does for us.", "As you lie in your warm, cozy bed tonight, remember to say thank you. Thank you for your family, your home, your food, your health. Thank you for all the little blessings. When we remember to be grateful, our hearts feel so full and peaceful. Sleep with a grateful heart, little one."],prayer:"Dear God, thank you for so many wonderful things in my life. Thank you for my family, my home, my friends, and all your love. Help me always remember to be grateful. Give me peaceful sleep tonight. Amen.",takeaway:"Prayer means saying thank you to God for all the blessings in our lives.",verse:"\"Were not all ten cleansed? Where are the other nine?\" — Luke 17:17"},
+  {id:"jesus-in-the-garden-of-gethsemane",title:"Jesus in the Garden of Gethsemane",sub:"A story about prayer",ref:"Matthew 26:36-46",cat:"Prayer",age:"9-12",dur:4,color:"#8b5cf6",emoji:"🫒",text:["One night, Jesus went to a beautiful garden called Gethsemane with his friends. It was a quiet place with olive trees and soft grass. Jesus knew that something very hard was going to happen soon, and his heart felt worried and sad.", "Jesus asked his friends to sit and wait for him. Then he walked a little way into the garden by himself. He knelt down on the ground, and he did something very important: he prayed.", "Jesus talked to God, his Father. He said, \"Father, if it's possible, please let this hard thing not happen to me. I don't want to face this.\" Jesus was honest with God about his feelings. He was scared and sad.", "But then Jesus said something beautiful: \"But even so, I want what you want, Father. I trust you.\"", "Jesus went back to his friends and found them sleeping. He gently woke them up. \"Couldn't you stay awake with me for even a little while?\" he asked. Then he went back to the garden to pray again. He prayed and prayed, talking to his Father about his feelings.", "When Jesus finished praying, something amazing happened. He felt stronger. He felt peaceful. Even though the hard thing was still going to happen, he knew God was with him. His prayer had given him courage and peace.", "Jesus showed us that when we feel scared or sad, prayer is the answer. We can tell God exactly how we feel. We can ask God for help. And when we pray, God gives us peace and strength, just like he gave Jesus."],prayer:"Dear God, thank you for listening to my prayers. When I feel scared or sad, help me remember to talk to you. Give me courage and peace, just like you gave Jesus. Watch over me as I sleep. Amen.",takeaway:"When we pray and talk to God about our feelings, he gives us peace and strength.",verse:"\"Not my will, but yours be done.\" — Luke 22:42"},
+  {id:"the-empty-tomb",title:"The Empty Tomb",sub:"A story about hope",ref:"Matthew 28:1-10",cat:"Hope",age:"6-8",dur:4,color:"#eab308",emoji:"✝️",text:["After Jesus had said goodbye to his friends on earth, his body was placed in a tomb\u2014a little room carved out of rock. Some of Jesus's friends were very, very sad. They loved Jesus so much, and they missed him terribly.", "But early in the morning, something amazing was about to happen. Two women\u2014Mary Magdalene and another Mary\u2014walked toward the tomb where Jesus was. They wanted to go and sit by the place where Jesus was resting.", "As they walked in the early dawn, the ground shook! An angel\u2014a bright, shining angel sent from heaven\u2014came down from the sky! The angel was so bright and glorious that the soldiers guarding the tomb fell down in fear.", "But the angel said, \"Don't be afraid! I have good news for you!\"", "The women looked at the tomb, and they saw something incredible. The big stone that covered the tomb was rolled away! The tomb was empty! Jesus wasn't there anymore!", "The angel said, \"Jesus is not here! He has risen! He's alive! Go and tell his friends that Jesus is alive and waiting for them!\"", "The women were amazed and joyful! They ran to find Jesus's friends and tell them the wonderful news. \"Jesus is alive!\" they shouted with happiness. \"He's alive! He's alive!\""],prayer:"Dear Jesus, thank you for coming back to life and showing us that love and hope always win. Help me always believe in hope, even when things are hard. Give me joyful, peaceful sleep tonight. Amen.",takeaway:"Hope and love are stronger than anything sad, and joy always wins.",verse:"\"He is not here; he has risen!\" — Luke 24:6"},
+  {id:"peter-walks-on-water",title:"Peter Walks on Water",sub:"A story about courage",ref:"Matthew 14:28-31",cat:"Courage",age:"6-8",dur:3,color:"#f97316",emoji:"🌊",text:["One night, Jesus's friends were in a boat on the lake. The wind was blowing hard, and the water was rough and scary. They were working hard to row the boat, when suddenly they saw someone walking toward them.", "But this person wasn't in a boat. This person was walking on top of the water! At first, they were very frightened. \"It's a ghost!\" they cried out.", "But then they heard a familiar, kind voice say, \"Don't be afraid. It's me, Jesus.\"", "Peter, one of Jesus's best friends, heard Jesus's voice and felt his courage grow. Peter said, \"Jesus, if that's really you, can I walk on the water with you?\"", "Jesus said, \"Come on!\"", "And Peter did something very brave. He stepped out of the safe boat and put his feet on the water. And you know what? He didn't sink! He walked on the water! He took one step, then another step, then another step, moving closer to Jesus.", "But then Peter looked at the big, scary waves, and fear filled his heart. When he got scared, he started to sink! \"Jesus, help me!\" he cried out."],prayer:"Dear Jesus, thank you for giving me courage. Help me be brave like Peter, even when I'm scared. Help me remember that you're always with me. Give me peaceful, restful sleep tonight. Amen.",takeaway:"Courage means believing in Jesus and taking brave steps, even when you're scared.",verse:"\"Lord, if it's you, tell me to come to you on the water.\" — Matthew 14:28"},
+  {id:"the-widows-offering",title:"The Widow\'s Offering",sub:"A story about kindness",ref:"Mark 12:41-44",cat:"Kindness",age:"6-8",dur:3,color:"#14b8a6",emoji:"💰",text:["One day, Jesus was sitting in the temple watching people give their money to help others. Many rich people came and gave lots and lots of money. They put big coins and handfuls of money into the offering box. Some of them even made sure everyone could see how much they were giving!", "But then a poor widow came. She was a lady who didn't have much money at all. She was dressed simply and walked quietly. In her hand, she held two tiny coins\u2014the tiniest coins in the whole world. They were worth almost nothing.", "But this dear widow did something so kind, so loving. She put both of her tiny coins into the offering box. That was all the money she had! It was everything.", "Jesus watched her do this, and his heart was so full of love for her. He called his friends over and said, \"Look at what this widow did. All these rich people gave money they didn't need. They gave from what they had left over. But this widow gave everything she had. She gave from her heart. She gave all she had to help others.\"", "Jesus was teaching his friends\u2014and teaching us\u2014that kindness isn't measured by how much money you have or how much you give. Real kindness comes from the heart. A little act of kindness, done with a loving heart, is worth more than anything.", "You don't need to be rich or big or powerful to be kind. Even small acts of kindness matter so much. A smile, a hug, helping someone, sharing what you have\u2014these are the kindnesses that make the world beautiful.", "As you drift off to sleep, think about all the kind things you can do tomorrow. You have so much kindness in your heart. Sleep knowing that your kindness makes a difference in this world."],prayer:"Dear God, thank you for showing me that kindness comes from the heart. Help me be kind to others, no matter how small my kindness might seem. Fill my heart with love and give me peaceful sleep. Amen.",takeaway:"Small acts of kindness done with love are the most precious things we can give.",verse:"\"This poor widow has put in more than all the others.\" — Luke 21:3"},
+  {id:"jesus-and-the-woman-at-the-well",title:"Jesus and the Woman at the Well",sub:"A story about love",ref:"John 4:1-26",cat:"Love",age:"9-12",dur:4,color:"#ec4899",emoji:"💧",text:["One hot, sunny day, Jesus was traveling with his friends. They were tired and thirsty from walking in the heat. Jesus told his friends to go into town to buy food, but he decided to rest by a well.", "A well is a deep hole in the ground where water comes from. It's very important in a hot place because everyone needs water to drink.", "While Jesus was sitting by the well, a woman came to get water. She came all alone at the hottest part of the day. Usually, women came to the well in the cool morning or evening with their friends. This woman came alone because many people in her town didn't want to be near her. She felt lonely and ashamed.", "But Jesus saw her. He really saw her. He didn't see someone to ignore. He saw someone to love.", "Jesus asked her, \"Could you give me a drink of water?\"", "The woman was surprised! A man\u2014especially a man like Jesus\u2014would usually not talk to her. But Jesus treated her with such kindness and respect. He spoke to her like she mattered. Like she was important.", "Jesus told her, \"I have something better than water to give you. I have living water that will fill your heart forever. I have love that never runs out.\""],prayer:"Dear Jesus, thank you for seeing me and loving me just as I am. Help me remember that I am loved and accepted. Give me sweet, peaceful dreams tonight. Amen.",takeaway:"Jesus sees us completely and loves us just the way we are.",verse:"\"Whoever drinks the water I give them will never thirst.\" — John 4:14"},
+  {id:"the-talents",title:"The Talents",sub:"A story about trust",ref:"Matthew 25:14-30",cat:"Trust",age:"9-12",dur:4,color:"#3b82f6",emoji:"💎",text:["Once upon a time, there was a rich man who was going on a long journey. Before he left, he called his three servants to come talk to him. The man wanted to give them something special to take care of while he was gone.", "He gave each servant some money called talents. To the first servant, he gave five talents. \"I trust you with these,\" he said. To the second servant, he gave two talents. \"Take care of these for me,\" he said. To the third servant, he gave one talent. \"Here is yours to watch over,\" he said.", "Then the rich man went away on his long journey.", "The first servant took his five talents and worked hard. He made smart choices with the money, and it grew and grew until he had ten talents! He was so proud and happy.", "The second servant took his two talents and worked hard too. He made good choices, and his two talents grew into four talents! He was happy as well.", "But the third servant was different. He was scared of losing his one talent. \"What if I make a mistake?\" he thought. \"What if I lose it?\" So he buried his talent in the ground where it would be safe. He didn't do anything with it. He just hid it.", "After a long time, the rich man came back. He asked to see what his servants had done."],prayer:"Dear God, thank you for giving me special gifts and talents. Help me trust in myself and use my gifts bravely. Help me let my talents grow. Give me restful, peaceful sleep. Amen.",takeaway:"God gives us gifts and talents, and he trusts us to use them and let them grow.",verse:"\"Well done, good and faithful servant!\" — Matthew 25:21"},
+  {id:"jesus-washes-the-disciples-feet",title:"Jesus Washes the Disciples\' Feet",sub:"A story about kindness",ref:"John 13:1-17",cat:"Kindness",age:"9-12",dur:4,color:"#14b8a6",emoji:"🫧",text:["One evening, Jesus was having a special meal with his twelve friends, his disciples. It was a very important meal that they all remember together. After they had eaten, Jesus did something that surprised everyone.", "Jesus got up from the table and took off his outer coat. Then he wrapped a towel around his waist like a servant would wear. He got a bowl of water and started washing his friends' feet!", "In those days, people wore sandals and walked on dusty roads, so their feet got very dirty. Usually, a servant would wash people's feet as a job. It wasn't considered a very important or fancy job. A great teacher like Jesus definitely wouldn't normally do this.", "But Jesus loved his friends so much that he didn't mind doing this humble work. He knelt down and gently washed each disciple's feet. He dried them carefully with the towel.", "When Jesus got to Peter, Peter was confused and embarrassed. \"Jesus, you're washing my feet? You're the teacher! I should be washing your feet, not the other way around!\"", "But Jesus said kindly, \"Peter, you don't understand now, but you will later. I'm showing you something important.\"", "After Jesus finished washing all their feet, he sat back down and said, \"Do you understand what I just did? You call me Teacher and Lord, and that's right. But if I, your teacher and lord, washed your feet, then you should wash each other's feet too. You should serve each other. You should be kind to each other.\""],prayer:"Dear Jesus, thank you for showing me that kindness means serving others with a loving heart. Help me be kind to everyone around me, especially those I love. Give me peaceful sleep and a kind heart. Amen.",takeaway:"True kindness means being willing to help others, even with small and humble tasks.",verse:"\"I have set you an example that you should do as I have done for you.\" — John 13:15"},
+  {id:"the-light-of-the-world",title:"The Light of the World",sub:"A story about peace",ref:"John 8:12",cat:"Peace",age:"3-5",dur:3,color:"#22c55e",emoji:"💡",text:["One day, Jesus was teaching a big group of people in the temple. There were so many people wanting to hear his words. Jesus looked at all the faces around him and said something beautiful: \"I am the light of the world. Whoever follows me will never walk in darkness. They will have the light of life.\"", "What did Jesus mean by this? Let's think about what light does.", "Imagine walking in a dark room. You can't see anything. You might bump into things or feel scared. But what happens when you turn on a light? Everything changes! You can see where you're going. You can see the beautiful things around you. You feel safe and peaceful.", "Jesus was saying that he is like that light. When we follow Jesus, when we believe in him and trust him, he lights up our whole lives. He helps us see what's real and good and true. He helps us know the way to go. He keeps us safe.", "When we're with Jesus\u2014when we believe in him and follow him\u2014we don't have to be scared of the darkness. We don't have to be confused or lonely. Jesus's light shines on us and shows us the way.", "But here's something even more beautiful: Jesus wants us to be lights too! He wants our love and kindness to shine so brightly that it lights up the whole world. Every kind thing you do, every smile you give, every time you help someone or show love\u2014that's you being a light in the world, just like Jesus.", "As you prepare for sleep tonight, imagine Jesus's peaceful light all around you. Feel safe in that light. Rest knowing that you are safe, guided, and loved. And as you sleep, know that tomorrow you can shine your own light of kindness and love into the world."],prayer:"Dear Jesus, thank you for being the light of my life. Help me feel safe in your light and peace. Help me shine your light into the world through my kindness. Give me restful, peaceful sleep tonight. Amen.",takeaway:"Jesus is the light that guides us, and we can shine his light through our love and kindness.",verse:"\"I am the light of the world. Whoever follows me will never walk in darkness.\" — John 8:12"},
+];
+
+// First 6 stories get touch elements and mascot reactions
+const STORIES = [
+  {id:"noahs-ark",title:"Noah's Ark",sub:"A promise in the rainbow",ref:"Genesis 6-9",cat:"Trust",age:"3-5",dur:8,color:"#3b82f6",emoji:"🌈",mascotReact:"Lumi splashes in a puddle! 💦",prayer:"Dear God, thank You for keeping us safe, just like You kept Noah safe. Help me trust You always. Amen.",takeaway:"God keeps His promises and protects those who trust Him.",verse:'"I have set my rainbow in the clouds." — Genesis 9:13',text:["Long ago, when the world had forgotten about God's love, there lived a kind man named Noah. Noah loved God with all his heart and tried to do what was right every single day.","One day, God spoke to Noah and said, \"I want you to build a big, big boat called an ark.\" Noah had never built a boat before, but he trusted God completely.","Noah and his family worked day after day, hammering and sawing, building the enormous ark just as God had told them. Their neighbors laughed and said, \"Why are you building a boat on dry land?\" But Noah kept working because he trusted God's plan.","When the ark was finished, God sent animals of every kind — two by two they came! Big elephants and tiny mice, tall giraffes and round little hedgehogs. Noah welcomed them all aboard.","Then the rain began to fall. It rained and rained for forty days and forty nights. But inside the ark, Noah, his family, and all the animals were safe and warm.","When the rain finally stopped, Noah sent out a dove. The dove came back with an olive branch — land was near! As they stepped off the ark, God painted the most beautiful rainbow across the sky.","\"This rainbow is my promise,\" God said. \"I will always take care of you.\" And every time you see a rainbow, remember — God keeps His promises."],touchElements:[{emoji:"🌧️",x:75,y:15,tap:"Pitter patter! The rain is falling!"},{emoji:"🕊️",x:20,y:25,tap:"The dove found an olive branch!"},{emoji:"🌈",x:50,y:8,tap:"God's beautiful promise!"}]},
+  {id:"david-goliath",title:"David & Goliath",sub:"Courage from within",ref:"1 Samuel 17",cat:"Courage",age:"6-8",dur:10,color:"#f97316",emoji:"⚔️",mascotReact:"Lumi flexes tiny muscles! 💪",prayer:"Dear God, when I feel small or scared, remind me that You are with me and I can be brave. Amen.",takeaway:"With God's help, even the smallest person can overcome the biggest challenges.",verse:'"The Lord who rescued me will rescue me." — 1 Samuel 17:37',text:["In a green valley between two hills, two armies faced each other. The army of Israel was on one side, and the Philistines on the other. Every day, a giant named Goliath would stomp out and shout, \"Send someone to fight me!\"","All the soldiers were terrified. Nobody wanted to face the giant. Then along came David — a young shepherd boy who had come to bring lunch to his brothers.","David wasn't a soldier. He didn't wear armor or carry a sword. But David had something the soldiers didn't — he trusted God completely.","\"I'll fight the giant,\" David said. Everyone laughed. \"You're just a boy!\" But David remembered all the times God had helped him protect his sheep.","With just five smooth stones and his sling, David walked toward the giant. \"You come with a sword, but I come in the name of the Lord!\"","David placed a stone in his sling, swung it around, and let it fly. The stone struck Goliath right on his forehead, and the mighty giant fell to the ground with a tremendous crash.","That day, everyone learned that it doesn't matter how small you are — with God on your side, you can face any giant."],touchElements:[{emoji:"🪨",x:30,y:20,tap:"Five smooth stones from the stream!"},{emoji:"🛡️",x:70,y:18,tap:"Goliath's giant shield clangs!"},{emoji:"⭐",x:50,y:10,tap:"God's power shines bright!"}]},
+  {id:"good-samaritan",title:"The Good Samaritan",sub:"Love your neighbor",ref:"Luke 10:25-37",cat:"Kindness",age:"6-8",dur:7,color:"#14b8a6",emoji:"💝",mascotReact:"Lumi gives a warm hug! 🤗",prayer:"Dear God, help me see when people need help and give me a kind heart to help them. Amen.",takeaway:"Being kind means helping everyone, even those who are different from us.",verse:'"Love your neighbor as yourself." — Luke 10:27',text:["One day, someone asked Jesus, \"Who is my neighbor?\" Jesus answered with a story.","A man was walking down a lonely road when robbers attacked him. They took everything he had and left him hurt and alone by the side of the road.","Soon, an important man came walking by. He saw the hurt man, but he crossed to the other side of the road and kept walking. Then another important man came along — and he also walked right past.","Finally, a Samaritan came along. Now, Samaritans and the hurt man's people didn't usually get along. But when the Samaritan saw the hurt man, his heart filled with compassion.","He knelt down beside the man, carefully cleaned his wounds, and bandaged them. Then he lifted the man onto his own donkey and took him to an inn.","He even paid the innkeeper to take care of the man until he was better.","\"Which one was a true neighbor?\" Jesus asked. \"The one who showed kindness,\" came the answer. \"Go and do the same,\" Jesus said with a smile."],touchElements:[{emoji:"❤️",x:50,y:15,tap:"A heart full of compassion!"},{emoji:"🩹",x:25,y:22,tap:"Gently bandaging the wounds"},{emoji:"🫏",x:72,y:20,tap:"The donkey clip-clops along!"}]},
+  {id:"daniel-lions",title:"Daniel & the Lions",sub:"Faith conquers fear",ref:"Daniel 6",cat:"Courage",age:"6-8",dur:9,color:"#eab308",emoji:"🦁",mascotReact:"Lumi roars softly! Rawr! 🦁",prayer:"Dear God, give me courage like Daniel. Help me to always be faithful to You. Amen.",takeaway:"When we stay faithful to God, He protects us even in scary situations.",verse:'"My God sent his angel and shut the lions\' mouths." — Daniel 6:22',text:["Daniel was a man who loved God with all his heart. Three times every day, he would open his window and pray, thanking God for His goodness.","Daniel was so wise and honest that the king made him one of the most important people in the whole kingdom. This made some other men very jealous.","These jealous men convinced the king to make a new law: \"For thirty days, everyone must pray only to the king. Anyone who prays to anyone else will be thrown into the den of lions!\"","When Daniel heard about the new law, do you know what he did? He went straight to his window, knelt down, and prayed to God — just like he always did.","The jealous men caught Daniel praying and told the king. The king was very sad, but the law was the law. Daniel was thrown into the pit of hungry lions.","But God sent an angel to close the lions' mouths! All night long, Daniel sat safely among the lions. They were as gentle as kittens.","In the morning, the king rushed to the den. \"Daniel! Did your God save you?\" \"Yes!\" Daniel called back. \"God sent His angel to protect me!\""],touchElements:[{emoji:"😺",x:35,y:20,tap:"The lion purrs like a kitten!"},{emoji:"👼",x:65,y:12,tap:"An angel watches over Daniel!"},{emoji:"🙏",x:50,y:25,tap:"Daniel prays faithfully"}]},
+  {id:"creation",title:"Creation",sub:"God made everything beautiful",ref:"Genesis 1-2",cat:"Hope",age:"3-5",dur:8,color:"#22c55e",emoji:"🌍",mascotReact:"Lumi gazes at the stars! ✨",prayer:"Dear God, thank You for making this beautiful world. Help me take care of it. Amen.",takeaway:"God created the whole world with love, and He made you special too.",verse:'"God saw all that he had made, and it was very good." — Genesis 1:31',text:["In the very beginning, before there was anything at all, God spoke — and amazing things began to happen.","On the first day, God said, \"Let there be light!\" And warm, golden light appeared, pushing away the darkness.","On the second day, God made the beautiful blue sky, stretching it high above like a big, soft blanket. On the third day, dry land appeared with green grass, colorful flowers, and tall trees.","On the fourth day, God placed the bright sun in the sky for daytime, the gentle moon for nighttime, and scattered millions of twinkling stars across the heavens.","On the fifth day, God filled the oceans with fish of every color and the sky with birds that could sing the most beautiful songs.","On the sixth day, God made all the animals — bouncy rabbits, cuddly bears, spotted giraffes! And then, the most special creation of all — God made people, in His own image.","On the seventh day, God looked at everything He had made and smiled. It was all very good. Every sunrise, every flower, every star — they're all God's gifts to you."],touchElements:[{emoji:"☀️",x:70,y:10,tap:"The sun shines warm and bright!"},{emoji:"🌸",x:25,y:22,tap:"Beautiful flowers bloom!"},{emoji:"🐦",x:55,y:15,tap:"A little bird sings a song!"}]},
+  {id:"jesus-storm",title:"Jesus Calms the Storm",sub:"Peace in the chaos",ref:"Mark 4:35-41",cat:"Peace",age:"3-5",dur:7,color:"#6366f1",emoji:"⛵",mascotReact:"Lumi feels so peaceful! 😌",prayer:"Dear God, when life feels stormy, help me remember that You are always with me. Amen.",takeaway:"Jesus has power over everything, and we can find peace in Him.",verse:'"Peace, be still." — Mark 4:39',text:["One evening, after a long day of teaching, Jesus said to His friends, \"Let's go to the other side of the lake.\" So they all climbed into a little boat and set off.","Jesus was so tired that He fell asleep on a cushion at the back of the boat. The gentle rocking of the waves was like a lullaby.","But suddenly, a great storm came! The wind howled and the waves crashed against the boat. Water splashed over the sides!","The friends were very scared. \"We're going to sink!\" they cried. They shook Jesus awake. \"Teacher! Don't you care that we're about to drown?!\"","Jesus stood up calmly. He looked at the wild wind and the crashing waves. Then He spoke in a strong, gentle voice: \"Peace, be still.\"","And just like that — everything stopped. The wind became quiet. The waves became smooth as glass. The storm was completely gone.","Whenever you feel scared or worried, remember — Jesus is with you, and He can calm any storm."],touchElements:[{emoji:"🌊",x:30,y:20,tap:"The waves become calm and still!"},{emoji:"💨",x:65,y:12,tap:"Whoosh! The wind dies down"},{emoji:"✨",x:50,y:18,tap:"Peace fills the air"}]}
+];
+
+// Add stories 7-50 from the extra data (without touchElements)
+STORIES.push(...STORIES_EXTRA.slice(6));
+
+const CATS=[
+  {n:"Trust",i:"🤲",bg:"linear-gradient(135deg,#3b82f6,#06b6d4)"},
+  {n:"Courage",i:"🛡️",bg:"linear-gradient(135deg,#f97316,#ef4444)"},
+  {n:"Peace",i:"🍃",bg:"linear-gradient(135deg,#22c55e,#10b981)"},
+  {n:"Love",i:"❤️",bg:"linear-gradient(135deg,#ec4899,#f43f5e)"},
+  {n:"Hope",i:"☀️",bg:"linear-gradient(135deg,#eab308,#f97316)"},
+  {n:"Prayer",i:"🙏",bg:"linear-gradient(135deg,#8b5cf6,#6366f1)"},
+  {n:"Kindness",i:"😊",bg:"linear-gradient(135deg,#14b8a6,#22c55e)"},
+];
+
+const BADGES=[
+  {id:"first-story",name:"First Light",icon:"⭐",desc:"Read your first story"},
+  {id:"bookworm",name:"Bookworm",icon:"📚",desc:"Read 5 stories"},
+  {id:"explorer",name:"Explorer",icon:"🗺️",desc:"Read 10 stories"},
+  {id:"3-day",name:"Getting Started",icon:"🔥",desc:"3-day streak"},
+  {id:"week",name:"Week Warrior",icon:"⚡",desc:"7-day streak"},
+  {id:"faithful",name:"Faithful",icon:"✨",desc:"14-day streak"},
+  {id:"scholar",name:"Scholar",icon:"🎓",desc:"Read 25 stories"},
+  {id:"champion",name:"Champion",icon:"🏆",desc:"30-day streak"},
+  {id:"master",name:"Master",icon:"👑",desc:"Read all 50"},
+];
+
+const QS={
+  Trust:["What does it mean to trust God?","Can you think of a time you had to trust someone?","How did the person in the story show trust?"],
+  Courage:["What made the person brave?","When were you really brave?","How can God help when we feel scared?"],
+  Peace:["What makes you feel peaceful?","How did God bring peace?","What can you do when you feel worried?"],
+  Love:["How did people show love?","How do you show love to family?","How does God show us His love?"],
+  Hope:["What does hope mean to you?","How did hope help in this story?","What makes you hopeful about tomorrow?"],
+  Prayer:["What's your favorite thing to pray about?","How did prayer help?","When do you like to talk to God?"],
+  Kindness:["How was kindness shown?","What's the nicest thing someone did for you?","How can you be kind tomorrow?"],
+};
+
+const AFFIRM=["I am loved by God","I am brave and strong","God is always with me","I am kind and good","Tomorrow is a new adventure"];
+
+const COLLECTIBLES=[
+  {id:"rainbow",name:"Rainbow",emoji:"🌈",story:"noahs-ark"},
+  {id:"sling",name:"Sling",emoji:"🪨",story:"david-goliath"},
+  {id:"heart",name:"Kind Heart",emoji:"💝",story:"good-samaritan"},
+  {id:"lion",name:"Gentle Lion",emoji:"🦁",story:"daniel-lions"},
+  {id:"flower",name:"First Flower",emoji:"🌸",story:"creation"},
+  {id:"boat",name:"Little Boat",emoji:"⛵",story:"jesus-storm"},
+];
+
+/* ━━━━━━━━━━━━━━━ COMPONENTS ━━━━━━━━━━━━━━━ */
+
+// Starry sky
+function Sky(){
+  const [s]=useState(()=>Array.from({length:50},(_,i)=>({i,x:Math.random()*100,y:Math.random()*100,sz:Math.random()*2.5+.5,d:Math.random()*4,dur:Math.random()*2+1.5})));
+  return <div className="absolute inset-0 overflow-hidden" style={{background:"linear-gradient(180deg,#070714 0%,#0d0b1e 40%,#151030 100%)"}}>
+    <div className="absolute top-16 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full opacity-15" style={{background:"radial-gradient(ellipse,#6366f1,transparent 70%)"}}/>
+    {s.map(v=><div key={v.i} className="absolute rounded-full bg-white" style={{left:`${v.x}%`,top:`${v.y}%`,width:v.sz,height:v.sz,animation:`twinkle ${v.dur}s ease-in-out ${v.d}s infinite alternate`}}/>)}
+  </div>;
+}
+
+// Mascot - Lumi the firefly
+function Lumi({message,size=40}){
+  const [vis,setVis]=useState(false);
+  useEffect(()=>{if(message)setVis(true);const t=setTimeout(()=>setVis(false),3000);return()=>clearTimeout(t);},[message]);
+  return <div className="relative inline-flex items-center" style={{animation:"float 3s ease-in-out infinite"}}>
+    <div style={{fontSize:size,animation:"glow 2s ease-in-out infinite",filter:"drop-shadow(0 0 8px rgba(250,204,21,.4))"}}>✨</div>
+    {vis&&message&&<div className="absolute left-full ml-2 whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-bold text-white" style={{background:"rgba(99,102,241,.85)",animation:"popIn .3s ease-out both",backdropFilter:"blur(8px)"}}>{message}</div>}
+  </div>;
+}
+
+// Confetti burst
+function Confetti(){
+  const items=Array.from({length:20},(_,i)=>({i,x:Math.random()*100,rot:Math.random()*720-360,color:["#facc15","#818cf8","#f472b6","#22d3ee","#fb923c"][i%5],delay:Math.random()*.4,size:Math.random()*6+4}));
+  return <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
+    {items.map(c=><div key={c.i} className="absolute" style={{left:`${c.x}%`,top:-10,width:c.size,height:c.size*1.5,background:c.color,borderRadius:2,["--rot"]:c.rot+"deg",animation:`confettiFall 1.5s ease-in ${c.delay}s both`}}/>)}
+  </div>;
+}
+
+// Celebration overlay
+function Celebration({collectible,onDone}){
+  useEffect(()=>{const t=setTimeout(onDone,3200);return()=>clearTimeout(t);},[]);
+  return <div className="fixed inset-0 z-50 flex items-center justify-center" style={{background:"rgba(0,0,0,.6)",backdropFilter:"blur(6px)"}}>
+    <Confetti/>
+    <div className="text-center" style={{animation:"popIn .5s cubic-bezier(.34,1.56,.64,1) both"}}>
+      <div className="text-7xl mb-4" style={{animation:"bounce 1s ease-in-out infinite"}}>✅</div>
+      <p className="text-white text-2xl font-bold mb-2">Story Complete!</p>
+      <p className="text-yellow-400 font-bold mb-1">+1 Sleep Star ⭐</p>
+      {collectible&&<div className="mt-4 px-5 py-3 rounded-2xl inline-flex items-center gap-2" style={{background:"rgba(99,102,241,.2)",animation:"popIn .4s ease-out .5s both"}}>
+        <span className="text-2xl">{collectible.emoji}</span>
+        <div className="text-left"><p className="text-white text-xs font-bold">New Collectible!</p><p className="text-indigo-300 text-xs">{collectible.name}</p></div>
+      </div>}
+    </div>
+  </div>;
+}
+
+// Touch interaction bubble
+function TouchBubble({text,x,y,onDone}){
+  useEffect(()=>{const t=setTimeout(onDone,2000);return()=>clearTimeout(t);},[]);
+  return <div className="absolute z-30 pointer-events-none" style={{left:`${x}%`,top:`${y}%`,transform:"translate(-50%,-100%)",animation:"popIn .3s ease-out both"}}>
+    <div className="px-3 py-1.5 rounded-full text-xs font-bold text-white whitespace-nowrap" style={{background:"rgba(99,102,241,.9)",boxShadow:"0 4px 20px rgba(99,102,241,.4)"}}>{text}</div>
+  </div>;
+}
+
+// Audio player with read-along - FIXED with ref for stale closure bug
+function Player({story,bed,onFinish}){
+  const [playing,setPlaying]=useState(false);
+  const [prog,setProg]=useState(0);
+  const [time,setTime]=useState(0);
+  const [paraIdx,setParaIdx]=useState(0);
+  const ivRef=useRef(null);
+  const timeRef=useRef(0);
+  const total=story.dur*60;
+  const parasPerSec=story.text.length/total;
+
+  useEffect(()=>{
+    if(playing){
+      ivRef.current=setInterval(()=>{
+        timeRef.current+=1;
+        const n=timeRef.current;
+        setTime(n);
+        setProg(n/total);
+        setParaIdx(Math.min(Math.floor(n*parasPerSec),story.text.length-1));
+        if(n>=total){clearInterval(ivRef.current);setPlaying(false);onFinish?.();}
+      },1000);
+    }else{
+      if(ivRef.current) clearInterval(ivRef.current);
+    }
+    return()=>{if(ivRef.current) clearInterval(ivRef.current);};
+  },[playing]);
+
+  const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+  const bars=Array.from({length:36},(_,i)=>({i,h:Math.random()*20+4}));
+
+  return <div className={`rounded-2xl p-4 ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+    <div className="flex items-center gap-3 mb-3">
+      <button onClick={()=>setPlaying(!playing)} className="w-14 h-14 rounded-full flex items-center justify-center text-white shrink-0 active:scale-90 transition-transform" style={{background:`linear-gradient(135deg,${story.color},#7c3aed)`,boxShadow:`0 4px 20px ${story.color}44`}}>
+        <span style={{fontSize:20,marginLeft:playing?0:3}}>{playing?"⏸":"▶"}</span>
+      </button>
+      <div className="flex-1 min-w-0">
+        <p className={`text-xs font-bold mb-1 ${bed?"text-white/60":"text-gray-500"}`}>{playing?"Now playing...":"Tap to listen"}</p>
+        <div className="flex items-end gap-[2px] h-7 mb-1.5">
+          {bars.map(b=><div key={b.i} className="flex-1 rounded-full transition-all" style={{
+            background:b.i/36<=prog?(bed?"#818cf8":"#6366f1"):(bed?"rgba(255,255,255,.06)":"#e5e7eb"),
+            height:playing?undefined:Math.max(3,b.h*(prog||.05)),
+            ["--h"]:b.h+"px",
+            animation:playing?`wave ${.3+Math.random()*.4}s ease-in-out ${Math.random()*.3}s infinite alternate`:undefined,
+          }}/>)}
+        </div>
+        <div className="flex justify-between">
+          <span className={`text-xs font-medium ${bed?"text-gray-600":"text-gray-400"}`}>{fmt(time)}</span>
+          <span className={`text-xs font-medium ${bed?"text-gray-600":"text-gray-400"}`}>{fmt(total)}</span>
+        </div>
+      </div>
+    </div>
+    <div className={`h-1.5 rounded-full cursor-pointer ${bed?"bg-white/[.06]":"bg-gray-200"}`}
+      onClick={e=>{const r=e.currentTarget.getBoundingClientRect();const p=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));setProg(p);timeRef.current=Math.floor(p*total);setTime(timeRef.current);setParaIdx(Math.min(Math.floor(p*total*parasPerSec),story.text.length-1));}}>
+      <div className="h-full rounded-full relative" style={{width:`${prog*100}%`,background:`linear-gradient(90deg,${story.color},#7c3aed)`,transition:"width .3s"}}>
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white shadow-md" style={{display:prog>0?"block":"none"}}/>
+      </div>
+    </div>
+    {playing&&<p className={`text-xs mt-2 ${bed?"text-indigo-400":"text-indigo-600"}`}>📖 Following along: paragraph {paraIdx+1} of {story.text.length}</p>}
+  </div>;
+}
+
+/* ━━━━━━━━━━━━━━━ SCREENS ━━━━━━━━━━━━━━━ */
+
+// Onboarding
+function Onboarding({onDone}){
+  const [pg,setPg]=useState(0);
+  const [name,setName]=useState("");
+  const [age,setAge]=useState(null);
+  const [v,setV]=useState(false);
+  useEffect(()=>{setTimeout(()=>setV(true),300)},[]);
+
+  const P=({children})=><div className="flex-1 flex flex-col items-center justify-center px-8 fadeUp">{children}</div>;
+
+  return <div className="h-full relative overflow-hidden flex flex-col" style={{background:"linear-gradient(180deg,#070714,#0d0b1e 50%,#151030)"}}>
+    <Sky/>
+    <div className="relative z-10 flex-1 flex flex-col">
+      {pg===0&&<P>
+        <div className="relative mb-6"><Lumi size={56} message="Hi there!"/></div>
+        <div className="mb-6" style={{transition:"all .8s cubic-bezier(.34,1.56,.64,1)",transform:`scale(${v?1:.2})`,opacity:v?1:0}}>
+          <span style={{fontSize:80}}>🌙</span>
+        </div>
+        <h1 className="text-4xl font-bold text-white mb-1">Little Lights</h1>
+        <p className="text-2xl font-bold mb-2" style={{color:"#818cf8"}}>Bible Bedtime</p>
+        <p className="text-white/40 text-sm mb-10 text-center leading-relaxed">Beautiful Bible stories to help<br/>your little one drift off to sleep</p>
+        <button onClick={()=>setPg(1)} className="w-full py-4 rounded-2xl font-bold text-white text-lg active:scale-95 transition-transform" style={{background:"linear-gradient(135deg,#4f46e5,#7c3aed)",boxShadow:"0 4px 24px rgba(99,102,241,.4)"}}>Get Started</button>
+      </P>}
+
+      {pg===1&&<P>
+        <Lumi size={36} message="What's your name?"/>
+        <h2 className="text-2xl font-bold text-white mb-8 mt-4">Who's listening tonight?</h2>
+        <div className="w-full mb-5">
+          <label className="text-white/30 text-xs font-bold mb-2 block tracking-widest">CHILD'S NAME</label>
+          <input value={name} onChange={e=>setName(e.target.value)} placeholder="Enter name" className="w-full p-4 rounded-2xl bg-white/[.06] border border-white/10 text-white text-lg outline-none focus:border-indigo-400 transition-colors"/>
+        </div>
+        <div className="w-full mb-8">
+          <label className="text-white/30 text-xs font-bold mb-3 block tracking-widest">AGE GROUP</label>
+          <div className="flex gap-3">{[{l:"3-5",e:"👶",sub:"Toddler"},{l:"6-8",e:"🧒",sub:"Child"},{l:"9-12",e:"📖",sub:"Preteen"}].map(a=>
+            <button key={a.l} onClick={()=>setAge(a.l)} className={`flex-1 py-4 rounded-2xl font-bold text-sm border-2 transition-all active:scale-95`} style={{background:age===a.l?"rgba(99,102,241,.25)":"rgba(255,255,255,.03)",borderColor:age===a.l?"#6366f1":"rgba(255,255,255,.08)",color:age===a.l?"white":"rgba(255,255,255,.5)"}}>
+              <div className="text-2xl mb-1">{a.e}</div><div>{a.l}</div><div className="text-xs opacity-50 mt-0.5">{a.sub}</div>
+            </button>
+          )}</div>
+        </div>
+        <button onClick={()=>setPg(2)} className="w-full py-4 rounded-2xl font-bold text-white text-lg active:scale-95 transition-transform" style={{background:"linear-gradient(135deg,#4f46e5,#7c3aed)",boxShadow:"0 4px 24px rgba(99,102,241,.4)"}}>Continue</button>
+      </P>}
+
+      {pg===2&&<P>
+        <Lumi size={44} message="Let's go!"/>
+        <div className="text-5xl mb-4 mt-4">✨</div>
+        <h2 className="text-3xl font-bold text-white mb-6">You're all set!</h2>
+        <div className="w-full space-y-4 mb-10">{[["📖","50 Bible stories with audio narration"],["🌙","Bedtime routine with sleep timer"],["🌬️","Guided breathing for peaceful sleep"],["✨","Meet Lumi, your bedtime friend"],["⭐","Collect items & earn badges"],["❤️","100% free — always"]].map(([ic,tx])=>
+          <div key={tx} className="flex items-center gap-4 fadeUp"><span className="text-2xl">{ic}</span><span className="text-white/70 text-sm">{tx}</span></div>
+        )}</div>
+        <button onClick={()=>onDone(name)} className="w-full py-4 rounded-2xl font-bold text-white text-lg active:scale-95 transition-transform" style={{background:"linear-gradient(135deg,#4f46e5,#7c3aed)",boxShadow:"0 4px 24px rgba(99,102,241,.4)"}}>Start Exploring →</button>
+      </P>}
+    </div>
+    <div className="relative z-10 flex justify-center gap-2 pb-10">{[0,1,2].map(i=><div key={i} className={`h-2 rounded-full transition-all duration-300 ${i===pg?"w-6 bg-white":"w-2 bg-white/15"}`}/>)}</div>
+  </div>;
+}
+
+// Breathing Exercise
+function Breathing({onBack}){
+  const [phase,setPhase]=useState("ready");
+  const [cyc,setCyc]=useState(0);
+  const [label,setLabel]=useState("Get Cozy");
+  const [emoji,setEmoji]=useState("🌙");
+  const [scale,setScale]=useState(.5);
+  const t=useRef([]);
+  const clr=()=>t.current.forEach(clearTimeout);
+
+  const run=(c)=>{
+    if(c>=4){setPhase("done");setLabel("All Done!");setEmoji("⭐");setScale(.7);return;}
+    setPhase("inhale");setLabel("Smell the flowers");setEmoji("🌸");setScale(1);
+    t.current.push(setTimeout(()=>{setPhase("hold");setLabel("Hold it gently");setEmoji("✨");},4000));
+    t.current.push(setTimeout(()=>{setPhase("exhale");setLabel("Blow out the candles");setEmoji("🕯️");setScale(.5);},8000));
+    t.current.push(setTimeout(()=>{setCyc(c+1);setPhase("rest");setLabel("Rest");setEmoji("🌙");},12000));
+    t.current.push(setTimeout(()=>run(c+1),14000));
+  };
+  useEffect(()=>()=>clr(),[]);
+
+  return <div className="h-full flex flex-col" style={{background:"linear-gradient(180deg,#070714,#151030)"}}>
+    <div className="flex items-center px-4 py-3"><button onClick={()=>{clr();onBack();}} className="text-white/40 text-sm active:text-white">← Back</button><p className="flex-1 text-center text-white font-bold">Breathing Exercise</p><div className="w-12"/></div>
+    <p className="text-center text-white/30 text-sm">Let's calm our body and mind</p>
+    <div className="flex-1 flex flex-col items-center justify-center">
+      <Lumi size={28} message={phase==="inhale"?"Breathe in...":phase==="exhale"?"Breathe out...":null}/>
+      <div className="rounded-full flex flex-col items-center justify-center mt-6" style={{width:200,height:200,background:"radial-gradient(circle,rgba(129,140,248,.4),rgba(129,140,248,.08))",transform:`scale(${scale})`,transition:"transform 4s ease-in-out",boxShadow:`0 0 ${scale*80}px rgba(129,140,248,${scale*.35})`}}>
+        <span style={{fontSize:44}}>{emoji}</span>
+        <span className="text-white font-bold text-sm mt-2">{label}</span>
+      </div>
+      <div className="flex gap-3 mt-8 mb-2">{[0,1,2,3].map(i=><div key={i} className={`w-3 h-3 rounded-full transition-colors duration-500 ${i<cyc?"bg-indigo-400":"bg-indigo-400/15"}`}/>)}</div>
+      <p className="text-white/25 text-xs">Breath {Math.min(cyc+1,4)} of 4</p>
+    </div>
+    <div className="p-6">
+      {phase==="ready"&&<button onClick={()=>run(0)} className="w-full py-4 rounded-2xl font-bold text-white active:scale-95 transition-transform" style={{background:"linear-gradient(135deg,#4f46e5,#7c3aed)",boxShadow:"0 4px 24px rgba(99,102,241,.4)"}}>🌬️ Begin</button>}
+      {phase==="done"&&<div className="text-center"><p className="text-white font-bold text-lg mb-1">Sweet dreams ahead</p><p className="text-white/30 text-sm mb-4">Your body is calm and ready for sleep</p><button onClick={onBack} className="w-full py-4 rounded-2xl font-bold text-white active:scale-95 transition-transform" style={{background:"linear-gradient(135deg,#4f46e5,#7c3aed)"}}>📖 Continue</button></div>}
+      {!["ready","done"].includes(phase)&&<button onClick={()=>{clr();setPhase("ready");setLabel("Get Cozy");setEmoji("🌙");setCyc(0);setScale(.5);}} className="w-full text-center text-white/20 text-sm py-2">Stop</button>}
+    </div>
+  </div>;
+}
+
+// Affirmations
+function Affirm({onClose}){
+  const items=AFFIRM.slice(0,3);
+  const [idx,setIdx]=useState(0);
+  const [op,setOp]=useState(1);
+  const [done,setDone]=useState(false);
+  const go=()=>{setOp(0);setTimeout(()=>{if(idx<items.length-1){setIdx(idx+1);setOp(1);}else{setDone(true);setOp(1);}},400);};
+  return <div className="h-full flex flex-col items-center justify-center px-8" style={{background:"#070714"}}>
+    <Lumi size={32} message={!done?items[idx]:null}/>
+    <div className="mb-8 mt-4" style={{filter:"drop-shadow(0 0 40px rgba(250,204,21,.2))"}}>
+      <span style={{fontSize:56,animation:"glow 2s ease-in-out infinite"}}>⭐</span>
+    </div>
+    {!done?<>
+      <p className="text-3xl font-bold text-white text-center mb-10" style={{transition:"opacity .4s",opacity:op}}>{items[idx]}</p>
+      <div className="flex gap-3 mb-10">{items.map((_,i)=><div key={i} className={`w-2.5 h-2.5 rounded-full transition-colors ${i<=idx?"bg-yellow-400":"bg-white/10"}`}/>)}</div>
+      <button onClick={go} className="text-white/30 font-bold text-lg active:text-white/60">Next →</button>
+    </>:<>
+      <p className="text-2xl text-white/25 mb-6">Sweet Dreams</p>
+      <button onClick={onClose} className="px-10 py-4 rounded-2xl font-bold text-white active:scale-95 transition-transform" style={{background:"linear-gradient(135deg,#4f46e5,#7c3aed)"}}>🌙 Goodnight</button>
+    </>}
+  </div>;
+}
+
+// Story Detail - the big one
+function StoryDetail({story,bed,onBack,favs,toggleFav,markRead,reads,collected}){
+  const [showAffirm,setShowAffirm]=useState(false);
+  const [showCeleb,setShowCeleb]=useState(false);
+  const [touchMsg,setTouchMsg]=useState(null);
+  const [lumiMsg,setLumiMsg]=useState(null);
+  const [activeP,setActiveP]=useState(-1);
+  const isRead=reads.has(story.id);
+  const isFav=favs.has(story.id);
+  const qs=QS[story.cat]||QS.Trust;
+  const collectible=COLLECTIBLES.find(c=>c.story===story.id);
+  const hasCollected=collected.has(collectible?.id);
+
+  const handleTouch=(el)=>{setTouchMsg({text:el.tap,x:el.x,y:el.y});};
+
+  if(showAffirm) return <Affirm onClose={()=>setShowAffirm(false)}/>;
+
+  return <div className="h-full flex flex-col relative">
+    {bed&&<Sky/>}
+    {showCeleb&&<Celebration collectible={!hasCollected?collectible:null} onDone={()=>setShowCeleb(false)}/>}
+    <div className={`relative z-10 flex-1 overflow-y-auto ${bed?"":"bg-gray-50"}`}>
+      <div className="relative h-64" style={{background:`linear-gradient(135deg,${story.color}dd,#7c3aed)`}}>
+        <div className="absolute inset-0 flex items-center justify-center text-9xl opacity-15">{story.emoji}</div>
+        <button onClick={onBack} className="absolute top-4 left-4 z-20 w-9 h-9 rounded-full bg-black/30 glass flex items-center justify-center text-white text-sm active:bg-black/50">←</button>
+        {story.touchElements?.map((el,i)=><button key={i} onClick={()=>handleTouch(el)} className="absolute text-2xl active:scale-125 transition-transform" style={{left:`${el.x}%`,top:`${el.y}%`,animation:`float ${2+i*.5}s ease-in-out ${i*.3}s infinite`,filter:"drop-shadow(0 2px 8px rgba(0,0,0,.3))"}}>
+          {el.emoji}
+        </button>)}
+        {touchMsg&&<TouchBubble text={touchMsg.text} x={touchMsg.x} y={touchMsg.y} onDone={()=>setTouchMsg(null)}/>}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"/>
+        <div className="absolute bottom-0 left-0 p-5">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs px-2.5 py-1 bg-white/20 rounded-full text-white/90 glass font-medium">Ages {story.age}</span>
+            {isRead&&<span className="text-xs px-2 py-1 bg-green-500/20 rounded-full text-green-300 font-medium">✓ Read</span>}
+          </div>
+          <h1 className="text-3xl font-bold text-white mt-1">{story.title}</h1>
+          <p className="text-white/50 text-sm">{story.sub}</p>
+        </div>
+      </div>
+
+      <div className="p-5 space-y-5">
+        <div className="flex items-center gap-2 fadeUp">
+          <Lumi size={28} message={lumiMsg}/>
+          <button onClick={()=>setLumiMsg(story.mascotReact)} className={`text-xs px-3 py-1.5 rounded-full font-bold active:scale-95 ${bed?"bg-white/[.04] text-white/40":"bg-gray-100 text-gray-500"}`}>
+            Tap to say hi to Lumi ✨
+          </button>
+        </div>
+
+        <div className={`flex text-xs font-medium fadeUp d1 ${bed?"text-gray-500":"text-gray-400"}`}>
+          <span>📖 {story.ref}</span><span className="mx-3">·</span><span>⏱ {story.dur} min</span><span className="mx-3">·</span><span>{CATS.find(c=>c.n===story.cat)?.i} {story.cat}</span>
+        </div>
+
+        <div className="flex gap-3 fadeUp d2">
+          <div className="flex-1"><Player story={story} bed={bed} onFinish={()=>{if(!isRead){markRead(story.id);setShowCeleb(true);}}}/></div>
+          <button onClick={()=>toggleFav(story.id)} className={`w-14 shrink-0 rounded-2xl flex items-center justify-center text-2xl active:scale-90 transition-transform ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`} style={{boxShadow:isFav?"0 0 20px rgba(244,63,94,.2)":undefined}}>
+            {isFav?"❤️":"🤍"}
+          </button>
+        </div>
+
+        <div className="flex gap-2 fadeUp d3">{[{i:"⏱",l:"Timer"},{i:"🌧️",l:"Sounds"},{i:bed?"🌙":"☀️",l:bed?"Bedtime":"Daytime"}].map(c=>
+          <div key={c.l} className={`flex-1 flex flex-col items-center py-3 rounded-xl active:scale-95 transition-transform cursor-pointer ${bed?"bg-white/[.04]":"bg-gray-100"}`}>
+            <span className="text-lg">{c.i}</span><span className={`text-xs mt-0.5 ${bed?"text-gray-500":"text-gray-500"}`}>{c.l}</span>
+          </div>
+        )}</div>
+
+        {story.verse&&<div className="fadeUp d4">
+          <h3 className={`font-bold mb-2 flex items-center gap-2 ${bed?"text-white":"text-gray-900"}`}>📜 Memory Verse</h3>
+          <div className={`p-4 rounded-2xl ${bed?"bg-indigo-500/[.08] text-indigo-300":"bg-indigo-50 text-indigo-700"}`} style={{fontFamily:"Georgia,serif",fontStyle:"italic",lineHeight:"1.8"}}>{story.verse}</div>
+        </div>}
+
+        <div className="fadeUp d5">
+          <h3 className={`text-xl font-bold mb-4 ${bed?"text-white":"text-gray-900"}`}>Story</h3>
+          {story.text.map((para,i)=><p key={i} className={`mb-4 leading-relaxed cursor-pointer transition-all rounded-lg px-1 -mx-1 ${bed?"text-gray-300":"text-gray-700"} ${activeP===i?(bed?"bg-indigo-500/10":"bg-indigo-50"):""}`} style={{fontSize:17,lineHeight:bed?"2em":"1.8em"}} onClick={()=>setActiveP(activeP===i?-1:i)}>
+            {para}
+          </p>)}
+        </div>
+
+        <div className={`p-4 rounded-2xl ${bed?"bg-white/[.03]":"bg-amber-50"}`}>
+          <h3 className={`font-bold mb-2 flex items-center gap-2 ${bed?"text-white":"text-gray-900"}`}>💡 Takeaway</h3>
+          <p className={`text-sm leading-relaxed ${bed?"text-gray-400":"text-gray-600"}`}>{story.takeaway}</p>
+        </div>
+
+        <div className={`p-4 rounded-2xl ${bed?"bg-white/[.03]":"bg-white shadow-sm"}`}>
+          <h3 className={`font-bold mb-1 flex items-center gap-2 ${bed?"text-white":"text-gray-900"}`}>💬 Talk Together</h3>
+          <p className={`text-xs mb-4 ${bed?"text-gray-600":"text-gray-400"}`}>Questions to explore with your child</p>
+          {qs.map((q,i)=><div key={i} className="flex gap-3 mb-3 last:mb-0">
+            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${bed?"bg-indigo-500/10 text-indigo-400":"bg-indigo-100 text-indigo-600"}`}>{i+1}</div>
+            <p className={`text-sm leading-relaxed ${bed?"text-gray-300":"text-gray-700"}`}>{q}</p>
+          </div>)}
+        </div>
+
+        <div>
+          <h3 className={`font-bold mb-2 flex items-center gap-2 ${bed?"text-white":"text-gray-900"}`}>🙏 Bedtime Prayer</h3>
+          <div className={`p-4 rounded-2xl leading-relaxed ${bed?"bg-white/[.03] text-gray-300":"bg-gray-100 text-gray-600"}`}>{story.prayer}</div>
+        </div>
+
+        {bed&&<button onClick={()=>setShowAffirm(true)} className="w-full flex items-center gap-3 p-4 rounded-2xl active:scale-[.98] transition-transform" style={{background:"linear-gradient(135deg,rgba(67,56,202,.1),rgba(124,58,237,.06))"}}>
+          <span className="text-xl" style={{animation:"glow 2s infinite"}}>⭐</span>
+          <div className="flex-1 text-left"><p className="text-white text-sm font-bold">Goodnight Affirmations</p><p className="text-white/25 text-xs">Positive words before sleep</p></div>
+          <span className="text-white/15">›</span>
+        </button>}
+
+        {collectible&&<div className={`flex items-center gap-3 p-4 rounded-2xl ${bed?"bg-white/[.03]":"bg-gray-50"}`}>
+          <span className="text-3xl">{collectible.emoji}</span>
+          <div className="flex-1">
+            <p className={`text-sm font-bold ${bed?"text-white":"text-gray-900"}`}>{collectible.name}</p>
+            <p className={`text-xs ${bed?"text-gray-500":"text-gray-400"}`}>{hasCollected||isRead?"Collected!":"Complete this story to collect"}</p>
+          </div>
+          {(hasCollected||isRead)&&<span className="text-green-400">✓</span>}
+        </div>}
+
+        <button onClick={()=>{if(!isRead){markRead(story.id);setShowCeleb(true);}}} className={`w-full py-4 rounded-2xl font-bold transition-all active:scale-95 ${isRead?(bed?"bg-green-500/10 text-green-400":"bg-green-100 text-green-700"):(bed?"bg-white/[.04] text-indigo-400":"bg-gray-100 text-indigo-600")}`}>
+          {isRead?"✅ Completed":"☐ Mark as Read"}
+        </button>
+        <div className="h-6"/>
+      </div>
+    </div>
+  </div>;
+}
+
+// Bedtime Routine
+function Routine({bed,onBack,onStory}){
+  const [breath,setBreath]=useState(false);
+  const [timer,setTimer]=useState(30);
+  const [sound,setSound]=useState("Rain");
+  if(breath) return <Breathing onBack={()=>setBreath(false)}/>;
+
+  return <div className="h-full flex flex-col relative">
+    {bed&&<Sky/>}
+    <div className={`relative z-10 flex-1 overflow-y-auto ${bed?"":"bg-gray-50"}`}>
+      <div className="flex items-center px-4 py-3"><button onClick={onBack} className={`text-sm ${bed?"text-white/40":"text-gray-500"} active:opacity-70`}>← Back</button><p className={`flex-1 text-center font-bold ${bed?"text-white":"text-gray-900"}`}>Bedtime Routine</p><div className="w-12"/></div>
+      <div className="p-5 space-y-4">
+        <div className="text-center mb-2"><Lumi size={32} message="Time for bed!"/></div>
+
+        <button onClick={()=>onStory(STORIES[0])} className={`w-full p-4 rounded-2xl flex items-center gap-3 text-left active:scale-[.98] transition-transform ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl" style={{background:`linear-gradient(135deg,${STORIES[0].color},#7c3aed)`}}>{STORIES[0].emoji}</div>
+          <div className="flex-1"><p className={`font-bold text-sm ${bed?"text-white":"text-gray-900"}`}>Tonight's Story</p><p className={`text-xs ${bed?"text-gray-500":"text-gray-400"}`}>{STORIES[0].title}</p></div>
+          <span className="text-green-400">✓</span>
+        </button>
+
+        <div className={`p-4 rounded-2xl ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+          <p className={`font-bold text-sm mb-3 ${bed?"text-white":"text-gray-900"}`}>⏱ Sleep Timer</p>
+          <div className="flex gap-2">{[15,30,45,60].map(m=><button key={m} onClick={()=>setTimer(m)} className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95`} style={{background:timer===m?`linear-gradient(135deg,#4f46e5,#7c3aed)`:(bed?"rgba(255,255,255,.03)":"#f3f4f6"),color:timer===m?"white":"#9ca3af"}}>{m}m</button>)}</div>
+        </div>
+
+        <div className={`p-4 rounded-2xl ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+          <p className={`font-bold text-sm mb-3 ${bed?"text-white":"text-gray-900"}`}>🎵 Ambient Sound</p>
+          <div className="flex gap-2 flex-wrap">{["None","Rain","Ocean","Crickets","Fireplace","Lullaby"].map(s=><button key={s} onClick={()=>setSound(s)} className={`px-3 py-2 rounded-xl text-xs font-bold transition-all active:scale-95`} style={{background:sound===s?"linear-gradient(135deg,#4f46e5,#7c3aed)":(bed?"rgba(255,255,255,.03)":"#f3f4f6"),color:sound===s?"white":"#9ca3af"}}>{s}</button>)}</div>
+        </div>
+
+        <button onClick={()=>setBreath(true)} className={`w-full flex items-center gap-3 p-4 rounded-2xl text-left active:scale-[.98] transition-transform ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+          <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{background:"linear-gradient(135deg,#06b6d4,#14b8a6)"}}><span className="text-lg">🌬️</span></div>
+          <div className="flex-1"><p className={`font-bold text-sm ${bed?"text-white":"text-gray-900"}`}>Breathing Exercise</p><p className={`text-xs ${bed?"text-gray-500":"text-gray-400"}`}>Calm body and mind</p></div>
+          <span className={`text-xs ${bed?"text-gray-700":"text-gray-300"}`}>Optional ›</span>
+        </button>
+
+        <button onClick={()=>onStory(STORIES[0])} className="w-full py-4 rounded-2xl font-bold text-white text-lg active:scale-95 transition-transform" style={{background:"linear-gradient(135deg,#4f46e5,#7c3aed)",boxShadow:"0 4px 24px rgba(99,102,241,.4)"}}>🌙 Start Bedtime Routine</button>
+      </div>
+    </div>
+  </div>;
+}
+
+// Home
+function Home({bed,name,onStory,onRoutine,favs,reads,streak,stars}){
+  const tonight=STORIES[new Date().getDay()%STORIES.length];
+  const h=new Date().getHours();
+  const greet=h<12?"Good Morning":h<17?"Good Afternoon":"Good Evening";
+
+  return <div className="flex-1 overflow-y-auto relative">
+    {bed&&<Sky/>}
+    <div className={`relative z-10 p-5 space-y-6 ${bed?"":"bg-gray-50"}`}>
+      <div className="fadeUp flex items-center justify-between">
+        <div>
+          <p className={`text-lg ${bed?"text-gray-400":"text-gray-500"}`}>{greet}{name?`, ${name}`:""}</p>
+          <h1 className="text-3xl font-bold"><span className={bed?"text-white":"text-gray-900"}>Little Lights </span><span style={{color:"#818cf8"}}>Bible Bedtime</span></h1>
+        </div>
+        <Lumi size={32} message={h>=18?"Sleepy time!":h>=12?"Story time!":"Good morning!"}/>
+      </div>
+
+      <div className={`flex items-center gap-3 p-4 rounded-2xl fadeUp d1 ${bed?"bg-white/[.04] glass":"bg-white shadow-sm"}`}>
+        {[{e:"🔥",v:streak,l:"Streak"},{e:"⭐",v:stars,l:"Stars"},{e:"📖",v:reads.size+5,l:"Stories"}].map((s,i)=><>
+          {i>0&&<div className={`w-px h-10 ${bed?"bg-gray-800":"bg-gray-100"}`}/>}
+          <div key={s.l} className="text-center flex-1"><div className="text-xl">{s.e}</div><p className={`text-xl font-bold ${bed?"text-white":"text-gray-900"}`}>{s.v}</p><p className={`text-xs ${bed?"text-gray-600":"text-gray-400"}`}>{s.l}</p></div>
+        </>)}
+        <div className="text-xl">✅</div>
+      </div>
+
+      <div className="fadeUp d2">
+        <div className="flex items-center gap-2 mb-3"><span style={{color:"#818cf8"}}>✨</span><h2 className={`text-lg font-bold ${bed?"text-white":"text-gray-900"}`}>Tonight's Story</h2><span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{background:"rgba(129,140,248,.15)",color:"#818cf8"}}>NEW</span></div>
+        <button onClick={()=>onStory(tonight)} className="w-full text-left active:scale-[.98] transition-transform">
+          <div className="relative h-48 rounded-3xl overflow-hidden" style={{background:`linear-gradient(135deg,${tonight.color}cc,#7c3aed)`}}>
+            <div className="absolute inset-0 flex items-center justify-center text-8xl opacity-15">{tonight.emoji}</div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"/>
+            <div className="absolute bottom-0 left-0 p-5">
+              <div className="flex items-center gap-1 text-white/50 text-xs mb-1">🌙 Selected for tonight</div>
+              <h3 className="text-2xl font-bold text-white">{tonight.title}</h3>
+              <div className="flex gap-3 text-white/40 text-xs mt-1"><span>📖 {tonight.ref}</span><span>🎧 {tonight.dur} min</span></div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <button onClick={onRoutine} className={`w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.98] transition-transform fadeUp d3 ${bed?"bg-white/[.04] glass":"bg-white shadow-sm"}`}>
+        <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#4338ca,#7c3aed)",boxShadow:"0 4px 16px rgba(99,102,241,.3)"}}><span className="text-2xl">🛏️</span></div>
+        <div className="flex-1"><p className={`font-bold ${bed?"text-white":"text-gray-900"}`}>Start Bedtime Routine</p><p className={`text-xs ${bed?"text-gray-500":"text-gray-400"}`}>Story + Breathing + Prayer + Sounds</p></div>
+        <span className={bed?"text-gray-700":"text-gray-300"}>›</span>
+      </button>
+
+      <div className="fadeUp d4">
+        <h2 className={`text-lg font-bold mb-3 ${bed?"text-white":"text-gray-900"}`}>Browse by Theme</h2>
+        <div className="grid grid-cols-2 gap-3">{CATS.map(c=><div key={c.n} className="flex flex-col items-center justify-center h-20 rounded-2xl active:scale-95 transition-transform cursor-pointer" style={{background:c.bg}}>
+          <span className="text-2xl">{c.i}</span><span className="text-white text-xs font-bold mt-1">{c.n}</span>
+        </div>)}</div>
+      </div>
+
+      <div className="fadeUp d5">
+        <h2 className={`text-lg font-bold mb-3 ${bed?"text-white":"text-gray-900"}`}>All 50 Stories</h2>
+        {STORIES.slice(0,8).map((s,i)=><button key={s.id} onClick={()=>onStory(s)} className={`w-full flex items-center gap-3 p-3 rounded-2xl mb-2 text-left active:scale-[.98] transition-transform fadeUp ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`} style={{animationDelay:`${.3+i*.04}s`}}>
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0" style={{background:`linear-gradient(135deg,${s.color}cc,#7c3aed)`}}>{s.emoji}</div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2"><p className={`font-bold text-sm ${bed?"text-white":"text-gray-900"}`}>{s.title}</p>{favs.has(s.id)&&<span className="text-xs">❤️</span>}{reads.has(s.id)&&<span className="text-xs">✅</span>}</div>
+            <p className={`text-xs ${bed?"text-gray-500":"text-gray-400"}`}>{s.ref} · {s.cat} · {s.dur} min</p>
+          </div>
+          <span className={`text-xs px-2 py-1 rounded-full font-medium ${bed?"bg-white/[.06] text-white/40":"bg-gray-100 text-gray-500"}`}>{s.age}</span>
+        </button>)}
+        <button className={`w-full py-3 font-bold text-center rounded-2xl transition-transform active:scale-95 mt-2 ${bed?"bg-white/[.04] text-indigo-400":"bg-gray-100 text-indigo-600"}`}>See All 50 Stories →</button>
+      </div>
+      <div className="h-4"/>
+    </div>
+  </div>;
+}
+
+// Library
+function Library({bed,onStory,favs,reads}){
+  const [filt,setFilt]=useState("All");
+  const [q,setQ]=useState("");
+  const list=STORIES.filter(s=>(filt==="All"||s.cat===filt)&&(!q||s.title.toLowerCase().includes(q.toLowerCase())));
+
+  return <div className="flex-1 overflow-y-auto relative">
+    {bed&&<Sky/>}
+    <div className={`relative z-10 p-5 ${bed?"":"bg-gray-50"}`}>
+      <div className={`flex items-center gap-2 p-3 rounded-2xl mb-4 ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+        <span className="text-gray-400 text-sm">🔍</span>
+        <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search stories..." className={`flex-1 bg-transparent outline-none text-sm ${bed?"text-white":"text-gray-900"}`}/>
+        {q&&<button onClick={()=>setQ("")} className="text-gray-500 text-xs active:text-white">✕</button>}
+      </div>
+      <div className="flex gap-2 mb-4 overflow-x-auto pb-1" style={{scrollbarWidth:"none"}}>
+        {["All",...CATS.map(c=>c.n)].map(c=><button key={c} onClick={()=>setFilt(c)} className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap active:scale-95 transition-all`} style={{background:c===filt?"linear-gradient(135deg,#4f46e5,#7c3aed)":(bed?"rgba(255,255,255,.04)":"#f3f4f6"),color:c===filt?"white":"#9ca3af"}}>{c}</button>)}
+      </div>
+      <p className={`text-xs mb-3 ${bed?"text-gray-700":"text-gray-400"}`}>{list.length} stories</p>
+      {list.map(s=><button key={s.id} onClick={()=>onStory(s)} className={`w-full flex items-center gap-3 p-3 rounded-2xl mb-2 text-left active:scale-[.98] transition-transform ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+        <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0" style={{background:`linear-gradient(135deg,${s.color}cc,#7c3aed)`}}>{s.emoji}</div>
+        <div className="flex-1">
+          <div className="flex items-center gap-2"><p className={`font-bold text-sm ${bed?"text-white":"text-gray-900"}`}>{s.title}</p>{favs.has(s.id)&&<span className="text-xs">❤️</span>}{reads.has(s.id)&&<span className="text-xs">✅</span>}</div>
+          <p className={`text-xs ${bed?"text-gray-500":"text-gray-400"}`}>{s.ref} · {s.cat} · {s.dur} min</p>
+        </div>
+        <span className={`text-xs px-2 py-1 rounded-full font-medium ${bed?"bg-white/[.06] text-white/40":"bg-gray-100 text-gray-500"}`}>{s.age}</span>
+      </button>)}
+      {!list.length&&<div className="text-center py-16"><span className="text-5xl">📖</span><p className={`mt-3 font-bold ${bed?"text-white":"text-gray-900"}`}>No stories found</p></div>}
+    </div>
+  </div>;
+}
+
+// Favorites
+function Favs({bed,favs,onStory}){
+  const list=STORIES.filter(s=>favs.has(s.id));
+  return <div className="flex-1 overflow-y-auto relative">
+    {bed&&<Sky/>}
+    <div className={`relative z-10 p-5 ${bed?"":"bg-gray-50"}`}>
+      {!list.length?<div className="flex flex-col items-center justify-center py-20">
+        <span className="text-6xl mb-4">❤️</span>
+        <p className={`font-bold text-lg ${bed?"text-white":"text-gray-900"}`}>No Favorites Yet</p>
+        <p className={`text-sm mt-1 ${bed?"text-gray-500":"text-gray-400"}`}>Tap the heart on any story</p>
+      </div>:list.map(s=><button key={s.id} onClick={()=>onStory(s)} className={`w-full flex items-center gap-3 p-3 rounded-2xl mb-2 text-left active:scale-[.98] transition-transform ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+        <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0" style={{background:`linear-gradient(135deg,${s.color}cc,#7c3aed)`}}>{s.emoji}</div>
+        <div className="flex-1"><p className={`font-bold text-sm ${bed?"text-white":"text-gray-900"}`}>{s.title}</p><p className={`text-xs ${bed?"text-gray-500":"text-gray-400"}`}>{s.ref} · {s.dur} min</p></div>
+        <span className="text-lg">❤️</span>
+      </button>)}
+    </div>
+  </div>;
+}
+
+// Rewards + Collection
+function Rewards({bed,reads,streak,stars,collected}){
+  return <div className="flex-1 overflow-y-auto relative">
+    {bed&&<Sky/>}
+    <div className={`relative z-10 p-5 space-y-6 ${bed?"":"bg-gray-50"}`}>
+      <div className="flex flex-col items-center pt-2 fadeUp">
+        <div className="relative"><div className="w-24 h-24 rounded-full flex items-center justify-center" style={{background:"radial-gradient(circle,rgba(250,204,21,.15),rgba(250,204,21,.03)"}}><span className="text-5xl" style={{animation:"glow 2s infinite"}}>⭐</span></div></div>
+        <p className={`text-5xl font-bold mt-3 ${bed?"text-white":"text-gray-900"}`}>{stars}</p>
+        <p className={`text-lg ${bed?"text-gray-400":"text-gray-500"}`}>Sleep Stars</p>
+      </div>
+
+      <div className={`flex p-4 rounded-2xl fadeUp d1 ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+        {[{i:"🔥",v:streak,l:"Streak"},{i:"🏆",v:Math.max(streak,3),l:"Best"},{i:"📖",v:reads.size+5,l:"Total"}].map((s,i)=><div key={s.l} className={`flex-1 text-center ${i<2?`border-r ${bed?"border-gray-800/50":"border-gray-100"}`:""}`}>
+          <div className="text-xl">{s.i}</div><p className={`text-2xl font-bold ${bed?"text-white":"text-gray-900"}`}>{s.v}</p><p className={`text-xs ${bed?"text-gray-600":"text-gray-400"}`}>{s.l}</p>
+        </div>)}
+      </div>
+
+      <div className="fadeUp d2">
+        <h2 className={`text-lg font-bold mb-3 ${bed?"text-white":"text-gray-900"}`}>Collection</h2>
+        <div className="flex gap-3 overflow-x-auto pb-2" style={{scrollbarWidth:"none"}}>
+          {COLLECTIBLES.map(c=>{const has=collected.has(c.id);return <div key={c.id} className={`shrink-0 w-20 flex flex-col items-center py-3 rounded-2xl ${has?"":`opacity-30`} ${bed?"bg-white/[.04]":"bg-gray-100"}`}>
+            <span className="text-3xl mb-1">{c.emoji}</span>
+            <span className={`text-xs font-bold ${bed?"text-white":"text-gray-700"}`}>{c.name}</span>
+            {has&&<span className="text-green-400 text-xs mt-0.5">✓</span>}
+          </div>;})}
+        </div>
+      </div>
+
+      <div className="fadeUp d3">
+        <h2 className={`text-lg font-bold mb-4 ${bed?"text-white":"text-gray-900"}`}>Badges</h2>
+        <div className="grid grid-cols-3 gap-4">{BADGES.map((b,i)=>{const e=i<3;return <div key={b.id} className={`flex flex-col items-center ${e?"":"opacity-25"}`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl ${e?"shadow-lg":""}`} style={{background:e?"linear-gradient(135deg,#facc15,#f97316)":(bed?"rgba(255,255,255,.04)":"#f3f4f6")}}>
+            {b.icon}
+          </div>
+          <p className={`text-xs font-bold mt-2 text-center ${bed?"text-white":"text-gray-700"}`}>{b.name}</p>
+        </div>;})}</div>
+      </div>
+      <div className="h-4"/>
+    </div>
+  </div>;
+}
+
+// Settings
+function Settings({bed,onToggle,onDash}){
+  return <div className={`flex-1 overflow-y-auto ${bed?"bg-[#070714]":"bg-gray-50"}`}>
+    <div className="p-5 space-y-1">
+      {[["Display",[
+        {type:"toggle",icon:"🌙",label:"Bedtime Mode",active:bed,onTap:onToggle},
+        {type:"slider",icon:"🔤",label:"Font Size",val:.4},
+      ]],["Playback",[
+        {type:"toggle",icon:"▶️",label:"Auto-play Narration"},
+        {type:"slider",icon:"🔊",label:"Narration Volume",val:.75},
+        {type:"slider",icon:"🎵",label:"Ambient Volume",val:.33},
+      ]],["For Parents",[
+        {type:"link",icon:"📊",label:"Parent Dashboard",onTap:onDash},
+      ]],["About",[
+        {type:"link",icon:"🔒",label:"Privacy Policy"},
+        {type:"link",icon:"📄",label:"Terms of Use"},
+        {type:"link",icon:"✉️",label:"Support"},
+      ]]].map(([title,items])=><div key={title}>
+        <h3 className={`text-xs font-bold uppercase px-3 pt-5 pb-2 tracking-widest ${bed?"text-gray-600":"text-gray-400"}`}>{title}</h3>
+        <div className={`rounded-2xl overflow-hidden ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+          {items.map((it,i)=><div key={it.label} className={`p-4 flex items-center gap-3 ${i>0?`border-t ${bed?"border-gray-800/30":"border-gray-100"}`:""}`}>
+            <span>{it.icon}</span>
+            <span className={`text-sm font-medium flex-1 ${bed?"text-white":"text-gray-900"}`}>{it.label}</span>
+            {it.type==="toggle"&&<button onClick={it.onTap} className={`w-12 h-7 rounded-full relative transition-colors ${it.active||bed&&it.label==="Bedtime Mode"?"bg-indigo-500":"bg-gray-300"}`}><div className={`absolute top-1 w-5 h-5 rounded-full bg-white shadow-sm transition-all ${it.active||bed&&it.label==="Bedtime Mode"?"left-6":"left-1"}`}/></button>}
+            {it.type==="slider"&&<div className={`w-24 h-1.5 rounded-full ${bed?"bg-white/[.06]":"bg-gray-200"}`}><div className="h-full rounded-full bg-indigo-500" style={{width:`${(it.val||.5)*100}%`}}/></div>}
+            {it.type==="link"&&<button onClick={it.onTap} className={`${bed?"text-gray-600":"text-gray-300"}`}>›</button>}
+          </div>)}
+        </div>
+      </div>)}
+      <div className={`text-center pt-8 pb-6 ${bed?"text-gray-700":"text-gray-400"}`}>
+        <p className="text-xs font-bold">Little Lights Bible Bedtime</p>
+        <p className="text-xs">Version 3.0 — Free for all families</p>
+        <p className="text-xs mt-0.5">Made with ❤️ for families everywhere</p>
+      </div>
+    </div>
+  </div>;
+}
+
+// Parent Dashboard
+function Dash({bed,onBack,reads,streak,stars}){
+  const [tip,setTip]=useState(0);
+  const TIPS=[{i:"🌙",t:"Start bedtime stories at the same time each night."},{i:"🌬️",t:"Try breathing exercises to help your child relax."},{i:"🔊",t:"Ambient sounds help children fall asleep faster."},{i:"⏱",t:"Sleep timer gently fades audio for natural sleep."},{i:"📱",t:"Use Bedtime Mode 30 min before sleep."}];
+
+  return <div className="h-full flex flex-col relative">
+    {bed&&<Sky/>}
+    <div className={`relative z-10 flex-1 overflow-y-auto ${bed?"":"bg-gray-50"}`}>
+      <div className="flex items-center px-4 py-3"><button onClick={onBack} className={`text-sm ${bed?"text-white/40":"text-gray-500"} active:opacity-70`}>← Back</button><p className={`flex-1 text-center font-bold ${bed?"text-white":"text-gray-900"}`}>Parent Dashboard</p><div className="w-12"/></div>
+      <div className="p-5 space-y-5">
+        <div className={`p-4 rounded-2xl ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+          <h3 className={`font-bold text-sm mb-4 ${bed?"text-white":"text-gray-900"}`}>📅 This Week</h3>
+          <div className="flex gap-2">{["S","M","T","W","T","F","S"].map((d,i)=><div key={d+i} className="flex-1 flex flex-col items-center gap-1.5">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold`} style={{background:i<streak?"linear-gradient(135deg,#6366f1,#7c3aed)":(bed?"rgba(255,255,255,.04)":"#f3f4f6"),color:i<streak?"white":"#6b7280"}}>{i<streak?"✓":""}</div>
+            <span className={`text-xs ${bed?"text-gray-600":"text-gray-400"}`}>{d}</span>
+          </div>)}</div>
+        </div>
+
+        <div className={`p-4 rounded-2xl ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+          <h3 className={`font-bold text-sm mb-3 ${bed?"text-white":"text-gray-900"}`}>📊 Reading Consistency</h3>
+          <div className="flex justify-between text-sm mb-2"><span className={bed?"text-gray-400":"text-gray-500"}>Overall</span><span className={`font-bold ${bed?"text-white":"text-gray-900"}`}>{Math.round(streak/7*100)}%</span></div>
+          <div className={`h-3 rounded-full overflow-hidden ${bed?"bg-white/[.06]":"bg-gray-100"}`}><div className="h-full rounded-full transition-all duration-700" style={{width:`${streak/7*100}%`,background:"linear-gradient(90deg,#22c55e,#6366f1)"}}/></div>
+        </div>
+
+        <div className={`p-4 rounded-2xl ${bed?"bg-white/[.04]":"bg-white shadow-sm"}`}>
+          <h3 className={`font-bold text-sm mb-3 ${bed?"text-white":"text-gray-900"}`}>💡 Sleep Tip</h3>
+          <div className="flex gap-3"><span className="text-2xl">{TIPS[tip%TIPS.length].i}</span><p className={`text-sm leading-relaxed ${bed?"text-gray-400":"text-gray-500"}`}>{TIPS[tip%TIPS.length].t}</p></div>
+          <button onClick={()=>setTip(tip+1)} className="mt-3 text-xs font-bold" style={{color:"#818cf8"}}>Next Tip →</button>
+        </div>
+        <div className="h-4"/>
+      </div>
+    </div>
+  </div>;
+}
+
+/* ━━━━━━━━━━━━━━━ MAIN ━━━━━━━━━━━━━━━ */
+function App(){
+  const [scr,setScr]=useState("onboard");
+  const [tab,setTab]=useState("home");
+  const [bed,setBed]=useState(true);
+  const [story,setStory]=useState(null);
+  const [sub,setSub]=useState(null);
+  const [name,setName]=useState("");
+  const [favs,setFavs]=useState(new Set());
+  const [reads,setReads]=useState(new Set());
+  const [collected,setCollected]=useState(new Set());
+  const streak=3;
+  const stars=reads.size+7;
+
+  const toggleFav=id=>setFavs(f=>{const n=new Set(f);n.has(id)?n.delete(id):n.add(id);return n;});
+  const markRead=id=>{setReads(r=>new Set(r).add(id));const c=COLLECTIBLES.find(x=>x.story===id);if(c)setCollected(s=>new Set(s).add(c.id));};
+  const goStory=s=>{setStory(s);setScr("story");};
+  const goBack=()=>{setScr("app");setSub(null);};
+
+  const tabs=[{id:"home",i:"🌙",l:"Home"},{id:"library",i:"📚",l:"Library"},{id:"favorites",i:"❤️",l:"Favorites"},{id:"rewards",i:"⭐",l:"Rewards"},{id:"settings",i:"⚙️",l:"Settings"}];
+
+  const content=()=>{
+    if(scr==="onboard") return <Onboarding onDone={n=>{setName(n);setScr("app");}}/>;
+    if(scr==="story") return <StoryDetail story={story} bed={bed} onBack={goBack} favs={favs} toggleFav={toggleFav} markRead={markRead} reads={reads} collected={collected}/>;
+    if(sub==="routine") return <Routine bed={bed} onBack={()=>setSub(null)} onStory={goStory}/>;
+    if(sub==="dash") return <Dash bed={bed} onBack={()=>setSub(null)} reads={reads} streak={streak} stars={stars}/>;
+    switch(tab){
+      case"home":return <Home bed={bed} name={name} onStory={goStory} onRoutine={()=>setSub("routine")} favs={favs} reads={reads} streak={streak} stars={stars}/>;
+      case"library":return <Library bed={bed} onStory={goStory} favs={favs} reads={reads}/>;
+      case"favorites":return <Favs bed={bed} favs={favs} onStory={goStory}/>;
+      case"rewards":return <Rewards bed={bed} reads={reads} streak={streak} stars={stars} collected={collected}/>;
+      case"settings":return <Settings bed={bed} onToggle={()=>setBed(!bed)} onDash={()=>setSub("dash")}/>;
+    }
+  };
+
+  return <>
+    <style>{CSS}</style>
+    <div className="w-full h-screen flex justify-center" style={{background:"#0a0a0a"}}>
+      <div className="w-full max-w-sm h-full flex flex-col relative overflow-hidden" style={{background:bed?"#070714":"#f9fafb"}}>
+        {scr==="app"&&!sub&&<div className={`flex items-center justify-between px-6 py-2 text-xs font-bold relative z-20 ${bed?"text-white/30":"text-gray-400"}`}><span>9:41</span><div className="flex items-center gap-1.5"><span style={{fontSize:10}}>📶</span><span style={{fontSize:10}}>🔋</span></div></div>}
+        <div className="flex-1 flex flex-col overflow-hidden relative">{content()}</div>
+        {scr==="app"&&!sub&&<div className={`flex relative z-20 ${bed?"bg-[#0c0b1a]/95 border-t border-gray-800/30":"bg-white/95 border-t border-gray-200"} glass`}>
+          {tabs.map(t=><button key={t.id} onClick={()=>setTab(t.id)} className={`flex-1 flex flex-col items-center py-2.5 gap-0.5 transition-colors ${tab===t.id?(bed?"text-indigo-400":"text-indigo-600"):(bed?"text-gray-700":"text-gray-400")}`}>
+            <span className="text-lg">{t.i}</span><span className="text-xs font-medium">{t.l}</span>
+            {tab===t.id&&<div className="w-1 h-1 rounded-full" style={{background:bed?"#818cf8":"#4f46e5"}}/>}
+          </button>)}
+        </div>}
+      </div>
+    </div>
+  </>;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
+</body>
+</html>
