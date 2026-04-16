@@ -1,5 +1,83 @@
-
 import Foundation
+
+// MARK: - Character Voice Map
+
+struct CharacterVoiceMap {
+    static let voices: [String: String] = [
+        // The Big Two
+        "God":                      "pqHfZKP75CvOlQylNhV4",  // Bill
+        "The Father":               "pqHfZKP75CvOlQylNhV4",  // Bill
+        "Jesus":                    "JBFqnCBsd6RMkjVDRZzb",  // George
+        // Narrators
+        "Narrator":                 "REGEUmIBzUFwSMkNwWo4",  // Lane Sinclair
+        "NarratorNT":               "a5jCeyrTh80w2jtEglgc",  // Rachael Sinclair
+        "Angel":                    "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
+        "Angels":                   "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
+        // OT Heroes
+        "Moses":                    "nPczCjzI2devNBz1zQrb",  // Brian
+        "David":                    "cjVigY5qzO86Huf0OWal",  // Eric
+        "Noah":                     "C9fbwSpEaejywLWx722Z",  // Marcus
+        "Abraham":                  "UzI1NsMEV3ni5JRkRSls",  // Alistair
+        "Jacob":                    "gcdNeREzHPJpCf9wnB0l",  // Elias
+        "Joseph":                   "gcdNeREzHPJpCf9wnB0l",  // Elias
+        "Elijah":                   "onwK4e9ZLuTAKqWW03F9",  // Daniel
+        "Joshua":                   "nPczCjzI2devNBz1zQrb",  // Brian
+        "Gideon":                   "cjVigY5qzO86Huf0OWal",  // Eric
+        "Nehemiah":                 "C9fbwSpEaejywLWx722Z",  // Marcus
+        "Solomon":                  "UzI1NsMEV3ni5JRkRSls",  // Alistair
+        "Samuel":                   "cjVigY5qzO86Huf0OWal",  // Eric
+        "Daniel":                   "gcdNeREzHPJpCf9wnB0l",  // Elias
+        "Jonah":                    "nPczCjzI2devNBz1zQrb",  // Brian
+        "Shadrach":                 "nPczCjzI2devNBz1zQrb",  // Brian
+        "Meshach":                  "nPczCjzI2devNBz1zQrb",  // Brian
+        "Abednego":                 "nPczCjzI2devNBz1zQrb",  // Brian
+        "Adam":                     "REGEUmIBzUFwSMkNwWo4",  // Lane Sinclair
+        "Isaac":                    "cgSgspJ2msm6clMCkdW9",  // Jessica
+        // OT Women
+        "Mary":                     "a5jCeyrTh80w2jtEglgc",  // Rachael Sinclair
+        "Hannah":                   "a5jCeyrTh80w2jtEglgc",  // Rachael Sinclair
+        "Eve":                      "a5jCeyrTh80w2jtEglgc",  // Rachael Sinclair
+        "Ruth":                     "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
+        "Esther":                   "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
+        "Mary Magdalene":           "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
+        "Miriam":                   "cgSgspJ2msm6clMCkdW9",  // Jessica
+        "Martha":                   "cgSgspJ2msm6clMCkdW9",  // Jessica
+        "Naomi":                    "EXAVITQu4vr4xnSDxMaL",  // Sarah
+        "Widow":                    "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
+        "Woman at the Well":        "EXAVITQu4vr4xnSDxMaL",  // Sarah
+        "Pharaoh's Daughter":      "EXAVITQu4vr4xnSDxMaL",  // Sarah
+        // NT Characters
+        "Peter":                    "SOYHLrjzK2X1ezoPC6cr",  // Harry
+        "Zacchaeus":                "cjVigY5qzO86Huf0OWal",  // Eric
+        "Eli":                      "pqHfZKP75CvOlQylNhV4",  // Bill
+        "Boaz":                     "C9fbwSpEaejywLWx722Z",  // Marcus
+        "Goliath":                  "SOYHLrjzK2X1ezoPC6cr",  // Harry
+        "King":                     "onwK4e9ZLuTAKqWW03F9",  // Daniel
+        "Nebuchadnezzar":           "onwK4e9ZLuTAKqWW03F9",  // Daniel
+        "Shepherd":                 "REGEUmIBzUFwSMkNwWo4",  // Lane Sinclair
+        "Shepherds":                "REGEUmIBzUFwSMkNwWo4",  // Lane Sinclair
+    ]
+
+    static func voiceID(for character: String) -> String? {
+        if let id = voices[character] { return id }
+        let lower = character.lowercased()
+        return voices.first(where: { $0.key.lowercased() == lower })?.value
+    }
+}
+
+// MARK: - Story Narrator Type
+
+enum StoryNarratorType: String, Codable {
+    case oldTestament = "OT"
+    case newTestament = "NT"
+
+    var defaultVoiceID: String {
+        switch self {
+        case .oldTestament: return "REGEUmIBzUFwSMkNwWo4"  // Lane Sinclair
+        case .newTestament: return "a5jCeyrTh80w2jtEglgc"  // Rachael Sinclair
+        }
+    }
+}
 
 // MARK: - Voice Options
 
@@ -8,33 +86,34 @@ struct ElevenLabsVoice: Identifiable, Hashable, Codable {
     let name: String
     let description: String
     let gender: String
-    let category: String       // "premade", "cloned", "professional", etc.
-    let previewURL: String?    // direct URL to a short audio preview
+    let category: String
+    let previewURL: String?
 
     init(id: String, name: String, description: String, gender: String,
          category: String = "premade", previewURL: String? = nil) {
-        self.id = id
-        self.name = name
-        self.description = description
-        self.gender = gender
-        self.category = category
-        self.previewURL = previewURL
+        self.id = id; self.name = name; self.description = description
+        self.gender = gender; self.category = category; self.previewURL = previewURL
     }
 
-    // Fallback voices shown before the user's API key is verified
-    static let defaults: [ElevenLabsVoice] = [
-        ElevenLabsVoice(id: "oWAxZDx7w5VEj9dCyTzz", name: "Grace",   description: "Warm & Gentle",    gender: "female"),
-        ElevenLabsVoice(id: "21m00Tcm4TlvDq8ikWAM", name: "Rachel",  description: "Calm & Clear",      gender: "female"),
-        ElevenLabsVoice(id: "cgSgspJ2msm6clMCkdW9", name: "Jessica", description: "Sweet Storyteller", gender: "female"),
-        ElevenLabsVoice(id: "D38z5RcWu1voky8WS1ja", name: "Fin",     description: "Warm & Soothing",   gender: "male"),
-        ElevenLabsVoice(id: "N2lVS1w4EtoT3dr4eOWO", name: "Callum",  description: "Classic Narrator",  gender: "male"),
-        ElevenLabsVoice(id: "TX3LPaxmHKxFdv7VOQHJ", name: "Liam",    description: "Gentle & Kind",     gender: "male"),
+    static let all: [ElevenLabsVoice] = [
+        ElevenLabsVoice(id: "REGEUmIBzUFwSMkNwWo4", name: "Lane Sinclair",    description: "Old Testament Narrator",  gender: "male",   category: "cloned"),
+        ElevenLabsVoice(id: "a5jCeyrTh80w2jtEglgc", name: "Rachael Sinclair", description: "New Testament Narrator",  gender: "female", category: "cloned"),
+        ElevenLabsVoice(id: "Qe0sFDUsK280KloQRibK", name: "Cari Sinclair",    description: "Angels & Heaven",         gender: "female", category: "cloned"),
+        ElevenLabsVoice(id: "pqHfZKP75CvOlQylNhV4", name: "Bill",     description: "God / Father / Eli",         gender: "male"),
+        ElevenLabsVoice(id: "JBFqnCBsd6RMkjVDRZzb", name: "George",   description: "Jesus",                      gender: "male"),
+        ElevenLabsVoice(id: "nPczCjzI2devNBz1zQrb", name: "Brian",    description: "Moses / Joshua / Jonah",     gender: "male"),
+        ElevenLabsVoice(id: "gcdNeREzHPJpCf9wnB0l", name: "Elias",    description: "Jacob / Joseph / Daniel",    gender: "male"),
+        ElevenLabsVoice(id: "UzI1NsMEV3ni5JRkRSls", name: "Alistair", description: "Abraham / Solomon",          gender: "male"),
+        ElevenLabsVoice(id: "cjVigY5qzO86Huf0OWal", name: "Eric",     description: "David / Gideon / Samuel",    gender: "male"),
+        ElevenLabsVoice(id: "C9fbwSpEaejywLWx722Z", name: "Marcus",   description: "Noah / Nehemiah / Boaz",     gender: "male"),
+        ElevenLabsVoice(id: "onwK4e9ZLuTAKqWW03F9", name: "Daniel",   description: "Elijah / King",              gender: "male"),
+        ElevenLabsVoice(id: "SOYHLrjzK2X1ezoPC6cr", name: "Harry",    description: "Peter / Goliath",            gender: "male"),
+        ElevenLabsVoice(id: "EXAVITQu4vr4xnSDxMaL", name: "Sarah",    description: "Naomi / Woman at Well",      gender: "female"),
+        ElevenLabsVoice(id: "cgSgspJ2msm6clMCkdW9", name: "Jessica",  description: "Miriam / Martha / Isaac",    gender: "female"),
     ]
 
-    // Legacy alias so existing code compiles unchanged
-    static var all: [ElevenLabsVoice] { defaults }
-
-    static let defaultVoiceID = "oWAxZDx7w5VEj9dCyTzz" // Grace
+    static var defaults: [ElevenLabsVoice] { all }
+    static let defaultVoiceID = "REGEUmIBzUFwSMkNwWo4"
 }
 
 // MARK: - Errors

@@ -19,12 +19,14 @@ struct Story: Identifiable, Codable, Hashable {
     // New fields with defaults for backward compatibility
     var memoryVerse: String?
     var ageGroup: AgeGroup?
+    var narratorType: StoryNarratorType?   // OT or NT — controls default narrator voice
+    var featuredCharacter: String?          // Primary character voice for this story
 
     enum CodingKeys: String, CodingKey {
         case id, title, subtitle, bibleReference, category, isFree
         case readDurationMinutes, listenDurationMinutes
         case imageName, audioFileName, storyText, takeaway, bedtimePrayer
-        case memoryVerse, ageGroup
+        case memoryVerse, ageGroup, narratorType, featuredCharacter
     }
 
     init(from decoder: Decoder) throws {
@@ -44,6 +46,18 @@ struct Story: Identifiable, Codable, Hashable {
         bedtimePrayer = try container.decode(String.self, forKey: .bedtimePrayer)
         memoryVerse = try container.decodeIfPresent(String.self, forKey: .memoryVerse)
         ageGroup = try container.decodeIfPresent(AgeGroup.self, forKey: .ageGroup)
+        narratorType = try container.decodeIfPresent(StoryNarratorType.self, forKey: .narratorType)
+        featuredCharacter = try container.decodeIfPresent(String.self, forKey: .featuredCharacter)
+    }
+
+    /// Resolves the best ElevenLabs voice ID for this story.
+    /// Priority: featuredCharacter voice → narratorType default → global default
+    var resolvedVoiceID: String {
+        if let char = featuredCharacter,
+           let id = CharacterVoiceMap.voiceID(for: char) {
+            return id
+        }
+        return narratorType?.defaultVoiceID ?? StoryNarratorType.oldTestament.defaultVoiceID
     }
 }
 

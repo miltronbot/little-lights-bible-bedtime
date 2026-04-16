@@ -101,7 +101,8 @@ final class AudioPlayerViewModel: ObservableObject {
 
         // 2. Try ElevenLabs (cached or API)
         let apiKey = UserDefaults.standard.string(forKey: "elevenLabsAPIKey") ?? ""
-        let voiceID = UserDefaults.standard.string(forKey: "selectedVoiceID") ?? ElevenLabsVoice.defaultVoiceID
+        // Use per-story resolved voice (character → narrator → default)
+        let voiceID = story.resolvedVoiceID
 
         // Check cache first — no loading spinner needed
         if let cached = ElevenLabsService.shared.cachedURL(storyID: story.id, voiceID: voiceID) {

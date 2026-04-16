@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct BedtimeRoutineView: View {
     @EnvironmentObject private var viewModel: StoryLibraryViewModel
@@ -7,8 +8,10 @@ struct BedtimeRoutineView: View {
     @EnvironmentObject private var readingStreak: ReadingStreakViewModel
 
     @State private var currentStep: Int = 0
-    @State private var selectedTimerMinutes: Int = 30
+    @State private var selectedTimerMinutes: Int = 5
     @State private var selectedAmbient: AmbientSound = .rain
+    @State private var previewingSound: AmbientSound? = nil
+    @State private var previewPlayer: AVAudioPlayer? = nil
     @State private var routineStarted: Bool = false
     @State private var breathsCompleted: Int = 0
     @State private var showSettings: Bool = false
@@ -96,13 +99,31 @@ struct BedtimeRoutineView: View {
                                             selectedAmbient = sound
                                         } label: {
                                             VStack(spacing: 6) {
-                                                Image(systemName: sound.icon)
-                                                    .font(.title3)
+                                                // Icon row with preview button
+                                                HStack(spacing: 4) {
+                                                    Image(systemName: sound.icon)
+                                                        .font(.title3)
+                                                    Spacer()
+                                                    // Preview play/stop button
+                                                    Button {
+                                                        togglePreview(sound)
+                                                    } label: {
+                                                        Image(systemName: previewingSound == sound ? "stop.circle.fill" : "play.circle")
+                                                            .font(.caption)
+                                                            .foregroundStyle(
+                                                                selectedAmbient == sound ? .white.opacity(0.9) : AppTheme.accent(for: appSettings.isBedtimeMode)
+                                                            )
+                                                    }
+                                                    .buttonStyle(.plain)
+                                                }
+                                                .padding(.horizontal, 8)
                                                 Text(sound.displayName)
                                                     .font(.caption2)
+                                                    .multilineTextAlignment(.center)
                                             }
                                             .frame(maxWidth: .infinity)
                                             .padding(.vertical, 12)
+                                            .padding(.horizontal, 6)
                                             .background(
                                                 selectedAmbient == sound
                                                     ? AppTheme.accent(for: appSettings.isBedtimeMode)
@@ -114,6 +135,11 @@ struct BedtimeRoutineView: View {
                                                     : AppTheme.primaryText(for: appSettings.isBedtimeMode)
                                             )
                                             .clipShape(RoundedRectangle(cornerRadius: 12))
+                                            .overlay(
+                                                // Pulsing ring when previewing
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .stroke(AppTheme.accent(for: appSettings.isBedtimeMode).opacity(previewingSound == sound ? 0.8 : 0), lineWidth: 2)
+                                            )
                                         }
                                     }
                                 }
@@ -162,6 +188,49 @@ struct BedtimeRoutineView: View {
             if !appSettings.isBedtimeMode {
                 appSettings.isBedtimeMode = true
             }
+        }
+    }
+
+
+    // MARK: - Ambient Sound Preview
+
+    private func togglePreview(_ sound: AmbientSound) {
+        // If already previewing this sound, stop it
+        if previewingSound == sound {
+            previewPlayer?.stop()
+            previewPlayer = nil
+            previewingSound = nil
+            return
+        }
+
+        // Stop any current preview
+        previewPlayer?.stop()
+        previewPlayer = nil
+        previewingSound = nil
+
+        // Play the sound file as a short preview (5 seconds then auto-stop)
+        guard let url = Bundle.main.url(forResource: sound.rawValue, withExtension: "mp3") else {
+            return
+        }
+
+        do {
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.volume = 0.7
+            player.prepareToPlay()
+            player.play()
+            previewPlayer = player
+            previewingSound = sound
+
+            // Auto-stop preview after 6 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 6) { [self] in
+                if previewingSound == sound {
+                    previewPlayer?.stop()
+                    previewPlayer = nil
+                    previewingSound = nil
+                }
+            }
+        } catch {
+            print("[BedtimeRoutine] Preview failed: \(error)")
         }
     }
 

@@ -57,5 +57,5 @@ final class SleepTimerService: ObservableObject {
         totalSeconds += minutes * 60
     }
 
-    static let presetMinutes: [Int] = [15, 30, 45, 60]
+    static let presetMinutes: [Int] = [3, 5, 7, 10]
 }

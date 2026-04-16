@@ -1,27 +1,57 @@
 import SwiftUI
 
+// MARK: - Panel Registry
+// Stories whose original image was a 2x2 Midjourney grid — split into 4 individual panels
+
+private let storyPanels: [String: [String]] = [
+    "jesus-and-the-woman-at-the-well": ["jesus-and-the-woman-at-the-well-1", "jesus-and-the-woman-at-the-well-2", "jesus-and-the-woman-at-the-well-3", "jesus-and-the-woman-at-the-well-4"],
+    "jesus-in-the-garden-of-gethsemane": ["jesus-in-the-garden-of-gethsemane-1", "jesus-in-the-garden-of-gethsemane-2", "jesus-in-the-garden-of-gethsemane-3", "jesus-in-the-garden-of-gethsemane-4"],
+    "jesus-washes-the-disciples-feet": ["jesus-washes-the-disciples-feet-1", "jesus-washes-the-disciples-feet-2", "jesus-washes-the-disciples-feet-3", "jesus-washes-the-disciples-feet-4"],
+    "mary-and-martha": ["mary-and-martha-1", "mary-and-martha-2", "mary-and-martha-3", "mary-and-martha-4"],
+    "noah-big-boat": ["noah-big-boat-1", "noah-big-boat-2", "noah-big-boat-3", "noah-big-boat-4"],
+    "peter-walks-on-water": ["peter-walks-on-water-1", "peter-walks-on-water-2", "peter-walks-on-water-3", "peter-walks-on-water-4"],
+    "the-empty-tomb": ["the-empty-tomb-1", "the-empty-tomb-2", "the-empty-tomb-3", "the-empty-tomb-4"],
+    "the-light-of-the-world": ["the-light-of-the-world-1", "the-light-of-the-world-2", "the-light-of-the-world-3", "the-light-of-the-world-4"],
+    "the-talents": ["the-talents-1", "the-talents-2", "the-talents-3", "the-talents-4"],
+    "the-ten-lepers": ["the-ten-lepers-1", "the-ten-lepers-2", "the-ten-lepers-3", "the-ten-lepers-4"],
+    "the-widows-offering": ["the-widows-offering-1", "the-widows-offering-2", "the-widows-offering-3", "the-widows-offering-4"]
+]
+// MARK: - StoryArtworkView
+
 struct StoryArtworkView: View {
     let story: Story
     let cornerRadius: CGFloat
 
     @EnvironmentObject private var appSettings: AppSettings
+    @State private var currentPanel: Int = 0
 
     private var style: StoryArtworkStyle {
         StoryArtwork.style(for: story.id, bedtimeMode: appSettings.isBedtimeMode)
     }
 
+    private var panels: [String]? {
+        storyPanels[story.id]
+    }
+
     var body: some View {
         GeometryReader { geo in
-            ZStack {
-                if UIImage(named: story.id) != nil {
-                    // Real Midjourney illustration
-                    Image(story.id)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geo.size.width, height: geo.size.height)
-                        .clipped()
+            if let panels = panels {
+                // ── Swipeable carousel for split-panel stories ──
+                ZStack(alignment: .bottom) {
+                    TabView(selection: $currentPanel) {
+                        ForEach(Array(panels.enumerated()), id: \.offset) { index, panelName in
+                            Image(panelName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: geo.size.width, height: geo.size.height)
+                                .clipped()
+                                .tag(index)
+                        }
+                    }
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .frame(width: geo.size.width, height: geo.size.height)
 
-                    // Subtle dark gradient overlay at bottom for text legibility
+                    // Subtle dark gradient overlay
                     LinearGradient(
                         colors: [.clear, .black.opacity(0.45)],
                         startPoint: .center,
@@ -29,7 +59,20 @@ struct StoryArtworkView: View {
                     )
                     .allowsHitTesting(false)
 
-                    // Dreamy shimmer overlay
+                    // Dot indicators
+                    HStack(spacing: 6) {
+                        ForEach(0..<panels.count, id: \.self) { i in
+                            Circle()
+                                .fill(i == currentPanel ? Color.white : Color.white.opacity(0.4))
+                                .frame(width: i == currentPanel ? 8 : 6,
+                                       height: i == currentPanel ? 8 : 6)
+                                .animation(.spring(response: 0.3), value: currentPanel)
+                        }
+                    }
+                    .padding(.bottom, 12)
+                    .allowsHitTesting(false)
+
+                    // Atmospheric effects on top
                     AtmosphericGlow(style: style, category: story.category, size: geo.size)
                         .blendMode(.screen)
                         .opacity(0.2)
@@ -37,9 +80,47 @@ struct StoryArtworkView: View {
 
                     AmbientParticlesLayer(category: story.category, size: geo.size)
                         .allowsHitTesting(false)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
 
-                } else {
-                    // Fallback: rich procedural illustrated artwork
+                        } else if UIImage(named: story.id) != nil {
+                // ── Single Midjourney illustration (aspect-ratio safe) ──
+                ZStack {
+                    Image(story.id)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geo.size.width, height: geo.size.height)
+                        .clipped()
+                        .blur(radius: 12)
+                        .scaleEffect(1.05)
+
+                    Image(story.id)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geo.size.width, height: geo.size.height)
+
+                    LinearGradient(
+                        colors: [.clear, .black.opacity(0.45)],
+                        startPoint: .center,
+                        endPoint: .bottom
+                    )
+                    .allowsHitTesting(false)
+
+                    AtmosphericGlow(style: style, category: story.category, size: geo.size)
+                        .blendMode(.screen)
+                        .opacity(0.2)
+                        .allowsHitTesting(false)
+
+                    AmbientParticlesLayer(category: story.category, size: geo.size)
+                        .allowsHitTesting(false)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
+
+            } else {
+                // ── Procedural painted scene fallback ──
+                ZStack {
                     PaintedSceneBackground(style: style, category: story.category, size: geo.size)
                         .allowsHitTesting(false)
 
@@ -55,7 +136,6 @@ struct StoryArtworkView: View {
                     AmbientParticlesLayer(category: story.category, size: geo.size)
                         .allowsHitTesting(false)
 
-                    // Bottom fade for text readability
                     LinearGradient(
                         colors: [.clear, .black.opacity(0.35)],
                         startPoint: .center,
@@ -63,9 +143,9 @@ struct StoryArtworkView: View {
                     )
                     .allowsHitTesting(false)
                 }
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
             }
-            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-            .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
         }
     }
 }
