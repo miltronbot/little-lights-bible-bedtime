@@ -5,7 +5,13 @@ import SwiftUI
 // Creates a magical twinkling night sky effect for bedtime mode
 
 struct StarryNightBackground: View {
+    /// When true, stars show even outside bedtime mode — a calmer version
+    /// (dimmer stars, no floating particles) so it reads as ambience, not
+    /// decoration. Used by the Home screen.
+    var alwaysStarry: Bool = false
+
     @EnvironmentObject private var appSettings: AppSettings
+    @Environment(\.colorScheme) private var colorScheme
     @State private var stars: [Star] = []
     @State private var shootingStarOffset: CGFloat = -100
 
@@ -19,26 +25,57 @@ struct StarryNightBackground: View {
         let delay: Double
     }
 
+    private var showStars: Bool { appSettings.isBedtimeMode || alwaysStarry }
+
+    // Subtle mode tones the stars down so the sky stays in the background
+    private var subtle: Bool { alwaysStarry && !appSettings.isBedtimeMode }
+
+    private var skyColors: [Color] {
+        if appSettings.isBedtimeMode {
+            return [Color(red: 0.04, green: 0.04, blue: 0.12),
+                    Color(red: 0.08, green: 0.06, blue: 0.18),
+                    Color(red: 0.10, green: 0.08, blue: 0.22)]
+        }
+        if alwaysStarry {
+            if colorScheme == .dark {
+                // Gentle night indigo, a touch lighter than bedtime
+                return [Color(red: 0.07, green: 0.07, blue: 0.16),
+                        Color(red: 0.10, green: 0.09, blue: 0.21),
+                        Color(red: 0.12, green: 0.10, blue: 0.24)]
+            } else {
+                // Pale twilight for light mode — keeps dark text readable
+                return [Color(red: 0.91, green: 0.91, blue: 0.97),
+                        Color(red: 0.94, green: 0.93, blue: 0.98),
+                        Color(red: 0.96, green: 0.95, blue: 0.99)]
+            }
+        }
+        return [Color(.systemGroupedBackground), Color(.systemGroupedBackground)]
+    }
+
+    private var starColor: Color {
+        subtle && colorScheme == .light ? Color.indigo : Color.white
+    }
+
+    private var starIntensity: Double {
+        subtle ? 0.7 : 1.0
+    }
+
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                // Deep night gradient
+                // Night (or twilight) gradient
                 LinearGradient(
-                    colors: appSettings.isBedtimeMode
-                        ? [Color(red: 0.04, green: 0.04, blue: 0.12),
-                           Color(red: 0.08, green: 0.06, blue: 0.18),
-                           Color(red: 0.10, green: 0.08, blue: 0.22)]
-                        : [Color(.systemGroupedBackground), Color(.systemGroupedBackground)],
+                    colors: skyColors,
                     startPoint: .top,
                     endPoint: .bottom
                 )
 
-                if appSettings.isBedtimeMode {
+                if showStars {
                     // Subtle aurora glow
                     Ellipse()
                         .fill(
                             RadialGradient(
-                                colors: [Color.indigo.opacity(0.15), Color.clear],
+                                colors: [Color.indigo.opacity(subtle ? 0.08 : 0.15), Color.clear],
                                 center: .center,
                                 startRadius: 0,
                                 endRadius: geo.size.width * 0.6
@@ -50,11 +87,14 @@ struct StarryNightBackground: View {
 
                     // Twinkling stars
                     ForEach(stars) { star in
-                        TwinklingStar(star: star)
+                        TwinklingStar(star: star, color: starColor, intensity: starIntensity)
                     }
 
-                    // Gentle floating particles
-                    FloatingParticles()
+                    // Gentle floating particles — bedtime only; the subtle
+                    // mode stays still so it never competes with content
+                    if !subtle {
+                        FloatingParticles()
+                    }
                 }
             }
             .onAppear {
@@ -88,14 +128,16 @@ struct StarryNightBackground: View {
 
 struct TwinklingStar: View {
     let star: StarryNightBackground.Star
+    var color: Color = .white
+    var intensity: Double = 1.0
     @State private var isTwinkling = false
 
     var body: some View {
         Circle()
-            .fill(Color.white)
+            .fill(color)
             .frame(width: star.size, height: star.size)
-            .opacity(isTwinkling ? star.opacity : star.opacity * 0.3)
-            .shadow(color: .white.opacity(0.5), radius: star.size)
+            .opacity((isTwinkling ? star.opacity : star.opacity * 0.3) * intensity)
+            .shadow(color: color.opacity(0.5 * intensity), radius: star.size)
             .position(x: star.x, y: star.y)
             .onAppear {
                 withAnimation(
