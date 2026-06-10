@@ -17,7 +17,8 @@
 - **Talk About It** — story-specific parent-child question on every story
 - **Memory verse practice game** — gentle find-the-missing-word (45 stories)
 - **Magic touch sparkles** — tap the detail artwork for a calm firefly burst
-- **Reading streak tracking** with badges and Sleep Stars; completion celebrated when narration finishes
+- **Reading streak tracking** with 27 badges and Sleep Stars; completion celebrated when narration finishes
+- **50 collectibles** — one themed treasure per story (Noah's Dove, Jericho Trumpet…), browsable in the Collection Book; tap any reward for how-to-earn details with live progress bars
 - **Lumi the firefly** — animated mascot throughout the app
 - **100% free** — no paywall, no ads, no analytics, COPPA compliant, fully offline
 - **Bundle ID:** `com.littlelightsbiblebedtime.app`

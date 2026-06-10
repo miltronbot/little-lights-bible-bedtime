@@ -41,6 +41,7 @@ HANDOFF.md                    # Full technical handoff — READ THIS
 - **ElevenLabs TTS** is an optional fallback — user must add their own API key in Settings → Voice Narration
 - **Lumi** — firefly mascot character used throughout the app
 - **v1.1 features:** per-child profiles (up to 4, own streak/favorites/collectibles via `ProfileScope` keys), Tonight's Queue (chain up to 3 stories), story-specific `talkAboutIt` questions in stories.json, memory-verse practice game (`MemoryVerseGameView`), tap-the-artwork sparkles (`MagicTouchLayer`, detail view only), completion celebration on narration finish
+- **Rewards:** 50 collectibles — one per story (`Collectible.all`, Noah gets the Dove not a rainbow) — and 27 badges (`ReadingStreak.badgeInfo`: 12 story-count, 10 streak, 3 Sleep Star, 2 moment). Badges use emoji icons styled like collectible cards. Tap any collectible → Collection Book (`CollectionAlbumView`, all 50 browsable); tap any badge → detail sheet with live progress bar (`BadgeDetailSheet`, targets mirror `checkBadges()` thresholds — keep them in sync)
 - **Copy rule:** never use "hiding/hid God's Word in your heart" phrasing in kid-facing strings (owner preference) — say "missing word" / "learning by heart"
 
 ## Environment Objects (all injected at app root, available everywhere)
