@@ -35,6 +35,7 @@
 		9D3D8D4207A64F7DA722FA26 /* Support/PrivacyPolicy.md in Resources */ = {isa = PBXBuildFile; fileRef = 1A647295A38840BBBB507252 /* Support/PrivacyPolicy.md */; };
 		A2459E201BF54BC68D82BE8D /* Services/PurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10473F560014486B220FC10 /* Services/PurchaseService.swift */; };
 		AF9914F061E4446D9D3B58AF /* LittleLightsBibleBedtime/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6762195B6980405CBE063BD0 /* LittleLightsBibleBedtime/Assets.xcassets */; };
+		AF9914F061E4446D9D3B58B0 /* LittleLightsBibleBedtime/PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6762195B6980405CBE063BD1 /* LittleLightsBibleBedtime/PrivacyInfo.xcprivacy */; };
 		B34D286F7674491CA05AC450 /* Views/Components/FeaturedStoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6FCA89FC5742C1ACD837E3 /* Views/Components/FeaturedStoryCard.swift */; };
 		B3746E7DC15745C9B61E422D /* App/LittleLightsBibleBedtimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD11EE5883F54E158784803A /* App/LittleLightsBibleBedtimeApp.swift */; };
 		B54F78FBA3BA4CB48B0FF135 /* Resources/Audio/the_lost_sheep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 88D8769996C64CC2B9DB4EDE /* Resources/Audio/the_lost_sheep.mp3 */; };
@@ -145,6 +146,7 @@
 		5FYA7XQYNIF9BHNSEUKF7FCN /* Resources/Audio/the_good_samaritan.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/the_good_samaritan.mp3; sourceTree = "<group>"; };
 		60A3A16996994013A6C27922 /* Resources/Audio/daniel_and_the_lions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/daniel_and_the_lions.mp3; sourceTree = "<group>"; };
 		6762195B6980405CBE063BD0 /* LittleLightsBibleBedtime/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = LittleLightsBibleBedtime/Assets.xcassets; sourceTree = "<group>"; };
+		6762195B6980405CBE063BD1 /* LittleLightsBibleBedtime/PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LittleLightsBibleBedtime/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6D004358A32047C49CFBF701 /* Views/Components/CategoryChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/CategoryChipView.swift; sourceTree = "<group>"; };
 		6WG4V5FEGMXG3A34Q0D283EI /* Resources/Audio/joshua_and_jericho.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Resources/Audio/joshua_and_jericho.mp3; sourceTree = "<group>"; };
 		71371371FEE14078BDBF060B /* Views/TermsOfUseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/TermsOfUseView.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				2C5A80E59968482480C4D54D /* Resources */,
 				388979595319468E98E6FDBD /* Support */,
 				F0446AB76ACA4329AE93BE00 /* Assets.xcassets */,
+				6762195B6980405CBE063BD1 /* LittleLightsBibleBedtime/PrivacyInfo.xcprivacy */,
 				A3114370BC574EC2B27153C1 /* Products */,
 				QQH45ARGFLJWDKB7PHYRXR9V /* LittleLightsBibleBedtime/Products.storekit */,
 				FCE81FBB2F73892800964AE0 /* Recovered References */,
@@ -529,6 +532,7 @@
 				B54F78FBA3BA4CB48B0FF135 /* Resources/Audio/the_lost_sheep.mp3 in Resources */,
 				BD0807DE8D8A4428A7CB7EF2 /* Resources/Audio/the_birth_of_jesus.mp3 in Resources */,
 				AF9914F061E4446D9D3B58AF /* LittleLightsBibleBedtime/Assets.xcassets in Resources */,
+				AF9914F061E4446D9D3B58B0 /* LittleLightsBibleBedtime/PrivacyInfo.xcprivacy in Resources */,
 				8UYCDSW25RB9YOURRFDGYTMW /* Resources/Audio/david_and_goliath.mp3 in Resources */,
 				8S0ZCDXY6O2U4AXPWW0KFU6E /* Resources/Audio/jonah_and_the_big_fish.mp3 in Resources */,
 				HY5PZZJZ3IV4QLV25YBASUCO /* Resources/Audio/baby_moses.mp3 in Resources */,
