@@ -580,35 +580,122 @@ struct CategoryCard: View {
     @EnvironmentObject private var appSettings: AppSettings
 
     var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: category.icon)
-                .font(.title2)
-                .foregroundStyle(.white)
-            Text(category.rawValue)
-                .font(.caption.bold())
-                .foregroundStyle(.white)
+        ZStack {
+            // Twilight sky gradient, same palette family as the painted story scenes
+            LinearGradient(
+                stops: [
+                    .init(color: skyTop, location: 0.0),
+                    .init(color: skyMid, location: 0.55),
+                    .init(color: skyHorizon, location: 1.0)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+
+            // Soft celestial glow behind the icon
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [glowColor.opacity(0.55), glowColor.opacity(0.18), .clear],
+                        center: .center,
+                        startRadius: 0,
+                        endRadius: 38
+                    )
+                )
+                .frame(width: 76, height: 76)
+                .offset(y: -10)
+                .blur(radius: 6)
+                .allowsHitTesting(false)
+
+            // Tiny sparkle accents
+            Image(systemName: "sparkle")
+                .font(.system(size: 7))
+                .foregroundStyle(.white.opacity(0.55))
+                .offset(x: -52, y: -24)
+                .allowsHitTesting(false)
+            Image(systemName: "sparkle")
+                .font(.system(size: 5))
+                .foregroundStyle(.white.opacity(0.35))
+                .offset(x: 56, y: -10)
+                .allowsHitTesting(false)
+            Image(systemName: "sparkle")
+                .font(.system(size: 6))
+                .foregroundStyle(.white.opacity(0.45))
+                .offset(x: 40, y: -30)
+                .allowsHitTesting(false)
+
+            VStack(spacing: 8) {
+                Image(systemName: category.icon)
+                    .font(.title2)
+                    .foregroundStyle(.white)
+                    .shadow(color: glowColor.opacity(0.8), radius: 8)
+                Text(category.rawValue)
+                    .font(.caption.bold())
+                    .foregroundStyle(.white)
+                    .shadow(color: .black.opacity(0.35), radius: 2, y: 1)
+            }
         }
         .frame(maxWidth: .infinity)
         .frame(height: 80)
-        .background(
-            LinearGradient(
-                colors: gradientColors,
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        )
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.white.opacity(0.10), lineWidth: 1)
+        )
+        .contentShape(RoundedRectangle(cornerRadius: 16))
     }
 
-    private var gradientColors: [Color] {
+    // Muted twilight tones per category — bedtime mode dims them further,
+    // mirroring StoryArtwork's paired palettes
+    private var skyTop: Color {
+        let dim = appSettings.isBedtimeMode
         switch category {
-        case .trust: return [.blue, .cyan]
-        case .courage: return [.orange, .red]
-        case .peace: return [.green, .mint]
-        case .love: return [.pink, .red]
-        case .hope: return [.yellow, .orange]
-        case .prayer: return [.purple, .indigo]
-        case .kindness: return [.teal, .green]
+        case .trust:    return dim ? Color(red: 0.10, green: 0.16, blue: 0.34) : Color(red: 0.16, green: 0.26, blue: 0.50)
+        case .courage:  return dim ? Color(red: 0.30, green: 0.17, blue: 0.10) : Color(red: 0.44, green: 0.26, blue: 0.14)
+        case .peace:    return dim ? Color(red: 0.08, green: 0.22, blue: 0.20) : Color(red: 0.12, green: 0.32, blue: 0.29)
+        case .love:     return dim ? Color(red: 0.32, green: 0.13, blue: 0.20) : Color(red: 0.46, green: 0.20, blue: 0.30)
+        case .hope:     return dim ? Color(red: 0.32, green: 0.24, blue: 0.10) : Color(red: 0.46, green: 0.34, blue: 0.13)
+        case .prayer:   return dim ? Color(red: 0.22, green: 0.14, blue: 0.36) : Color(red: 0.32, green: 0.20, blue: 0.50)
+        case .kindness: return dim ? Color(red: 0.10, green: 0.24, blue: 0.14) : Color(red: 0.15, green: 0.34, blue: 0.20)
+        }
+    }
+
+    private var skyMid: Color {
+        let dim = appSettings.isBedtimeMode
+        switch category {
+        case .trust:    return dim ? Color(red: 0.14, green: 0.20, blue: 0.42) : Color(red: 0.22, green: 0.33, blue: 0.60)
+        case .courage:  return dim ? Color(red: 0.36, green: 0.22, blue: 0.12) : Color(red: 0.55, green: 0.34, blue: 0.17)
+        case .peace:    return dim ? Color(red: 0.11, green: 0.28, blue: 0.26) : Color(red: 0.17, green: 0.41, blue: 0.37)
+        case .love:     return dim ? Color(red: 0.38, green: 0.17, blue: 0.26) : Color(red: 0.56, green: 0.27, blue: 0.38)
+        case .hope:     return dim ? Color(red: 0.38, green: 0.29, blue: 0.13) : Color(red: 0.57, green: 0.43, blue: 0.18)
+        case .prayer:   return dim ? Color(red: 0.27, green: 0.18, blue: 0.44) : Color(red: 0.40, green: 0.27, blue: 0.61)
+        case .kindness: return dim ? Color(red: 0.13, green: 0.30, blue: 0.18) : Color(red: 0.20, green: 0.43, blue: 0.26)
+        }
+    }
+
+    private var skyHorizon: Color {
+        let dim = appSettings.isBedtimeMode
+        switch category {
+        case .trust:    return dim ? Color(red: 0.20, green: 0.18, blue: 0.40) : Color(red: 0.32, green: 0.30, blue: 0.62)
+        case .courage:  return dim ? Color(red: 0.42, green: 0.28, blue: 0.14) : Color(red: 0.65, green: 0.44, blue: 0.22)
+        case .peace:    return dim ? Color(red: 0.15, green: 0.24, blue: 0.34) : Color(red: 0.23, green: 0.37, blue: 0.50)
+        case .love:     return dim ? Color(red: 0.42, green: 0.24, blue: 0.22) : Color(red: 0.62, green: 0.36, blue: 0.33)
+        case .hope:     return dim ? Color(red: 0.43, green: 0.31, blue: 0.18) : Color(red: 0.66, green: 0.49, blue: 0.27)
+        case .prayer:   return dim ? Color(red: 0.18, green: 0.17, blue: 0.38) : Color(red: 0.28, green: 0.26, blue: 0.55)
+        case .kindness: return dim ? Color(red: 0.15, green: 0.30, blue: 0.26) : Color(red: 0.23, green: 0.43, blue: 0.37)
+        }
+    }
+
+    // Same glow mapping the story artwork uses for its atmospheric effects
+    private var glowColor: Color {
+        switch category {
+        case .peace:    return .cyan
+        case .love:     return .pink
+        case .hope:     return .yellow
+        case .courage:  return .orange
+        case .trust:    return .blue
+        case .prayer:   return .purple
+        case .kindness: return .green
         }
     }
 }
