@@ -24,9 +24,34 @@ struct HomeView: View {
                 // MARK: - Header with greeting and Lumi
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(personalizedGreeting)
-                            .font(.title2)
-                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                        // With multiple children, tapping the greeting switches profiles
+                        if appSettings.childrenNames.count > 1 {
+                            Menu {
+                                ForEach(Array(appSettings.childrenNames.enumerated()), id: \.offset) { index, name in
+                                    Button {
+                                        appSettings.switchToChild(at: index)
+                                    } label: {
+                                        if index == appSettings.activeChildIndex {
+                                            Label(name, systemImage: "checkmark")
+                                        } else {
+                                            Text(name)
+                                        }
+                                    }
+                                }
+                            } label: {
+                                HStack(spacing: 6) {
+                                    Text(personalizedGreeting)
+                                        .font(.title2)
+                                    Image(systemName: "chevron.up.chevron.down")
+                                        .font(.caption)
+                                }
+                                .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                            }
+                        } else {
+                            Text(personalizedGreeting)
+                                .font(.title2)
+                                .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                        }
                         Text("Little Lights")
                             .font(.system(size: 34, weight: .bold, design: .rounded))
                             .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))

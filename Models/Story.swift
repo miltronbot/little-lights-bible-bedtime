@@ -21,12 +21,13 @@ struct Story: Identifiable, Codable, Hashable {
     var ageGroup: AgeGroup?
     var narratorType: StoryNarratorType?   // OT or NT — controls default narrator voice
     var featuredCharacter: String?          // Primary character voice for this story
+    var talkAboutIt: String?                // Story-specific parent-child discussion question
 
     enum CodingKeys: String, CodingKey {
         case id, title, subtitle, bibleReference, category, isFree
         case readDurationMinutes, listenDurationMinutes
         case imageName, audioFileName, storyText, takeaway, bedtimePrayer
-        case memoryVerse, ageGroup, narratorType, featuredCharacter
+        case memoryVerse, ageGroup, narratorType, featuredCharacter, talkAboutIt
     }
 
     init(from decoder: Decoder) throws {
@@ -48,6 +49,7 @@ struct Story: Identifiable, Codable, Hashable {
         ageGroup = try container.decodeIfPresent(AgeGroup.self, forKey: .ageGroup)
         narratorType = try container.decodeIfPresent(StoryNarratorType.self, forKey: .narratorType)
         featuredCharacter = try container.decodeIfPresent(String.self, forKey: .featuredCharacter)
+        talkAboutIt = try container.decodeIfPresent(String.self, forKey: .talkAboutIt)
     }
 
     /// Resolves the best ElevenLabs voice ID for this story.

@@ -16,7 +16,8 @@
     "memoryVerse": "\"I have set my rainbow in the clouds, and it will be the sign of the covenant between me and the earth.\" — Genesis 9:13",
     "ageGroup": "Ages 3-5",
     "narratorType": "OT",
-    "featuredCharacter": "Noah"
+    "featuredCharacter": "Noah",
+    "talkAboutIt": "Noah kept building even when others laughed. What is something good you would keep doing even if it was hard?"
   },
   {
     "id": "daniel-and-the-lions",
@@ -35,7 +36,8 @@
     "memoryVerse": "\"My God sent his angel, and he shut the mouths of the lions.\" — Daniel 6:22",
     "ageGroup": "Ages 6-8",
     "narratorType": "OT",
-    "featuredCharacter": "Daniel"
+    "featuredCharacter": "Daniel",
+    "talkAboutIt": "Daniel prayed even when it was scary. When you feel afraid at night, what could you say to God?"
   },
   {
     "id": "jesus-calms-the-storm",
@@ -54,7 +56,8 @@
     "memoryVerse": "\"Peace, be still!\" — Mark 4:39",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "Jesus told the storm 'Peace, be still.' What feels like a storm in your day, and how can we ask Jesus for peace about it?"
   },
   {
     "id": "the-lost-sheep",
@@ -73,7 +76,8 @@
     "memoryVerse": "\"There will be more rejoicing in heaven over one sinner who repents.\" — Luke 15:7",
     "ageGroup": "Ages 3-5",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "The shepherd went looking for just one little sheep. How does it feel to know God would come looking just for you?"
   },
   {
     "id": "the-birth-of-jesus",
@@ -92,7 +96,8 @@
     "memoryVerse": "\"For unto you is born this day in the city of David a Savior, who is Christ the Lord.\" — Luke 2:11",
     "ageGroup": "Ages 3-5",
     "narratorType": "NT",
-    "featuredCharacter": "Mary"
+    "featuredCharacter": "Mary",
+    "talkAboutIt": "Baby Jesus was born in a quiet stable, not a palace. Why do you think God chose such a humble place?"
   },
   {
     "id": "david-and-goliath",
@@ -111,7 +116,8 @@
     "memoryVerse": "\"The Lord who rescued me from the paw of the lion will rescue me from this Philistine.\" — 1 Samuel 17:37",
     "ageGroup": "Ages 6-8",
     "narratorType": "OT",
-    "featuredCharacter": "David"
+    "featuredCharacter": "David",
+    "talkAboutIt": "David was the smallest one there, but he trusted God. What is something big you can be brave about with God's help?"
   },
   {
     "id": "jonah-and-the-big-fish",
@@ -130,7 +136,8 @@
     "memoryVerse": "\"In my distress I called to the Lord, and he answered me.\" — Jonah 2:2",
     "ageGroup": "Ages 3-5",
     "narratorType": "OT",
-    "featuredCharacter": "Jonah"
+    "featuredCharacter": "Jonah",
+    "talkAboutIt": "Jonah tried to run away instead of listening. Why do you think it can be hard to listen sometimes?"
   },
   {
     "id": "baby-moses",
@@ -149,7 +156,8 @@
     "memoryVerse": "\"She named him Moses, saying, 'I drew him out of the water.'\" — Exodus 2:10",
     "ageGroup": "Ages 3-5",
     "narratorType": "OT",
-    "featuredCharacter": "Moses"
+    "featuredCharacter": "Moses",
+    "talkAboutIt": "Moses' mother trusted God to keep her baby safe in the basket. Who are the people God uses to keep you safe?"
   },
   {
     "id": "the-good-samaritan",
@@ -168,7 +176,8 @@
     "memoryVerse": "\"Love your neighbor as yourself.\" — Luke 10:27",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "The Samaritan stopped to help when others walked by. Who could you stop and help this week?"
   },
   {
     "id": "creation-story",
@@ -187,7 +196,8 @@
     "memoryVerse": "\"In the beginning God created the heavens and the earth.\" — Genesis 1:1",
     "ageGroup": "Ages 3-5",
     "narratorType": "OT",
-    "featuredCharacter": "God"
+    "featuredCharacter": "God",
+    "talkAboutIt": "God made the stars, the sea, and you! What is your favorite thing God made, and why?"
   },
   {
     "id": "joseph-and-his-colorful-coat",
@@ -206,7 +216,8 @@
     "memoryVerse": "\"You intended to harm me, but God intended it for good.\" — Genesis 50:20",
     "ageGroup": "Ages 6-8",
     "narratorType": "OT",
-    "featuredCharacter": "Joseph"
+    "featuredCharacter": "Joseph",
+    "talkAboutIt": "Joseph's life had sad parts, but God had a plan the whole time. What do you think God might be planning for you?"
   },
   {
     "id": "the-wise-men",
@@ -225,7 +236,8 @@
     "memoryVerse": "\"Where is the one who has been born king of the Jews? We saw his star when it rose.\" — Matthew 2:2",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "NarratorNT"
+    "featuredCharacter": "NarratorNT",
+    "talkAboutIt": "The wise men traveled so far to find Jesus. What would you bring Jesus as a gift?"
   },
   {
     "id": "christmas-the-birth-of-jesus",
@@ -244,7 +256,8 @@
     "memoryVerse": "\"Glory to God in the highest, and on earth peace to those on whom his favor rests.\" — Luke 2:14",
     "ageGroup": "Ages 3-5",
     "narratorType": "NT",
-    "featuredCharacter": "Mary"
+    "featuredCharacter": "Mary",
+    "talkAboutIt": "The angels told the shepherds 'Do not be afraid — good news!' What good news would you want to run and tell someone?"
   },
   {
     "id": "zacchaeus",
@@ -263,7 +276,8 @@
     "memoryVerse": "\"For the Son of Man came to seek and to save the lost.\" — Luke 19:10",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "Jesus saw Zacchaeus up in the tree when everyone else ignored him. How does it feel to know Jesus always sees you?"
   },
   {
     "id": "feeding-the-five-thousand",
@@ -282,7 +296,8 @@
     "memoryVerse": "\"They all ate and were satisfied.\" — Matthew 14:20",
     "ageGroup": "Ages 3-5",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "One small lunch fed thousands of people. What small thing do you have that God could use in a big way?"
   },
   {
     "id": "jesus-loves-the-children",
@@ -301,7 +316,8 @@
     "memoryVerse": "\"Let the little children come to me, and do not hinder them.\" — Mark 10:14",
     "ageGroup": "Ages 3-5",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "Jesus said 'Let the children come to me.' What would you want to tell Jesus if you were sitting next to him?"
   },
   {
     "id": "the-prodigal-son",
@@ -320,7 +336,8 @@
     "memoryVerse": "\"This son of mine was dead and is alive again; he was lost and is found.\" — Luke 15:24",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "The father ran to hug his son even after the son made big mistakes. Why do you think he still loved him so much?"
   },
   {
     "id": "esthers-courage",
@@ -339,7 +356,8 @@
     "memoryVerse": "\"Who knows but that you have come to your royal position for such a time as this?\" — Esther 4:14",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Esther"
+    "featuredCharacter": "Esther",
+    "talkAboutIt": "Esther was scared, but she spoke up to help her people. When is a time you could speak up to help someone?"
   },
   {
     "id": "joshua-and-jericho",
@@ -358,7 +376,8 @@
     "memoryVerse": "\"Be strong and courageous. Do not be afraid.\" — Joshua 1:9",
     "ageGroup": "Ages 6-8",
     "narratorType": "OT",
-    "featuredCharacter": "Joshua"
+    "featuredCharacter": "Joshua",
+    "talkAboutIt": "Marching around a wall seemed like a funny way to win. Why do you think God's way works even when it seems strange?"
   },
   {
     "id": "elijah-and-the-whisper",
@@ -377,7 +396,8 @@
     "memoryVerse": "\"The Lord was not in the wind... not in the earthquake... but in a gentle whisper.\" — 1 Kings 19:11-12",
     "ageGroup": "Ages 6-8",
     "narratorType": "OT",
-    "featuredCharacter": "Elijah"
+    "featuredCharacter": "Elijah",
+    "talkAboutIt": "God spoke in a gentle whisper, not the loud wind or fire. Where is a quiet place you could listen for God?"
   },
   {
     "id": "the-boy-samuel",
@@ -396,7 +416,8 @@
     "memoryVerse": "\"Speak, Lord, for your servant is listening.\" — 1 Samuel 3:9",
     "ageGroup": "Ages 3-5",
     "narratorType": "OT",
-    "featuredCharacter": "Samuel"
+    "featuredCharacter": "Samuel",
+    "talkAboutIt": "Samuel said 'Speak, Lord, I'm listening.' What do you think God might want to whisper to you tonight?"
   },
   {
     "id": "abraham-and-the-stars",
@@ -415,7 +436,8 @@
     "memoryVerse": "",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Abraham"
+    "featuredCharacter": "Abraham",
+    "talkAboutIt": "God told Abraham to count the stars. When you look at the stars, what do you want to thank God for?"
   },
   {
     "id": "ruth-and-naomi",
@@ -434,7 +456,8 @@
     "memoryVerse": "\"Where you go I will go, and where you stay I will stay.\" — Ruth 1:16",
     "ageGroup": "Ages 6-8",
     "narratorType": "OT",
-    "featuredCharacter": "Ruth"
+    "featuredCharacter": "Ruth",
+    "talkAboutIt": "Ruth stayed with Naomi so she wouldn't be alone. Who is someone you could stick by when they're sad?"
   },
   {
     "id": "moses-and-the-burning-bush",
@@ -453,7 +476,8 @@
     "memoryVerse": "",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Moses"
+    "featuredCharacter": "Moses",
+    "talkAboutIt": "God told Moses 'I will be with you.' What hard thing feels easier knowing God goes with you?"
   },
   {
     "id": "the-walls-of-water",
@@ -472,7 +496,8 @@
     "memoryVerse": "",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Moses"
+    "featuredCharacter": "Moses",
+    "talkAboutIt": "God made a dry path right through the sea. What 'impossible' thing would you like to ask God for help with?"
   },
   {
     "id": "jacobs-ladder-dream",
@@ -491,7 +516,8 @@
     "memoryVerse": "\"I am with you and will watch over you wherever you go.\" — Genesis 28:15",
     "ageGroup": "Ages 6-8",
     "narratorType": "OT",
-    "featuredCharacter": "Jacob"
+    "featuredCharacter": "Jacob",
+    "talkAboutIt": "Jacob dreamed of a ladder full of angels and woke up knowing God was near. How do you know God is close to you?"
   },
   {
     "id": "gideons-brave-300",
@@ -510,7 +536,8 @@
     "memoryVerse": "\"The Lord said to Gideon, 'With the three hundred men I will save you.'\" — Judges 7:7",
     "ageGroup": "Ages 6-8",
     "narratorType": "OT",
-    "featuredCharacter": "Gideon"
+    "featuredCharacter": "Gideon",
+    "talkAboutIt": "God won the battle with just a few people and some trumpets. Why do you think God likes using small things?"
   },
   {
     "id": "elijah-and-the-ravens",
@@ -529,7 +556,8 @@
     "memoryVerse": "",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Elijah"
+    "featuredCharacter": "Elijah",
+    "talkAboutIt": "God sent birds to bring Elijah food! What is a surprising way God takes care of you?"
   },
   {
     "id": "shadrach-meshach-abednego",
@@ -548,7 +576,8 @@
     "memoryVerse": "\"The God we serve is able to deliver us from the blazing furnace.\" — Daniel 3:17",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Shadrach"
+    "featuredCharacter": "Shadrach",
+    "talkAboutIt": "The three friends stood together and trusted God in the fire. Who helps you be brave when things are scary?"
   },
   {
     "id": "hannahs-prayer",
@@ -567,7 +596,8 @@
     "memoryVerse": "\"I prayed for this child, and the Lord has granted me what I asked of him.\" — 1 Samuel 1:27",
     "ageGroup": "Ages 6-8",
     "narratorType": "OT",
-    "featuredCharacter": "Hannah"
+    "featuredCharacter": "Hannah",
+    "talkAboutIt": "Hannah told God exactly what her heart wanted. What is the biggest wish you'd like to pray about tonight?"
   },
   {
     "id": "the-garden-of-eden",
@@ -586,7 +616,8 @@
     "memoryVerse": "",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Adam"
+    "featuredCharacter": "Adam",
+    "talkAboutIt": "God walked with Adam and Eve in the garden like a friend. What would you talk about on a walk with God?"
   },
   {
     "id": "joseph-forgives-brothers",
@@ -605,7 +636,8 @@
     "memoryVerse": "\"Do not be afraid. Am I in the place of God?\" — Genesis 50:19",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Joseph"
+    "featuredCharacter": "Joseph",
+    "talkAboutIt": "Joseph forgave his brothers even though they hurt him. Is there someone you find hard to forgive?"
   },
   {
     "id": "miriams-song",
@@ -624,7 +656,8 @@
     "memoryVerse": "\"Sing to the Lord, for he is highly exalted.\" — Exodus 15:21",
     "ageGroup": "Ages 3-5",
     "narratorType": "OT",
-    "featuredCharacter": "Miriam"
+    "featuredCharacter": "Miriam",
+    "talkAboutIt": "Miriam sang and danced to thank God. What song would you sing to God to say thank you?"
   },
   {
     "id": "nehemiah-builds-wall",
@@ -643,7 +676,8 @@
     "memoryVerse": "\"The God of heaven will give us success.\" — Nehemiah 2:20",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Nehemiah"
+    "featuredCharacter": "Nehemiah",
+    "talkAboutIt": "Nehemiah prayed first, then got to work. What is something you could pray about and then work on too?"
   },
   {
     "id": "david-shepherd-boy",
@@ -662,7 +696,8 @@
     "memoryVerse": "\"The Lord is my shepherd, I shall not want.\" — Psalm 23:1",
     "ageGroup": "Ages 3-5",
     "narratorType": "OT",
-    "featuredCharacter": "David"
+    "featuredCharacter": "David",
+    "talkAboutIt": "David sang to God under the open sky while watching his sheep. What makes you feel calm and close to God?"
   },
   {
     "id": "solomon-asks-wisdom",
@@ -681,7 +716,8 @@
     "memoryVerse": "\"Give your servant a discerning heart to govern your people.\" — 1 Kings 3:9",
     "ageGroup": "Ages 9-12",
     "narratorType": "OT",
-    "featuredCharacter": "Solomon"
+    "featuredCharacter": "Solomon",
+    "talkAboutIt": "Solomon could ask for anything, and he asked for wisdom. If God said 'ask me for anything,' what would you ask for?"
   },
   {
     "id": "jesus-walks-on-water",
@@ -700,7 +736,8 @@
     "memoryVerse": "\"Take courage! It is I. Don't be afraid.\" — Matthew 14:27",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "Peter"
+    "featuredCharacter": "Peter",
+    "talkAboutIt": "The disciples were afraid until they heard Jesus say 'It is I.' Whose voice makes you feel safe right away?"
   },
   {
     "id": "the-mustard-seed",
@@ -719,7 +756,8 @@
     "memoryVerse": "\"If you have faith as small as a mustard seed, you can say to this mountain, 'Move.'\" — Matthew 17:20",
     "ageGroup": "Ages 3-5",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "A tiny seed grows into a big tree. What tiny kind thing could you do tomorrow that might grow big?"
   },
   {
     "id": "jesus-heals-the-blind-man",
@@ -738,7 +776,8 @@
     "memoryVerse": "\"I was blind but now I see!\" — John 9:25",
     "ageGroup": "Ages 9-12",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "Jesus noticed the blind man when others walked past him. Who is someone other people forget that you could be kind to?"
   },
   {
     "id": "the-sower-and-the-seeds",
@@ -757,7 +796,8 @@
     "memoryVerse": "\"Still other seed fell on good soil, where it produced a crop.\" — Matthew 13:8",
     "ageGroup": "Ages 9-12",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "The seeds grew best in the good soft soil. How can we make our hearts soft and ready for God's words?"
   },
   {
     "id": "mary-and-martha",
@@ -776,7 +816,8 @@
     "memoryVerse": "\"Mary has chosen what is better, and it will not be taken away from her.\" — Luke 10:42",
     "ageGroup": "Ages 9-12",
     "narratorType": "NT",
-    "featuredCharacter": "Martha"
+    "featuredCharacter": "Martha",
+    "talkAboutIt": "Mary chose to sit and listen to Jesus instead of rushing around. When could you slow down and just listen?"
   },
   {
     "id": "the-ten-lepers",
@@ -795,7 +836,8 @@
     "memoryVerse": "\"Were not all ten cleansed? Where are the other nine?\" — Luke 17:17",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "Only one out of ten came back to say thank you. What are three things you want to thank God for tonight?"
   },
   {
     "id": "jesus-in-the-garden-of-gethsemane",
@@ -814,7 +856,8 @@
     "memoryVerse": "\"Not my will, but yours be done.\" — Luke 22:42",
     "ageGroup": "Ages 9-12",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "Jesus prayed when his heart was heavy and trusted God's plan. What do you do when your heart feels heavy?"
   },
   {
     "id": "the-empty-tomb",
@@ -833,7 +876,8 @@
     "memoryVerse": "\"He is not here; he has risen!\" — Luke 24:6",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "Mary Magdalene"
+    "featuredCharacter": "Mary Magdalene",
+    "talkAboutIt": "The friends were so sad, and then came the happiest surprise ever. What surprise has made you really happy?"
   },
   {
     "id": "peter-walks-on-water",
@@ -852,7 +896,8 @@
     "memoryVerse": "\"Lord, if it's you, tell me to come to you on the water.\" — Matthew 14:28",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "Peter"
+    "featuredCharacter": "Peter",
+    "talkAboutIt": "Peter was okay while he kept looking at Jesus. What helps you keep being brave when something gets scary halfway?"
   },
   {
     "id": "the-widows-offering",
@@ -871,7 +916,8 @@
     "memoryVerse": "\"This poor widow has put in more than all the others.\" — Luke 21:3",
     "ageGroup": "Ages 6-8",
     "narratorType": "NT",
-    "featuredCharacter": "Widow"
+    "featuredCharacter": "Widow",
+    "talkAboutIt": "The widow gave just two small coins, and Jesus said it was the biggest gift. Why do you think it mattered so much?"
   },
   {
     "id": "jesus-and-the-woman-at-the-well",
@@ -890,7 +936,8 @@
     "memoryVerse": "\"Whoever drinks the water I give them will never thirst.\" — John 4:14",
     "ageGroup": "Ages 9-12",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "Jesus was kind to someone everyone else avoided. How can you be kind to someone who feels left out?"
   },
   {
     "id": "the-talents",
@@ -909,7 +956,8 @@
     "memoryVerse": "\"Well done, good and faithful servant!\" — Matthew 25:21",
     "ageGroup": "Ages 9-12",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "The servants got different gifts to take care of. What special gift has God given you, and how could you use it?"
   },
   {
     "id": "jesus-washes-the-disciples-feet",
@@ -928,7 +976,8 @@
     "memoryVerse": "\"I have set you an example that you should do as I have done for you.\" — John 13:15",
     "ageGroup": "Ages 9-12",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "Jesus, the most important one, did the helper's job. What helper job could you do for your family?"
   },
   {
     "id": "the-light-of-the-world",
@@ -947,6 +996,7 @@
     "memoryVerse": "\"I am the light of the world. Whoever follows me will never walk in darkness.\" — John 8:12",
     "ageGroup": "Ages 3-5",
     "narratorType": "NT",
-    "featuredCharacter": "Jesus"
+    "featuredCharacter": "Jesus",
+    "talkAboutIt": "Jesus said he is the light that never goes out. When it's dark and quiet at night, what reminds you that you're safe?"
   }
 ]

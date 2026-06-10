@@ -29,14 +29,28 @@ final class AudioPlayerViewModel: ObservableObject {
     // Callback when a story finishes (for streak tracking)
     var onStoryFinished: ((String) -> Void)?
 
+    // Tonight's Queue — stories that auto-play back-to-back, then flow
+    // into ambient sound / sleep timer
+    @Published private(set) var storyQueue: [Story] = []
+    static let maxQueueLength = 3
+
     init() {
         audioService.onPlaybackFinished = { [weak self] in
             Task { @MainActor in
-                if let storyID = self?.currentStoryID {
-                    self?.onStoryFinished?(storyID)
+                guard let self else { return }
+                if let storyID = self.currentStoryID {
+                    self.onStoryFinished?(storyID)
                 }
-                self?.isPlaying = false
-                self?.currentTime = 0
+                self.isPlaying = false
+                self.currentTime = 0
+
+                // Auto-advance through Tonight's Queue after a calm pause
+                if let next = self.storyQueue.first {
+                    self.storyQueue.removeFirst()
+                    try? await Task.sleep(for: .seconds(1.5))
+                    guard !self.isPlaying else { return }  // user started something else
+                    self.loadAndPlay(story: next)
+                }
             }
         }
 
@@ -180,6 +194,29 @@ final class AudioPlayerViewModel: ObservableObject {
     func stopIfPlaying(storyID: String) {
         guard currentStoryID == storyID else { return }
         stop()
+    }
+
+    // MARK: - Tonight's Queue
+
+    func isQueued(_ story: Story) -> Bool {
+        storyQueue.contains { $0.id == story.id }
+    }
+
+    func toggleQueued(_ story: Story) {
+        if isQueued(story) {
+            storyQueue.removeAll { $0.id == story.id }
+        } else {
+            guard storyQueue.count < Self.maxQueueLength else { return }
+            storyQueue.append(story)
+        }
+    }
+
+    func removeFromQueue(_ story: Story) {
+        storyQueue.removeAll { $0.id == story.id }
+    }
+
+    func clearQueue() {
+        storyQueue = []
     }
 
     func skipForward() {

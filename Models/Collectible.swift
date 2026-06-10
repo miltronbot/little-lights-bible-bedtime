@@ -26,9 +26,21 @@ struct Collectible: Identifiable, Codable, Hashable {
 final class CollectiblesManager: ObservableObject {
     @Published private(set) var collectedIDs: Set<String> = []
 
-    private let userDefaultsKey = "CollectiblesManager.collectedIDs"
+    // Transient: set when a story is completed for the first time so the
+    // detail view can present the celebration overlay. Not persisted.
+    @Published var celebrationStoryID: String?
+
+    private var profileName: String = ""
+    private var userDefaultsKey: String { ProfileScope.key("CollectiblesManager.collectedIDs", profile: profileName) }
 
     init() {
+        loadCollectedIDs()
+    }
+
+    func setProfile(_ name: String) {
+        guard name != profileName else { return }
+        profileName = name
+        celebrationStoryID = nil
         loadCollectedIDs()
     }
 

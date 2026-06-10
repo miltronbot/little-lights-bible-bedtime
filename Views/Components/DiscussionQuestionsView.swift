@@ -45,11 +45,17 @@ struct DiscussionQuestionsView: View {
 
     // Generate discussion questions based on story category and theme
     private var questionsForStory: [String] {
+        // Story-specific question leads, category questions fill the rest
+        var selected: [String] = []
+        if let storyQuestion = story.talkAboutIt, !storyQuestion.isEmpty {
+            selected.append(storyQuestion)
+        }
+
         let categoryQuestions = questionBank[story.category] ?? defaultQuestions
         // Use story ID hash to deterministically pick questions
         let hash = abs(story.id.hashValue)
-        var selected: [String] = []
-        for i in 0..<min(3, categoryQuestions.count) {
+        for i in 0..<categoryQuestions.count {
+            guard selected.count < 3 else { break }
             let index = (hash + i * 7) % categoryQuestions.count
             if !selected.contains(categoryQuestions[index]) {
                 selected.append(categoryQuestions[index])

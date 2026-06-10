@@ -56,10 +56,13 @@ final class AppSettings: ObservableObject {
     }
 
     func addChild(name: String) {
-        guard !name.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        let trimmed = name.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return }
         var names = childrenNames
         guard names.count < 4 else { return }
-        names.append(name.trimmingCharacters(in: .whitespaces))
+        // Names key per-child saved data — no duplicates
+        guard !names.contains(where: { $0.caseInsensitiveCompare(trimmed) == .orderedSame }) else { return }
+        names.append(trimmed)
         childrenNames = names
     }
 
