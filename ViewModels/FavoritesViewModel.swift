@@ -1,13 +1,28 @@
 
 import Foundation
 
+// Profile-scoped UserDefaults keys: each child keeps their own favorites,
+// streak, and collectibles. Empty profile name → legacy unscoped key.
+enum ProfileScope {
+    static func key(_ base: String, profile: String) -> String {
+        profile.isEmpty ? base : "\(base).profile-\(profile)"
+    }
+}
+
 @MainActor
 final class FavoritesViewModel: ObservableObject {
     @Published private(set) var favoriteStoryIDs: Set<String> = []
 
-    private let storageKey = "favoriteStoryIDs"
+    private var profileName: String = ""
+    private var storageKey: String { ProfileScope.key("favoriteStoryIDs", profile: profileName) }
 
     init() { loadFavorites() }
+
+    func setProfile(_ name: String) {
+        guard name != profileName else { return }
+        profileName = name
+        loadFavorites()
+    }
 
     func isFavorite(_ story: Story) -> Bool {
         favoriteStoryIDs.contains(story.id)

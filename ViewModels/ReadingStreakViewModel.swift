@@ -7,9 +7,18 @@ final class ReadingStreakViewModel: ObservableObject {
     @Published var showNewBadgeAlert: Bool = false
     @Published var newBadgeID: String?
 
-    private let storageKey = "readingStreak"
+    private var profileName: String = ""
+    private var storageKey: String { ProfileScope.key("readingStreak", profile: profileName) }
 
     init() {
+        loadStreak()
+    }
+
+    func setProfile(_ name: String) {
+        guard name != profileName else { return }
+        profileName = name
+        showNewBadgeAlert = false
+        newBadgeID = nil
         loadStreak()
     }
 

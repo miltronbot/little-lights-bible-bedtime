@@ -38,6 +38,10 @@ struct LittleLightsBibleBedtimeApp: App {
             .environmentObject(readingStreakViewModel)
             .environmentObject(collectiblesManager)
             .onAppear {
+                // One-time: move pre-profile data under the first child's scope
+                migrateLegacyDataToFirstProfileIfNeeded()
+                applyActiveProfile()
+
                 // Sync saved volume settings with audio player
                 audioPlayerViewModel.narrationVolume = Float(appSettings.narrationVolume)
                 audioPlayerViewModel.ambientVolume = Float(appSettings.ambientVolume)
@@ -68,6 +72,37 @@ struct LittleLightsBibleBedtimeApp: App {
                 // Clean up closure to prevent memory leaks
                 audioPlayerViewModel.onStoryFinished = nil
             }
+            .onChange(of: appSettings.activeChildName) {
+                applyActiveProfile()
+            }
+        }
+    }
+
+    /// Points the per-child stores (favorites, streak, collectibles) at the
+    /// active child's data. Empty name → legacy unscoped keys.
+    private func applyActiveProfile() {
+        let name = appSettings.activeChildName
+        favoritesViewModel.setProfile(name)
+        readingStreakViewModel.setProfile(name)
+        collectiblesManager.setProfile(name)
+    }
+
+    /// Pre-profile versions stored favorites/streak/collectibles under global
+    /// keys. Copy that data to the FIRST child's scoped keys exactly once, so
+    /// an existing family keeps their progress after updating.
+    private func migrateLegacyDataToFirstProfileIfNeeded() {
+        let defaults = UserDefaults.standard
+        let migrationFlag = "profileDataMigrated_v1"
+        guard !defaults.bool(forKey: migrationFlag) else { return }
+        defer { defaults.set(true, forKey: migrationFlag) }
+
+        guard let firstChild = appSettings.childrenNames.first, !firstChild.isEmpty else { return }
+
+        for base in ["favoriteStoryIDs", "readingStreak", "CollectiblesManager.collectedIDs"] {
+            let scoped = ProfileScope.key(base, profile: firstChild)
+            guard defaults.object(forKey: scoped) == nil,
+                  let legacy = defaults.object(forKey: base) else { continue }
+            defaults.set(legacy, forKey: scoped)
         }
     }
 }

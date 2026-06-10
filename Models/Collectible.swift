@@ -30,9 +30,17 @@ final class CollectiblesManager: ObservableObject {
     // detail view can present the celebration overlay. Not persisted.
     @Published var celebrationStoryID: String?
 
-    private let userDefaultsKey = "CollectiblesManager.collectedIDs"
+    private var profileName: String = ""
+    private var userDefaultsKey: String { ProfileScope.key("CollectiblesManager.collectedIDs", profile: profileName) }
 
     init() {
+        loadCollectedIDs()
+    }
+
+    func setProfile(_ name: String) {
+        guard name != profileName else { return }
+        profileName = name
+        celebrationStoryID = nil
         loadCollectedIDs()
     }
 
