@@ -247,11 +247,9 @@ struct HomeView: View {
             .padding()
         }
         .background {
-            if appSettings.isBedtimeMode {
-                StarryNightBackground()
-            } else {
-                AppTheme.background(for: false)
-            }
+            // Always a starry night sky — full effect in bedtime mode,
+            // a calmer dimmed version otherwise
+            StarryNightBackground(alwaysStarry: true)
         }
         .navigationTitle("Home")
     }
