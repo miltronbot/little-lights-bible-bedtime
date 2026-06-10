@@ -171,6 +171,9 @@ struct StatBox: View {
 
 // MARK: - Badge View
 
+// Card styling matches CollectibleItemView so badges and collectibles
+// share one visual language: emoji on a rounded card, dimmed until
+// earned, accent ring when earned.
 struct BadgeView: View {
     let name: String
     let icon: String
@@ -179,27 +182,32 @@ struct BadgeView: View {
     @EnvironmentObject private var appSettings: AppSettings
 
     var body: some View {
-        VStack(spacing: 6) {
-            ZStack {
-                Circle()
-                    .fill(
-                        earned
-                            ? LinearGradient(colors: [.yellow, .orange], startPoint: .top, endPoint: .bottom)
-                            : LinearGradient(colors: [Color.gray.opacity(0.2), Color.gray.opacity(0.1)], startPoint: .top, endPoint: .bottom)
-                    )
-                    .frame(width: 56, height: 56)
-
-                Image(systemName: icon)
-                    .font(.title3)
-                    .foregroundStyle(earned ? .white : .gray)
-            }
+        VStack(spacing: 8) {
+            Text(icon)
+                .font(.system(size: 36))
+                .opacity(earned ? 1.0 : 0.3)
 
             Text(name)
-                .font(.caption2.bold())
-                .foregroundStyle(earned ? AppTheme.primaryText(for: appSettings.isBedtimeMode) : .gray)
-                .multilineTextAlignment(.center)
+                .font(.caption2)
+                .fontWeight(.medium)
+                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
                 .lineLimit(2)
+                .multilineTextAlignment(.center)
+                .opacity(earned ? 1.0 : 0.3)
         }
-        .opacity(earned ? 1.0 : 0.5)
+        .frame(maxWidth: .infinity, minHeight: 84)
+        .padding(.vertical, 10)
+        .padding(.horizontal, 4)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(
+                    earned ? AppTheme.accent(for: appSettings.isBedtimeMode) : Color.clear,
+                    lineWidth: 2
+                )
+        )
     }
 }

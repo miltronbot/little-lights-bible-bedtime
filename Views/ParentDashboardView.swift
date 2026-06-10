@@ -341,9 +341,8 @@ struct ReadingHistoryCard: View {
             } else {
                 ForEach(readingStreak.earnedBadges, id: \.id) { badge in
                     HStack(spacing: 12) {
-                        Image(systemName: badge.info.icon)
+                        Text(badge.info.icon)
                             .font(.title3)
-                            .foregroundStyle(.yellow)
                             .frame(width: 32)
 
                         VStack(alignment: .leading, spacing: 2) {

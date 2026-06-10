@@ -35,10 +35,7 @@ struct CollectiblesShowcaseView: View {
                 .padding(.horizontal, 16)
         }
         .sheet(item: $selectedCollectible) { collectible in
-            CollectibleDetailSheet(
-                collectible: collectible,
-                isCollected: manager.hasCollected(collectible.id)
-            )
+            CollectionAlbumView(selected: collectible)
         }
     }
 }

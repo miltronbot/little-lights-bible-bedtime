@@ -5,69 +5,121 @@ import SwiftUI
 // it. Collectibles name the story that unlocks them; badges show their
 // requirement and live progress toward it.
 
-// MARK: Collectible detail
+// MARK: Collection album
 
-struct CollectibleDetailSheet: View {
-    let collectible: Collectible
-    let isCollected: Bool
+/// Tapping any collectible opens the full collection book: the tapped
+/// treasure is featured up top with how-to-earn details, and every
+/// collectible in the app is browsable in the grid below.
+struct CollectionAlbumView: View {
+    @State var selected: Collectible
 
     @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var manager: CollectiblesManager
     @EnvironmentObject private var library: StoryLibraryViewModel
     @Environment(\.dismiss) private var dismiss
 
+    private var isCollected: Bool { manager.hasCollected(selected.id) }
+
     private var storyTitle: String {
-        library.stories.first { $0.id == collectible.storyID }?.title ?? "its story"
+        library.stories.first { $0.id == selected.storyID }?.title ?? "its story"
     }
 
     var body: some View {
-        VStack(spacing: 18) {
-            Text(collectible.emoji)
-                .font(.system(size: 72))
-                .opacity(isCollected ? 1.0 : 0.45)
-                .padding(.top, 28)
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 20) {
+                    // Featured treasure
+                    VStack(spacing: 10) {
+                        Text(selected.emoji)
+                            .font(.system(size: 64))
+                            .opacity(isCollected ? 1.0 : 0.45)
 
-            Text(collectible.name)
-                .font(.title2.bold())
-                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                        Text(selected.name)
+                            .font(.title3.bold())
+                            .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
 
-            if isCollected {
-                Label("Collected!", systemImage: "checkmark.seal.fill")
-                    .font(.headline)
-                    .foregroundStyle(.green)
-                Text("You earned this by finishing \u{201C}\(storyTitle)\u{201D}. Well done!")
-                    .font(.body)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
-            } else {
-                Label("How to collect", systemImage: "lightbulb.fill")
-                    .font(.headline)
-                    .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
-                Text("Listen to \u{201C}\(storyTitle)\u{201D} all the way to the end, and this treasure is yours.")
-                    .font(.body)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
-            }
-
-            Button {
-                dismiss()
-            } label: {
-                Text(isCollected ? "Yay!" : "Got it")
-                    .font(.headline)
+                        if isCollected {
+                            Label("Collected!", systemImage: "checkmark.seal.fill")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(.green)
+                            Text("You earned this by finishing \u{201C}\(storyTitle)\u{201D}. Well done!")
+                                .font(.subheadline)
+                                .multilineTextAlignment(.center)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                        } else {
+                            Label("How to collect", systemImage: "lightbulb.fill")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+                            Text("Listen to \u{201C}\(storyTitle)\u{201D} all the way to the end, and this treasure is yours.")
+                                .font(.subheadline)
+                                .multilineTextAlignment(.center)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                        }
+                    }
+                    .padding(20)
                     .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(AppTheme.accent(for: appSettings.isBedtimeMode))
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-            }
-            .padding(.top, 6)
+                    .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
 
-            Spacer(minLength: 0)
+                    // Every treasure in the collection
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("\(manager.collectedCount) of \(Collectible.all.count) collected")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 4), spacing: 10) {
+                            ForEach(Collectible.all) { collectible in
+                                Button {
+                                    withAnimation(.spring(response: 0.3)) {
+                                        selected = collectible
+                                    }
+                                } label: {
+                                    VStack(spacing: 4) {
+                                        Text(collectible.emoji)
+                                            .font(.system(size: 30))
+                                            .opacity(manager.hasCollected(collectible.id) ? 1.0 : 0.3)
+                                        Text(collectible.name)
+                                            .font(.system(size: 9, weight: .medium))
+                                            .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                                            .lineLimit(1)
+                                            .opacity(manager.hasCollected(collectible.id) ? 1.0 : 0.4)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 8)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(
+                                                collectible.id == selected.id
+                                                    ? AppTheme.accent(for: appSettings.isBedtimeMode)
+                                                    : (manager.hasCollected(collectible.id)
+                                                        ? AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.35)
+                                                        : Color.clear),
+                                                lineWidth: collectible.id == selected.id ? 2 : 1
+                                            )
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
+                }
+                .padding()
+            }
+            .background(AppTheme.background(for: appSettings.isBedtimeMode))
+            .navigationTitle("My Collection")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Done") { dismiss() }
+                }
+            }
         }
-        .padding(.horizontal, 28)
-        .presentationDetents([.height(420)])
-        .presentationBackground(AppTheme.background(for: appSettings.isBedtimeMode))
     }
 }
 
@@ -118,19 +170,10 @@ struct BadgeDetailSheet: View {
 
     var body: some View {
         VStack(spacing: 18) {
-            ZStack {
-                Circle()
-                    .fill(
-                        badge.earned
-                            ? LinearGradient(colors: [.yellow, .orange], startPoint: .top, endPoint: .bottom)
-                            : LinearGradient(colors: [Color.gray.opacity(0.25), Color.gray.opacity(0.12)], startPoint: .top, endPoint: .bottom)
-                    )
-                    .frame(width: 84, height: 84)
-                Image(systemName: badge.icon)
-                    .font(.system(size: 34))
-                    .foregroundStyle(badge.earned ? .white : .gray)
-            }
-            .padding(.top, 28)
+            Text(badge.icon)
+                .font(.system(size: 72))
+                .opacity(badge.earned ? 1.0 : 0.45)
+                .padding(.top, 28)
 
             Text(badge.name)
                 .font(.title2.bold())

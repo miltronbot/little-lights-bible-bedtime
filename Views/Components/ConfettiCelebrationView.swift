@@ -207,24 +207,11 @@ struct BadgeCelebrationView: View {
                             )
                             .frame(width: 200, height: 200)
 
-                        // Badge circle
-                        ZStack {
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [.yellow, .orange],
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                )
-                                .frame(width: 100, height: 100)
-
-                            Image(systemName: badgeIcon)
-                                .font(.system(size: 44))
-                                .foregroundStyle(.white)
-                        }
-                        .scaleEffect(badgeScale)
-                        .opacity(badgeOpacity)
+                        // Badge emoji — same artwork language as collectibles
+                        Text(badgeIcon)
+                            .font(.system(size: 76))
+                            .scaleEffect(badgeScale)
+                            .opacity(badgeOpacity)
                     }
 
                     // Badge Earned text
