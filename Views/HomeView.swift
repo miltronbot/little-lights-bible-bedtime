@@ -537,39 +537,97 @@ struct BedtimeRoutineCard: View {
         NavigationLink(destination: BedtimeRoutineView()) {
             HStack(spacing: 14) {
                 ZStack {
+                    // Moonlit glow behind the icon, like the theme cards
                     Circle()
                         .fill(
-                            LinearGradient(
-                                colors: [Color.indigo, Color.purple.opacity(0.7)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+                            RadialGradient(
+                                colors: [Color.purple.opacity(0.65), Color.indigo.opacity(0.30), .clear],
+                                center: .center,
+                                startRadius: 0,
+                                endRadius: 34
                             )
                         )
-                        .frame(width: 56, height: 56)
+                        .frame(width: 68, height: 68)
+                        .blur(radius: 4)
                     Image(systemName: "bed.double.fill")
                         .font(.title3)
                         .foregroundStyle(.white)
+                        .shadow(color: .purple.opacity(0.8), radius: 8)
                 }
+                .frame(width: 56, height: 56)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Start Bedtime Routine")
                         .font(.headline)
-                        .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                        .foregroundStyle(.white)
+                        .shadow(color: .black.opacity(0.35), radius: 2, y: 1)
                     Text("Story + Prayer + Ambient Sounds")
                         .font(.caption)
-                        .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                        .foregroundStyle(.white.opacity(0.75))
                 }
 
                 Spacer()
 
                 Image(systemName: "chevron.right")
-                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    .foregroundStyle(.white.opacity(0.7))
             }
             .padding()
-            .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+            .background(
+                ZStack {
+                    // Twilight sky gradient, same palette family as the painted story scenes
+                    LinearGradient(
+                        stops: [
+                            .init(color: skyTop, location: 0.0),
+                            .init(color: skyMid, location: 0.55),
+                            .init(color: skyHorizon, location: 1.0)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+
+                    // Tiny sparkle accents
+                    GeometryReader { geo in
+                        Image(systemName: "sparkle")
+                            .font(.system(size: 7))
+                            .foregroundStyle(.white.opacity(0.55))
+                            .position(x: geo.size.width * 0.30, y: geo.size.height * 0.25)
+                        Image(systemName: "sparkle")
+                            .font(.system(size: 5))
+                            .foregroundStyle(.white.opacity(0.35))
+                            .position(x: geo.size.width * 0.60, y: geo.size.height * 0.70)
+                        Image(systemName: "sparkle")
+                            .font(.system(size: 6))
+                            .foregroundStyle(.white.opacity(0.45))
+                            .position(x: geo.size.width * 0.82, y: geo.size.height * 0.30)
+                        Image(systemName: "moon.stars.fill")
+                            .font(.system(size: 11))
+                            .foregroundStyle(.white.opacity(0.30))
+                            .position(x: geo.size.width * 0.93, y: geo.size.height * 0.22)
+                    }
+                }
+                .allowsHitTesting(false)
+            )
             .clipShape(RoundedRectangle(cornerRadius: 20))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.white.opacity(0.10), lineWidth: 1)
+            )
+            .contentShape(RoundedRectangle(cornerRadius: 20))
         }
         .buttonStyle(.plain)
+    }
+
+    // Deep night-sky tones — bedtime mode dims them further, matching the theme cards
+    private var skyTop: Color {
+        appSettings.isBedtimeMode ? Color(red: 0.13, green: 0.11, blue: 0.30) : Color(red: 0.19, green: 0.16, blue: 0.42)
+    }
+
+    private var skyMid: Color {
+        appSettings.isBedtimeMode ? Color(red: 0.18, green: 0.14, blue: 0.38) : Color(red: 0.26, green: 0.21, blue: 0.52)
+    }
+
+    private var skyHorizon: Color {
+        appSettings.isBedtimeMode ? Color(red: 0.24, green: 0.16, blue: 0.40) : Color(red: 0.34, green: 0.24, blue: 0.55)
     }
 }
 
