@@ -22,11 +22,11 @@
 ## Phase 3: Capture Screenshots
 Apple requires screenshots for these device sizes. Run the simulator at each size and capture:
 
-### Required Sizes:
-1. **6.7" iPhone** (iPhone 15 Pro Max): 1290 x 2796 px
-2. **6.5" iPhone** (iPhone 14 Plus): 1284 x 2778 px
-3. **5.5" iPhone** (iPhone 8 Plus): 1242 x 2208 px
-4. **iPad Pro 12.9"**: 2048 x 2732 px
+### Required Sizes (current ASC requirements — DONE, see Status below):
+1. **6.9" iPhone** (iPhone 17 Pro Max): 1320 x 2868 px — smaller iPhone sizes scale down automatically
+2. **13" iPad** (iPad Pro 13-inch): 2064 x 2752 px
+
+Captured sets live in `~/Desktop/AppStoreScreenshots/`.
 
 ### Screens to Capture (6 screenshots per device):
 1. **Home screen** — showing greeting, Tonight's Story, streak banner
@@ -107,6 +107,28 @@ Once your developer account is approved:
 | App Store description + keywords | docs/AppStoreListing.md |
 | Privacy Policy (web) | docs/privacy-policy.html |
 | Terms of Use (web) | docs/terms-of-use.html |
+| **Privacy Policy URL (live, for ASC)** | https://miltronbot.github.io/little-lights-bible-bedtime/privacy-policy.html |
+| **Terms of Use URL (live)** | https://miltronbot.github.io/little-lights-bible-bedtime/terms-of-use.html |
+| **Screenshots (ASC-ready)** | ~/Desktop/AppStoreScreenshots/ (iPhone-6.9: 1320×2868 ×6, iPad-13: 2064×2752 ×5) |
+
+## Status (updated June 10, 2026)
+
+Already done — no action needed:
+- [x] Apple Developer enrollment (approved)
+- [x] Signing team set in project (ANY3QHU2YX, automatic signing)
+- [x] Privacy manifest (PrivacyInfo.xcprivacy) — required since 2024, verified in bundle
+- [x] iPhone + iPad device support unified
+- [x] Privacy policy & terms hosted on GitHub Pages (URLs above)
+- [x] Screenshots captured at required sizes (dark mode, current UI)
+- [x] Release configuration builds clean
+- [x] Export compliance preset (ITSAppUsesNonExemptEncryption = NO)
+
+Remaining — requires the owner's Apple ID:
+- [ ] Xcode → Settings → Accounts → sign in (archive fails with "No Accounts" until then)
+- [ ] Create the app record in App Store Connect (Phase 4)
+- [ ] Paste listing, upload screenshots, set privacy URL, complete App Privacy → Data Not Collected (Phase 5)
+- [ ] Archive & upload (Phase 6)
+- [ ] Submit for review (Phase 7)
 | Launch guide (detailed) | docs/LaunchGuide.md |
 | This checklist | docs/GoLiveChecklist.md |
 

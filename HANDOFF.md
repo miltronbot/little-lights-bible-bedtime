@@ -1,7 +1,7 @@
 # Little Lights Bible Bedtime — Claude Handoff Document
-**Last updated:** March 28, 2026
-**Handoff from:** Claude Sonnet 4.5 (previous session)
-**Status:** App builds clean, runs on simulator, all major bugs fixed ✅
+**Last updated:** June 10, 2026
+**Handoff from:** Claude Opus 4.8 (launch-prep session)
+**Status:** Feature-complete v1.1, Release builds clean, App Store materials ready ✅ — awaiting owner's Apple ID for archive/upload
 
 ---
 
@@ -10,14 +10,18 @@
 **Little Lights Bible Bedtime** is a free iOS children's Bible bedtime story app for ages 3–8.
 
 - **50 fully-narrated Bible stories** with bundled MP3 audio (OpenAI tts-1-hd, 192kbps)
-- **Rich procedural artwork** for all 50 stories (11 have real Midjourney illustrations; 39 use a SwiftUI painted-scene system with gradients, SF Symbols, particles, and animations)
+- **Single Midjourney illustrations for all 50 stories** (cropped from 2x2 generation grids to one panel each); SwiftUI painted-scene system remains as fallback
 - **Bedtime routine** — breathing exercise, sleep timer, ambient sounds
-- **Reading streak tracking** with badges and Sleep Stars
-- **Collectibles system** — one collectible emoji unlocked per story completed
+- **Tonight's Queue** — chain up to 3 stories that auto-play, then drift into ambient sound
+- **Per-child profiles** — up to 4 children, each with own streak/favorites/collectibles
+- **Talk About It** — story-specific parent-child question on every story
+- **Memory verse practice game** — gentle find-the-missing-word (45 stories)
+- **Magic touch sparkles** — tap the detail artwork for a calm firefly burst
+- **Reading streak tracking** with badges and Sleep Stars; completion celebrated when narration finishes
 - **Lumi the firefly** — animated mascot throughout the app
 - **100% free** — no paywall, no ads, no analytics, COPPA compliant, fully offline
 - **Bundle ID:** `com.littlelightsbiblebedtime.app`
-- **Target:** iPhone, iOS 17.0+, SwiftUI
+- **Target:** iPhone + iPad, iOS 17.0+, SwiftUI
 
 ---
 

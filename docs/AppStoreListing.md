@@ -41,10 +41,13 @@ Set a sleep timer so the story fades gently when your child is ready. Guided bre
 Children love engaging with stories. Little Lights includes gentle, story-appropriate touch elements and introduces Lumi, a friendly firefly mascot who guides children through their bedtime journey. Discussion questions help you deepen conversations about the story's lessons.
 
 **Earn Rewards & Collectibles**
-Kids are motivated by progress. As they listen to stories, they earn Sleep Stars, unlock badges, and collect firefly-themed rewards. This encourages healthy bedtime habits while keeping the experience joyful—not game-like or distracting.
+As they listen, kids earn Sleep Stars, unlock badges, and collect story treasures—celebrated the moment each story ends. Healthy bedtime habits, kept joyful, never distracting.
 
 **Memory Verses to Carry Forward**
-Each story includes a memorable verse or passage that captures its main lesson. These powerful words become anchors your child can remember and return to throughout their day.
+Each story includes a memorable verse that captures its lesson—and a gentle practice game where your child finds the missing word, learning God's Word by heart.
+
+**Made for the Whole Family**
+Add up to four children, each with their own streaks, favorites, and collectibles. Queue up to three stories for Tonight's Queue—they play back-to-back, then drift into ambient sound as your little one falls asleep.
 
 **100% Free. Zero Ads. No Surprises.**
 Little Lights is completely free to download and use. There are no ads interrupting your experience, no in-app purchases, and no paywalls hiding features. We believe quality bedtime content should be accessible to every family.
@@ -198,8 +201,15 @@ Character count: 112 / 100 ⚠️
 ⭐ **Rewards & Engagement**
 - Earn Sleep Stars with every story listened to
 - Unlock badges for milestones and achievements
-- Collect firefly rewards with Lumi, your friendly bedtime guide
+- Collect story treasures, celebrated the moment each story ends
 - Reading streak tracking to encourage healthy habits
+
+👨‍👩‍👧‍👦 **Made for Families**
+- Up to four child profiles, each with their own streaks, favorites, and collectibles
+- Tonight's Queue: chain up to three stories that play back-to-back into ambient sound
+- A "Talk About It" question with every story for parent-child conversation
+- Memory verse practice: a gentle find-the-missing-word game
+- Tap the story artwork for a calm sparkle of fireflies
 
 💚 **Safety & Privacy First**
 - 100% free with zero ads and no in-app purchases
