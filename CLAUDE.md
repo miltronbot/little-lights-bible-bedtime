@@ -36,10 +36,12 @@ HANDOFF.md                    # Full technical handoff — READ THIS
 
 ## Key Facts
 - **50 stories, all free** — `isFree: true` on all records in stories.json
-- **Artwork:** 11 stories have Midjourney PNG images in Assets.xcassets; 39 use programmatic painted-scene artwork (gradients + SF Symbols + particles)
+- **Artwork:** all 50 stories have single Midjourney PNG illustrations in Assets.xcassets (cropped from 2x2 generation grids to one panel each); programmatic painted-scene artwork remains as fallback for any story without an image
 - **Audio:** All 50 MP3s are bundled (not streamed). `AVAudioSession` configured as `.playback, mode: .spokenAudio` at startup AND inside each `loadAudio` call
 - **ElevenLabs TTS** is an optional fallback — user must add their own API key in Settings → Voice Narration
 - **Lumi** — firefly mascot character used throughout the app
+- **v1.1 features:** per-child profiles (up to 4, own streak/favorites/collectibles via `ProfileScope` keys), Tonight's Queue (chain up to 3 stories), story-specific `talkAboutIt` questions in stories.json, memory-verse practice game (`MemoryVerseGameView`), tap-the-artwork sparkles (`MagicTouchLayer`, detail view only), completion celebration on narration finish
+- **Copy rule:** never use "hiding/hid God's Word in your heart" phrasing in kid-facing strings (owner preference) — say "missing word" / "learning by heart"
 
 ## Environment Objects (all injected at app root, available everywhere)
 ```swift
@@ -84,8 +86,9 @@ All 7 EnvironmentObjects are injected at app root. `StoryDetailView` uses all 7.
 - **Legal docs:** Edit `docs/privacy-policy.html` and `docs/terms-of-use.html`
 
 ## App Store Submission
-All materials ready in `docs/` — see `APP_STORE_GUIDE.md` for step-by-step instructions.
-Remaining: add signing team in Xcode, capture final screenshots, submit via App Store Connect.
+All materials ready — see `APP_STORE_GUIDE.md` and `docs/GoLiveChecklist.md`.
+Done: signing team (ANY3QHU2YX, automatic), privacy manifest (`PrivacyInfo.xcprivacy`), iPhone+iPad device family, screenshots at ASC sizes in `~/Desktop/AppStoreScreenshots/`, privacy policy hosted at https://miltronbot.github.io/little-lights-bible-bedtime/privacy-policy.html
+Remaining (needs owner's Apple ID): sign into Xcode (Settings → Accounts), create App Store Connect record, archive & upload, submit for review.
 
 ## Owner
 **Project Owner** — work autonomously, fix bugs proactively, keep everything free and legal, no shortcuts.
