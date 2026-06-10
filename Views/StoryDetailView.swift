@@ -139,6 +139,27 @@ struct StoryDetailView: View {
                     }
 
                     Button {
+                        audioPlayerViewModel.toggleQueued(story)
+                    } label: {
+                        VStack(spacing: 4) {
+                            Image(systemName: audioPlayerViewModel.isQueued(story) ? "text.badge.checkmark" : "text.badge.plus")
+                                .font(.title3)
+                            Text(audioPlayerViewModel.isQueued(story) ? "Queued" : "Queue")
+                                .font(.caption2)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(
+                            audioPlayerViewModel.isQueued(story)
+                                ? AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.2)
+                                : AppTheme.cardBackground(for: appSettings.isBedtimeMode)
+                        )
+                        .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                    .accessibilityLabel(audioPlayerViewModel.isQueued(story) ? "Remove from Tonight's Queue" : "Add to Tonight's Queue")
+
+                    Button {
                         appSettings.isBedtimeMode.toggle()
                     } label: {
                         VStack(spacing: 4) {
@@ -161,6 +182,46 @@ struct StoryDetailView: View {
 
                 // Audio player bar
                 AudioPlayerBar(story: story)
+
+                // Tonight's Queue — up next
+                if !audioPlayerViewModel.storyQueue.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Up Next Tonight", systemImage: "moon.zzz.fill")
+                            .font(.subheadline.bold())
+                            .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+
+                        ForEach(audioPlayerViewModel.storyQueue) { queued in
+                            HStack(spacing: 10) {
+                                Image(systemName: "music.note")
+                                    .font(.caption)
+                                    .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+                                Text(queued.title)
+                                    .font(.subheadline)
+                                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                                Spacer()
+                                Text("\(queued.listenDurationMinutes) min")
+                                    .font(.caption2)
+                                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                                Button {
+                                    audioPlayerViewModel.removeFromQueue(queued)
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .font(.caption)
+                                        .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                                }
+                                .accessibilityLabel("Remove \(queued.title) from queue")
+                            }
+                            .padding(.vertical, 6)
+                            .padding(.horizontal, 12)
+                            .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+
+                        Text("Stories play one after another, then drift into ambient sound.")
+                            .font(.caption2)
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    }
+                }
 
                 if let errorMessage = audioPlayerViewModel.errorMessage,
                    audioPlayerViewModel.currentStoryID == nil {
