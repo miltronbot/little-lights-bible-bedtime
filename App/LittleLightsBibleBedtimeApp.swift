@@ -45,12 +45,21 @@ struct LittleLightsBibleBedtimeApp: App {
                 // Wire up streak tracking and collectibles when stories finish playing
                 audioPlayerViewModel.onStoryFinished = { [weak readingStreakViewModel, weak collectiblesManager] storyID in
                     Task { @MainActor in
+                        let isFirstCompletion = readingStreakViewModel.map {
+                            !$0.streak.storiesReadDates.keys.contains(storyID)
+                        } ?? false
+
                         readingStreakViewModel?.recordStoryRead(storyID: storyID)
 
                         // Award collectible for this story if not already collected
                         if let manager = collectiblesManager,
                            let collectible = manager.collectibleForStory(storyID) {
                             manager.collect(collectible)
+                        }
+
+                        // First-ever completion → let the detail view celebrate
+                        if isFirstCompletion {
+                            collectiblesManager?.celebrationStoryID = storyID
                         }
                     }
                 }

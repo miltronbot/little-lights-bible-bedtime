@@ -26,6 +26,10 @@ struct Collectible: Identifiable, Codable, Hashable {
 final class CollectiblesManager: ObservableObject {
     @Published private(set) var collectedIDs: Set<String> = []
 
+    // Transient: set when a story is completed for the first time so the
+    // detail view can present the celebration overlay. Not persisted.
+    @Published var celebrationStoryID: String?
+
     private let userDefaultsKey = "CollectiblesManager.collectedIDs"
 
     init() {

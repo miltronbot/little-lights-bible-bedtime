@@ -311,6 +311,12 @@ struct StoryDetailView: View {
         }
         .navigationTitle(story.title)
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: collectiblesManager.celebrationStoryID) { _, finishedID in
+            // Narration finished this story for the first time → celebrate
+            guard finishedID == story.id else { return }
+            collectiblesManager.celebrationStoryID = nil
+            showCelebration = true
+        }
         .onDisappear {
             audioPlayerViewModel.stopIfPlaying(storyID: story.id)
         }
