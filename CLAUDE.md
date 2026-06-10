@@ -88,7 +88,7 @@ All materials ready in `docs/` — see `APP_STORE_GUIDE.md` for step-by-step ins
 Remaining: add signing team in Xcode, capture final screenshots, submit via App Store Connect.
 
 ## Owner
-**Lane Sinclair** — work autonomously, fix bugs proactively, keep everything free and legal, no shortcuts.
+**Project Owner** — work autonomously, fix bugs proactively, keep everything free and legal, no shortcuts.
 
 ---
 

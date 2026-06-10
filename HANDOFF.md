@@ -254,7 +254,7 @@ The app is feature-complete and working. These are optional enhancements:
 
 ## Owner Context
 
-- **Developer:** Lane Sinclair
+- **Developer:** Little Lights Team
 - **App name:** Little Lights Bible Bedtime
 - **Vision:** Beautiful, calm, free Bible bedtime stories for young children — high-quality narration, rich artwork, peaceful UI. No ads, no tracking, no paywall. Pure children's content.
 - **User preference:** Work autonomously without asking for permission. Fix bugs proactively. Keep everything free and legal. Do not take shortcuts.

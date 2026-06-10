@@ -34,14 +34,6 @@ struct StoryCardView: View {
                 HStack(spacing: 10) {
                     Label(story.category.rawValue, systemImage: story.category.icon)
                     Text("\(story.listenDurationMinutes) min")
-
-                    if let ageGroup = story.ageGroup {
-                        Text(ageGroup.shortLabel)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(Color.orange.opacity(0.15))
-                            .clipShape(Capsule())
-                    }
                 }
                 .font(.caption)
                 .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))

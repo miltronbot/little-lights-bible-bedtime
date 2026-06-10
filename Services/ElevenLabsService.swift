@@ -9,10 +9,10 @@ struct CharacterVoiceMap {
         "The Father":               "pqHfZKP75CvOlQylNhV4",  // Bill
         "Jesus":                    "JBFqnCBsd6RMkjVDRZzb",  // George
         // Narrators
-        "Narrator":                 "REGEUmIBzUFwSMkNwWo4",  // Lane Sinclair
-        "NarratorNT":               "a5jCeyrTh80w2jtEglgc",  // Rachael Sinclair
-        "Angel":                    "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
-        "Angels":                   "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
+        "Narrator":                 "REGEUmIBzUFwSMkNwWo4",  // Storyteller
+        "NarratorNT":               "a5jCeyrTh80w2jtEglgc",  // Narrator
+        "Angel":                    "Qe0sFDUsK280KloQRibK",  // Angel
+        "Angels":                   "Qe0sFDUsK280KloQRibK",  // Angel
         // OT Heroes
         "Moses":                    "nPczCjzI2devNBz1zQrb",  // Brian
         "David":                    "cjVigY5qzO86Huf0OWal",  // Eric
@@ -31,19 +31,19 @@ struct CharacterVoiceMap {
         "Shadrach":                 "nPczCjzI2devNBz1zQrb",  // Brian
         "Meshach":                  "nPczCjzI2devNBz1zQrb",  // Brian
         "Abednego":                 "nPczCjzI2devNBz1zQrb",  // Brian
-        "Adam":                     "REGEUmIBzUFwSMkNwWo4",  // Lane Sinclair
+        "Adam":                     "REGEUmIBzUFwSMkNwWo4",  // Storyteller
         "Isaac":                    "cgSgspJ2msm6clMCkdW9",  // Jessica
         // OT Women
-        "Mary":                     "a5jCeyrTh80w2jtEglgc",  // Rachael Sinclair
-        "Hannah":                   "a5jCeyrTh80w2jtEglgc",  // Rachael Sinclair
-        "Eve":                      "a5jCeyrTh80w2jtEglgc",  // Rachael Sinclair
-        "Ruth":                     "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
-        "Esther":                   "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
-        "Mary Magdalene":           "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
+        "Mary":                     "a5jCeyrTh80w2jtEglgc",  // Narrator
+        "Hannah":                   "a5jCeyrTh80w2jtEglgc",  // Narrator
+        "Eve":                      "a5jCeyrTh80w2jtEglgc",  // Narrator
+        "Ruth":                     "Qe0sFDUsK280KloQRibK",  // Angel
+        "Esther":                   "Qe0sFDUsK280KloQRibK",  // Angel
+        "Mary Magdalene":           "Qe0sFDUsK280KloQRibK",  // Angel
         "Miriam":                   "cgSgspJ2msm6clMCkdW9",  // Jessica
         "Martha":                   "cgSgspJ2msm6clMCkdW9",  // Jessica
         "Naomi":                    "EXAVITQu4vr4xnSDxMaL",  // Sarah
-        "Widow":                    "Qe0sFDUsK280KloQRibK",  // Cari Sinclair
+        "Widow":                    "Qe0sFDUsK280KloQRibK",  // Angel
         "Woman at the Well":        "EXAVITQu4vr4xnSDxMaL",  // Sarah
         "Pharaoh's Daughter":      "EXAVITQu4vr4xnSDxMaL",  // Sarah
         // NT Characters
@@ -54,8 +54,8 @@ struct CharacterVoiceMap {
         "Goliath":                  "SOYHLrjzK2X1ezoPC6cr",  // Harry
         "King":                     "onwK4e9ZLuTAKqWW03F9",  // Daniel
         "Nebuchadnezzar":           "onwK4e9ZLuTAKqWW03F9",  // Daniel
-        "Shepherd":                 "REGEUmIBzUFwSMkNwWo4",  // Lane Sinclair
-        "Shepherds":                "REGEUmIBzUFwSMkNwWo4",  // Lane Sinclair
+        "Shepherd":                 "REGEUmIBzUFwSMkNwWo4",  // Storyteller
+        "Shepherds":                "REGEUmIBzUFwSMkNwWo4",  // Storyteller
     ]
 
     static func voiceID(for character: String) -> String? {
@@ -73,8 +73,8 @@ enum StoryNarratorType: String, Codable {
 
     var defaultVoiceID: String {
         switch self {
-        case .oldTestament: return "REGEUmIBzUFwSMkNwWo4"  // Lane Sinclair
-        case .newTestament: return "a5jCeyrTh80w2jtEglgc"  // Rachael Sinclair
+        case .oldTestament: return "REGEUmIBzUFwSMkNwWo4"  // Storyteller
+        case .newTestament: return "a5jCeyrTh80w2jtEglgc"  // Narrator
         }
     }
 }
@@ -96,9 +96,9 @@ struct ElevenLabsVoice: Identifiable, Hashable, Codable {
     }
 
     static let all: [ElevenLabsVoice] = [
-        ElevenLabsVoice(id: "REGEUmIBzUFwSMkNwWo4", name: "Lane Sinclair",    description: "Old Testament Narrator",  gender: "male",   category: "cloned"),
-        ElevenLabsVoice(id: "a5jCeyrTh80w2jtEglgc", name: "Rachael Sinclair", description: "New Testament Narrator",  gender: "female", category: "cloned"),
-        ElevenLabsVoice(id: "Qe0sFDUsK280KloQRibK", name: "Cari Sinclair",    description: "Angels & Heaven",         gender: "female", category: "cloned"),
+        ElevenLabsVoice(id: "REGEUmIBzUFwSMkNwWo4", name: "Storyteller",    description: "Old Testament Narrator",  gender: "male",   category: "cloned"),
+        ElevenLabsVoice(id: "a5jCeyrTh80w2jtEglgc", name: "Narrator", description: "New Testament Narrator",  gender: "female", category: "cloned"),
+        ElevenLabsVoice(id: "Qe0sFDUsK280KloQRibK", name: "Angel",    description: "Angels & Heaven",         gender: "female", category: "cloned"),
         ElevenLabsVoice(id: "pqHfZKP75CvOlQylNhV4", name: "Bill",     description: "God / Father / Eli",         gender: "male"),
         ElevenLabsVoice(id: "JBFqnCBsd6RMkjVDRZzb", name: "George",   description: "Jesus",                      gender: "male"),
         ElevenLabsVoice(id: "nPczCjzI2devNBz1zQrb", name: "Brian",    description: "Moses / Joshua / Jonah",     gender: "male"),
