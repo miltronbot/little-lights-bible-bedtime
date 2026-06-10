@@ -51,7 +51,7 @@ struct MemoryVerseGameView: View {
 
     private func gameView(round: GameRound) -> some View {
         VStack(spacing: 28) {
-            Text("Which word is hiding?")
+            Text("Which word is missing?")
                 .font(.title3.bold())
                 .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
 
@@ -123,7 +123,7 @@ struct MemoryVerseGameView: View {
                 Text("You did it!")
                     .font(.system(size: 30, weight: .bold, design: .rounded))
                     .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                Text("You're hiding God's Word in your heart.")
+                Text("You're learning God's Word by heart.")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
