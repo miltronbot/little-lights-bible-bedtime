@@ -17,6 +17,7 @@ struct StoryDetailView: View {
     @State private var scrollProgress: CGFloat = 0
     @State private var showCelebration: Bool = false
     @State private var lumiMessage: String? = nil
+    @State private var showVerseGame: Bool = false
 
     var body: some View {
         ScrollView {
@@ -247,6 +248,20 @@ struct StoryDetailView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.08))
                             .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                        if MemoryVerseGame.isPlayable(verse) {
+                            Button {
+                                showVerseGame = true
+                            } label: {
+                                Label("Practice this verse", systemImage: "gamecontroller.fill")
+                                    .font(.subheadline.bold())
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 10)
+                                    .background(AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.15))
+                                    .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                        }
                     }
                 }
 
@@ -398,6 +413,10 @@ struct StoryDetailView: View {
         }
         .fullScreenCover(isPresented: $showAffirmations) {
             GoodnightAffirmationsView()
+                .environmentObject(appSettings)
+        }
+        .sheet(isPresented: $showVerseGame) {
+            MemoryVerseGameView(story: story)
                 .environmentObject(appSettings)
         }
         .overlay {
