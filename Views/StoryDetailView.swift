@@ -37,7 +37,10 @@ struct StoryDetailView: View {
                             .padding()
                         }
 
-                    // Interactive touch elements
+                    // Gentle interactive sparkles — tap the artwork for a
+                    // calm firefly burst (detail view only; see MagicTouchLayer)
+                    MagicTouchLayer()
+                        .clipShape(RoundedRectangle(cornerRadius: 24))
                 }
                 .frame(height: 220)
 
