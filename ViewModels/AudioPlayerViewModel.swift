@@ -67,7 +67,6 @@ final class AudioPlayerViewModel: ObservableObject {
     }
 
     func togglePlayback(for story: Story) {
-        print("[AudioPlayerViewModel] *** TOGGLE CALLED: \(story.id) ***")
         if currentStoryID == story.id && isPlaying {
             pause()
             return
@@ -103,10 +102,9 @@ final class AudioPlayerViewModel: ObservableObject {
             audioService.setVolume(narrationVolume)
             duration = max(audioService.duration, 1)
             currentTime = 0
-            let result = audioService.play()
+            audioService.play()
             isPlaying = audioService.isPlaying
             startTimer()
-            print("[AudioPlayerViewModel] play() result=\(result) isPlaying=\(isPlaying) duration=\(duration)")
             return
         } catch {
             print("[AudioPlayerViewModel] Bundled audio not found: \(story.audioFileName) — \(error.localizedDescription)")

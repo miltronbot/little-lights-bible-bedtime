@@ -218,7 +218,7 @@ enum MemoryVerseGame {
 
         return picked.map { index in
             let answer = cleaned(words[index])
-            var decoys = decoyPool.filter { $0.caseInsensitiveCompare(answer) != .orderedSame }.shuffled()
+            let decoys = decoyPool.filter { $0.caseInsensitiveCompare(answer) != .orderedSame }.shuffled()
             let choices = ([answer] + Array(decoys.prefix(2))).shuffled()
             return GameRound(
                 verseWords: words,

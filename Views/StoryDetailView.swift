@@ -76,7 +76,6 @@ struct StoryDetailView: View {
                 // Action buttons
                 HStack(spacing: 12) {
                     Button {
-                        print("🔴 BUTTON TAPPED - story: \(story.id)")
                         audioPlayerViewModel.togglePlayback(for: story)
                     } label: {
                         Label(

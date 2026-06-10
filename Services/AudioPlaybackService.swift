@@ -23,7 +23,6 @@ final class AudioPlaybackService: NSObject {
             p.delegate = self
             p.prepareToPlay()
             self.player = p
-            print("[Audio] Loaded: \(fileName) duration: \(p.duration)")
             return
         }
 
@@ -33,7 +32,6 @@ final class AudioPlaybackService: NSObject {
             p.delegate = self
             p.prepareToPlay()
             self.player = p
-            print("[Audio] Loaded direct: \(fileName) duration: \(p.duration)")
             return
         }
 
@@ -56,9 +54,7 @@ final class AudioPlaybackService: NSObject {
             print("[Audio] play() - no player!")
             return false
         }
-        let result = player.play()
-        print("[Audio] play() result=\(result) isPlaying=\(player.isPlaying)")
-        return result
+        return player.play()
     }
 
     func pause() { player?.pause() }

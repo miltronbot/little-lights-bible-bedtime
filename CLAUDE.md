@@ -71,7 +71,7 @@ xcrun simctl spawn "iPhone 17" defaults write com.littlelightsbiblebedtime.app h
 ## Critical Rules — Don't Break These
 
 ### Audio
-`setCategory(.playback, mode: .spokenAudio)` + `setActive(true)` must be called inside BOTH `loadAudio(named:)` AND `loadAudio(from:)` in `AudioPlaybackService.swift` as a non-fatal do-catch. Also called at startup in `configureAudioSession()`. Never add `.mixWithOthers`. Never remove `setCategory` from the load methods.
+`setCategory(.playback, mode: .default)` + `setActive(true)` must be called inside BOTH `loadAudio(named:)` AND `loadAudio(from:)` in `AudioPlaybackService.swift` as non-fatal `try?`. Also called at startup in `configureAudioSession()`. Never add `.mixWithOthers`. Never remove `setCategory` from the load methods. (Mode is `.default`, verified working — an earlier version of this doc said `.spokenAudio`, which was never what shipped.)
 
 ### Artwork Hit Testing
 Every decorative layer inside `StoryArtworkView.swift` must have `.allowsHitTesting(false)`. The ZStack itself uses `.contentShape(RoundedRectangle(cornerRadius:))`. This ensures NavigationLinks wrapping story cards receive taps correctly.
