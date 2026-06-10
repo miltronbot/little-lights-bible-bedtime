@@ -3,6 +3,7 @@ import SwiftUI
 struct CollectiblesShowcaseView: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var manager: CollectiblesManager
+    @State private var selectedCollectible: Collectible?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -13,19 +14,31 @@ struct CollectiblesShowcaseView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(Collectible.all) { collectible in
-                        CollectibleItemView(
-                            collectible: collectible,
-                            isCollected: manager.hasCollected(collectible.id)
-                        )
+                        Button {
+                            selectedCollectible = collectible
+                        } label: {
+                            CollectibleItemView(
+                                collectible: collectible,
+                                isCollected: manager.hasCollected(collectible.id)
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityHint("Shows how to collect this treasure")
                     }
                 }
                 .padding(.horizontal, 16)
             }
 
-            Text("\(manager.collectedCount) of \(Collectible.all.count) collected")
+            Text("\(manager.collectedCount) of \(Collectible.all.count) collected · tap any treasure to learn how to earn it")
                 .font(.caption)
                 .foregroundStyle(AppTheme.secondaryText(for: settings.isBedtimeMode))
                 .padding(.horizontal, 16)
+        }
+        .sheet(item: $selectedCollectible) { collectible in
+            CollectibleDetailSheet(
+                collectible: collectible,
+                isCollected: manager.hasCollected(collectible.id)
+            )
         }
     }
 }

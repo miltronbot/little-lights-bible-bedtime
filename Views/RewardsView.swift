@@ -4,6 +4,7 @@ import SwiftUI
 struct RewardsView: View {
     @EnvironmentObject private var readingStreak: ReadingStreakViewModel
     @EnvironmentObject private var appSettings: AppSettings
+    @State private var selectedBadge: SelectedBadge?
 
     var body: some View {
         ScrollView {
@@ -76,20 +77,39 @@ struct RewardsView: View {
                         .font(.title3.bold())
                         .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
 
+                    Text("Tap any badge to see how to earn it")
+                        .font(.caption)
+                        .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+
                     LazyVGrid(columns: [
                         GridItem(.flexible()),
                         GridItem(.flexible()),
                         GridItem(.flexible()),
                     ], spacing: 14) {
                         ForEach(readingStreak.allBadges, id: \.id) { badge in
-                            BadgeView(
-                                name: badge.info.name,
-                                icon: badge.info.icon,
-                                description: badge.info.description,
-                                earned: badge.earned
-                            )
+                            Button {
+                                selectedBadge = SelectedBadge(
+                                    id: badge.id,
+                                    name: badge.info.name,
+                                    icon: badge.info.icon,
+                                    description: badge.info.description,
+                                    earned: badge.earned
+                                )
+                            } label: {
+                                BadgeView(
+                                    name: badge.info.name,
+                                    icon: badge.info.icon,
+                                    description: badge.info.description,
+                                    earned: badge.earned
+                                )
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityHint("Shows how to earn this badge")
                         }
                     }
+                }
+                .sheet(item: $selectedBadge) { badge in
+                    BadgeDetailSheet(badge: badge)
                 }
 
                 // Encouragement
