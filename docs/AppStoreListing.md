@@ -41,7 +41,7 @@ Set a sleep timer so the story fades gently when your child is ready. Guided bre
 Children love engaging with stories. Little Lights includes gentle, story-appropriate touch elements and introduces Lumi, a friendly firefly mascot who guides children through their bedtime journey. Discussion questions help you deepen conversations about the story's lessons.
 
 **Earn Rewards & Collectibles**
-As they listen, kids earn Sleep Stars, unlock badges, and collect story treasures—celebrated the moment each story ends. Healthy bedtime habits, kept joyful, never distracting.
+Every one of the 50 stories hides its own treasure—Noah's Dove, the Jericho Trumpet, Two Small Coins—celebrated the moment each story ends. Browse them all in the Collection Book, earn 27 badges, and tap any reward to see exactly how to get it.
 
 **Memory Verses to Carry Forward**
 Each story includes a memorable verse that captures its lesson—and a gentle practice game where your child finds the missing word, learning God's Word by heart.
@@ -200,8 +200,9 @@ Character count: 112 / 100 ⚠️
 
 ⭐ **Rewards & Engagement**
 - Earn Sleep Stars with every story listened to
-- Unlock badges for milestones and achievements
-- Collect story treasures, celebrated the moment each story ends
+- 50 story treasures—one hidden in every story—browsable in the Collection Book
+- 27 badges for milestones, streaks, and special moments
+- Tap any reward to see how to earn it, with progress bars toward each badge
 - Reading streak tracking to encourage healthy habits
 
 👨‍👩‍👧‍👦 **Made for Families**
