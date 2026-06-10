@@ -27,14 +27,6 @@ struct StoryDetailView: View {
                         .frame(height: 220)
                         .overlay(alignment: .bottomLeading) {
                             VStack(alignment: .leading, spacing: 6) {
-                                if let ageGroup = story.ageGroup {
-                                    Text(ageGroup.rawValue)
-                                        .font(.caption.bold())
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 4)
-                                        .background(.ultraThinMaterial)
-                                        .clipShape(Capsule())
-                                }
                                 Text(story.title)
                                     .font(.title.bold())
                                     .foregroundStyle(.white)
@@ -46,10 +38,6 @@ struct StoryDetailView: View {
                         }
 
                     // Interactive touch elements
-                    if let touchElements = StoryTouchElements.elements(for: story.id) {
-                        InteractiveTouchOverlay(elements: touchElements)
-                            .allowsHitTesting(true)
-                    }
                 }
                 .frame(height: 220)
 

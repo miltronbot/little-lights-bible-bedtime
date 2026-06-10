@@ -77,7 +77,6 @@ final class AudioPlayerViewModel: ObservableObject {
 
     func loadAndPlayAsync(story: Story) async {
         errorMessage = nil
-        loadTask?.cancel()
         audioService.stop()
         audioService.setVolume(narrationVolume)
         isPlaying = false
