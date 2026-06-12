@@ -347,6 +347,7 @@ struct BreathingStepView: View {
     let onSkip: () -> Void
 
     @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var goalsTracker: GoalsTracker
     @State private var isBreathingIn: Bool = true
     @State private var isBreathCycleActive: Bool = false
     @State private var breathPhaseText: String = ""
@@ -479,6 +480,7 @@ struct BreathingStepView: View {
             }
 
             guard !Task.isCancelled else { return }
+            goalsTracker.markBreathed()
             withAnimation {
                 breathPhaseText = "You're ready..."
             }

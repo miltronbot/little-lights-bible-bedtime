@@ -72,6 +72,9 @@ struct HomeView: View {
                 // MARK: - Verse of the Day
                 VerseOfTheDayCard()
 
+                // MARK: - Tonight's Goals
+                TonightsGoalsCard()
+
                 // MARK: - Recently Read
                 if !recentlyReadStories.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {

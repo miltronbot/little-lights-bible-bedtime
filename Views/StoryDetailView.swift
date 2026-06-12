@@ -9,6 +9,7 @@ struct StoryDetailView: View {
     @EnvironmentObject private var audioPlayerViewModel: AudioPlayerViewModel
     @EnvironmentObject private var readingStreak: ReadingStreakViewModel
     @EnvironmentObject private var collectiblesManager: CollectiblesManager
+    @EnvironmentObject private var goalsTracker: GoalsTracker
 
     @State private var showSleepTimerSheet: Bool = false
     @State private var showAmbientSheet: Bool = false
@@ -468,6 +469,7 @@ struct StoryDetailView: View {
         .sheet(isPresented: $showVerseGame) {
             MemoryVerseGameView(story: story)
                 .environmentObject(appSettings)
+                .environmentObject(goalsTracker)
         }
         .fullScreenCover(isPresented: $showLightsOut) {
             LightsOutView()

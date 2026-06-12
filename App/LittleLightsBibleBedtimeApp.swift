@@ -10,6 +10,7 @@ struct LittleLightsBibleBedtimeApp: App {
     @StateObject private var audioPlayerViewModel = AudioPlayerViewModel()
     @StateObject private var readingStreakViewModel = ReadingStreakViewModel()
     @StateObject private var collectiblesManager = CollectiblesManager()
+    @StateObject private var goalsTracker = GoalsTracker()
 
     init() {
         // Configure audio session once at startup — must happen before any playback attempt
@@ -37,6 +38,7 @@ struct LittleLightsBibleBedtimeApp: App {
             .environmentObject(audioPlayerViewModel)
             .environmentObject(readingStreakViewModel)
             .environmentObject(collectiblesManager)
+            .environmentObject(goalsTracker)
             .onAppear {
                 // Restore any iCloud progress, then point stores at the
                 // active child

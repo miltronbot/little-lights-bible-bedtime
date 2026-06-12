@@ -10,6 +10,7 @@ struct MemoryVerseGameView: View {
     let story: Story
 
     @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var goalsTracker: GoalsTracker
     @Environment(\.dismiss) private var dismiss
 
     @State private var rounds: [GameRound] = []
@@ -172,6 +173,7 @@ struct MemoryVerseGameView: View {
         if currentRound + 1 < rounds.count {
             currentRound += 1
         } else {
+            goalsTracker.markVersePracticed()
             withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
                 finished = true
             }
