@@ -184,3 +184,136 @@ struct SideMenuView: View {
         .buttonStyle(.plain)
     }
 }
+
+// MARK: - Library Filter Drawer
+// The Library's age + theme filters live in a slide-out panel (same
+// pattern as Home's side menu). Picks apply instantly; the footer
+// button shows the live result count and closes the drawer.
+
+struct LibraryFilterMenu: View {
+    @Binding var isOpen: Bool
+    @EnvironmentObject private var viewModel: StoryLibraryViewModel
+    @EnvironmentObject private var appSettings: AppSettings
+
+    private let panelWidth: CGFloat = 290
+
+    var body: some View {
+        ZStack(alignment: .leading) {
+            if isOpen {
+                Color.black.opacity(0.45)
+                    .ignoresSafeArea()
+                    .transition(.opacity)
+                    .onTapGesture { close() }
+
+                VStack(alignment: .leading, spacing: 0) {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 16) {
+                            HStack {
+                                Text("Filters")
+                                    .font(.title2.bold())
+                                    .foregroundStyle(.white)
+                                Spacer()
+                                Button { close() } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .font(.title3)
+                                        .foregroundStyle(.white.opacity(0.6))
+                                }
+                                .accessibilityLabel("Close filters")
+                            }
+                            .padding(.top, 8)
+
+                            Text("Ages")
+                                .font(.headline)
+                                .foregroundStyle(.white.opacity(0.85))
+
+                            filterRow(title: "All Ages", icon: "person.3.fill",
+                                      selected: viewModel.selectedAgeGroup == nil) {
+                                viewModel.selectedAgeGroup = nil
+                            }
+                            ForEach(AgeGroup.allCases) { age in
+                                filterRow(title: age.rawValue, icon: age.icon,
+                                          selected: viewModel.selectedAgeGroup == age) {
+                                    viewModel.selectedAgeGroup = age
+                                }
+                            }
+
+                            Divider().overlay(Color.white.opacity(0.15))
+
+                            Text("Themes")
+                                .font(.headline)
+                                .foregroundStyle(.white.opacity(0.85))
+
+                            filterRow(title: "All Themes", icon: "sparkles",
+                                      selected: viewModel.selectedCategory == nil) {
+                                viewModel.selectedCategory = nil
+                            }
+                            ForEach(StoryCategory.allCases) { category in
+                                filterRow(title: category.rawValue, icon: category.icon,
+                                          selected: viewModel.selectedCategory == category) {
+                                    viewModel.selectedCategory = category
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                    }
+
+                    // Live result count — tap to see them
+                    Button { close() } label: {
+                        Text("Show \(viewModel.filteredStories.count) stories")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(AppTheme.accent(for: true))
+                            .foregroundStyle(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+                    .padding(16)
+                }
+                .frame(width: panelWidth)
+                .background(
+                    ZStack {
+                        Color(red: 0.03, green: 0.09, blue: 0.12)
+                        StarryNightBackground(alwaysStarry: true).opacity(0.85)
+                    }
+                    .ignoresSafeArea()
+                )
+                .shadow(color: .black.opacity(0.5), radius: 24, x: 8)
+                .transition(.move(edge: .leading))
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .allowsHitTesting(isOpen)
+    }
+
+    private func close() {
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.86)) {
+            isOpen = false
+        }
+    }
+
+    @ViewBuilder
+    private func filterRow(title: String, icon: String, selected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 12) {
+                Image(systemName: icon)
+                    .font(.system(size: 15))
+                    .frame(width: 24)
+                    .foregroundStyle(selected ? .yellow : .white.opacity(0.8))
+                Text(title)
+                    .font(.subheadline.weight(selected ? .bold : .regular))
+                    .foregroundStyle(.white)
+                Spacer()
+                if selected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.subheadline)
+                        .foregroundStyle(.yellow)
+                }
+            }
+            .padding(.vertical, 9)
+            .padding(.horizontal, 12)
+            .background(selected ? Color.white.opacity(0.10) : Color.clear)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.plain)
+    }
+}
