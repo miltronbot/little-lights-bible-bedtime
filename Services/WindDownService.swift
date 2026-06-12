@@ -13,8 +13,12 @@ import Foundation
 enum WindDownService {
 
     /// Today's day-stamp in the same "yyyy-MM-dd" format GoalsTracker uses.
+    /// Fixed POSIX locale + Gregorian calendar so devices set to Buddhist /
+    /// Japanese / Islamic calendars stamp consistently.
     static func dayStamp(for date: Date = Date()) -> String {
         let f = DateFormatter()
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.calendar = Calendar(identifier: .gregorian)
         f.dateFormat = "yyyy-MM-dd"
         return f.string(from: date)
     }
