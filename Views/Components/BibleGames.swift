@@ -540,11 +540,13 @@ struct GuessTheStoryGameView: View {
     private func startRound() {
         guard let next = library.stories.randomElement() else { return }
         story = next
-        var titles = Set<String>([next.title])
-        while titles.count < 4, let other = library.stories.randomElement() {
-            titles.insert(other.title)
-        }
-        choices = Array(titles).shuffled()
+        // Build decoys from distinct titles — never loop on randomElement,
+        // which would spin forever if the library had fewer than 4 stories
+        let decoys = Array(Set(library.stories.map(\.title)))
+            .filter { $0 != next.title }
+            .shuffled()
+            .prefix(3)
+        choices = ([next.title] + decoys).shuffled()
         blurStage = 0
         picked = nil
     }
@@ -654,7 +656,16 @@ struct VerseBuilderGameView: View {
             guard (4...12).contains(count) else { return nil }
             return (story.title, text, ref)
         }
-        guard let (title, text, ref) = candidates.randomElement() else { return }
+        // Fallback: if no verse fits the chip-friendly window, take any
+        // verse-bearing story rather than rendering an empty board
+        let fallback = library.stories.compactMap { story -> (String, String, String)? in
+            guard let verse = story.memoryVerse else { return nil }
+            let parts = verse.components(separatedBy: " — ")
+            let text = parts[0].trimmingCharacters(in: CharacterSet(charactersIn: "\u{201C}\u{201D}\""))
+            guard !text.isEmpty else { return nil }
+            return (story.title, text, parts.count > 1 ? parts[1] : "")
+        }
+        guard let (title, text, ref) = candidates.randomElement() ?? fallback.randomElement() else { return }
         storyTitle = title
         reference = ref
         words = text.split(separator: " ").map(String.init)
@@ -665,6 +676,9 @@ struct VerseBuilderGameView: View {
     }
 
     private func tap(_ word: IndexedWord) {
+        // A tap can land during the completion transition — never index past
+        // the end of the verse.
+        guard placedCount < words.count else { return }
         // Match by TEXT, not chip identity — verses repeat little words like
         // "the", and any chip with the right word must count.
         if word.text == words[placedCount] {
