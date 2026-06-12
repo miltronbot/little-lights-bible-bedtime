@@ -72,6 +72,7 @@ struct StoryCelebrationView: View {
 
     let collectibleName: String?
     let collectibleEmoji: String?
+    var shootingStar: Bool = false
     let onDone: () -> Void
 
     @State private var showContent = false
@@ -106,6 +107,12 @@ struct StoryCelebrationView: View {
                     Text("+1 Sleep Star ⭐")
                         .font(.system(size: 20, weight: .semibold, design: .rounded))
                         .foregroundStyle(.yellow)
+
+                    if shootingStar {
+                        Text("A shooting star! +1 bonus ⭐🌠")
+                            .font(.system(size: 17, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.cyan)
+                    }
 
                     // Collectible reveal (if applicable)
                     if let collectibleEmoji = collectibleEmoji, let collectibleName = collectibleName {

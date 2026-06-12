@@ -6,6 +6,7 @@ final class ReadingStreakViewModel: ObservableObject {
     @Published private(set) var streak: ReadingStreak = ReadingStreak()
     @Published var showNewBadgeAlert: Bool = false
     @Published var newBadgeID: String?
+    @Published var leveledUpTo: FireflyLevel?
 
     private var profileName: String = ""
     private var storageKey: String { ProfileScope.key("readingStreak", profile: profileName) }
@@ -47,8 +48,15 @@ final class ReadingStreakViewModel: ObservableObject {
 
     func recordStoryRead(storyID: String) {
         let previousBadges = streak.earnedBadges
+        let levelBefore = FireflyLevel.level(forStars: streak.totalSleepStars).number
         streak.recordStoryRead(storyID: storyID)
         saveStreak()
+
+        // Did Lumi grow brighter?
+        let levelAfter = FireflyLevel.level(forStars: streak.totalSleepStars)
+        if levelAfter.number > levelBefore {
+            leveledUpTo = levelAfter
+        }
 
         // Check for newly earned badges
         let newBadges = streak.earnedBadges.subtracting(previousBadges)
@@ -60,8 +68,13 @@ final class ReadingStreakViewModel: ObservableObject {
 
     /// Tonight's Goals bonus: one extra Sleep Star for a Golden Night.
     func awardBonusStar() {
+        let levelBefore = FireflyLevel.level(forStars: streak.totalSleepStars).number
         streak.totalSleepStars += 1
         saveStreak()
+        let levelAfter = FireflyLevel.level(forStars: streak.totalSleepStars)
+        if levelAfter.number > levelBefore {
+            leveledUpTo = levelAfter
+        }
     }
 
     func resetAll() {

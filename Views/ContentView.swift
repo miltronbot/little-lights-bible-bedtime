@@ -47,7 +47,12 @@ struct ContentView: View {
                 .environmentObject(appSettings)
         }
         .overlay {
-            if readingStreak.showNewBadgeAlert,
+            if let level = readingStreak.leveledUpTo {
+                LevelUpCelebrationView(level: level) {
+                    readingStreak.leveledUpTo = nil
+                }
+                .transition(.opacity)
+            } else if readingStreak.showNewBadgeAlert,
                let badgeID = readingStreak.newBadgeID,
                let badgeInfo = ReadingStreak.badgeInfo[badgeID] {
                 BadgeCelebrationView(

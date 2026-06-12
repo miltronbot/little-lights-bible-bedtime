@@ -127,6 +127,7 @@
 		E0ABCDEF1234567890ABCC3 /* VerseOfTheDayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C3 /* Views/Components/VerseOfTheDayCard.swift */; };
 		E0ABCDEF1234567890ABCC4 /* FireflyAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C4 /* App/FireflyAppIntents.swift */; };
 		E0ABCDEF1234567890ABCC5 /* FireflyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C5 /* Models/FireflyLevel.swift */; };
+		E0ABCDEF1234567890ABCC6 /* NightSkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C6 /* Views/Components/NightSkyView.swift */; };
 		E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */; };
 /* End PBXBuildFile section */
 
@@ -247,6 +248,7 @@
 		E01234567890ABCDEF1234C3 /* Views/Components/VerseOfTheDayCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/VerseOfTheDayCard.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C4 /* App/FireflyAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/FireflyAppIntents.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C5 /* Models/FireflyLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/FireflyLevel.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234C6 /* Views/Components/NightSkyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/NightSkyView.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/StoryProgressBar.swift; sourceTree = "<group>"; };
 		AA0001111111111111111111 /* Views/Components/LumiMascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/LumiMascotView.swift; sourceTree = "<group>"; };
 		AA0002222222222222222222 /* Models/Collectible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Collectible.swift; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 				E01234567890ABCDEF1234C3 /* Views/Components/VerseOfTheDayCard.swift */,
 				E01234567890ABCDEF1234C4 /* App/FireflyAppIntents.swift */,
 				E01234567890ABCDEF1234C5 /* Models/FireflyLevel.swift */,
+				E01234567890ABCDEF1234C6 /* Views/Components/NightSkyView.swift */,
 				E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */,
 				AA0001111111111111111111 /* Views/Components/LumiMascotView.swift */,
 				AA0003333333333333333333 /* Views/Components/CollectiblesShowcaseView.swift */,
@@ -673,6 +676,7 @@
 				E0ABCDEF1234567890ABCC3 /* VerseOfTheDayCard.swift in Sources */,
 				E0ABCDEF1234567890ABCC4 /* FireflyAppIntents.swift in Sources */,
 				E0ABCDEF1234567890ABCC5 /* FireflyLevel.swift in Sources */,
+				E0ABCDEF1234567890ABCC6 /* NightSkyView.swift in Sources */,
 				E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */,
 				BB1111111111111111111111 /* Views/Components/LumiMascotView.swift in Sources */,
 				BB2222222222222222222222 /* Models/Collectible.swift in Sources */,

@@ -10,12 +10,14 @@ enum SideMenuDestination: Hashable, Identifiable {
     case theme(StoryCategory)
     case bedtimeRoutine
     case parentDashboard
+    case nightSky
 
     var id: String {
         switch self {
         case .theme(let c): return "theme-\(c.rawValue)"
         case .bedtimeRoutine: return "bedtime-routine"
         case .parentDashboard: return "parent-dashboard"
+        case .nightSky: return "night-sky"
         }
     }
 }
@@ -98,6 +100,10 @@ struct SideMenuView: View {
                         menuRow(icon: "moon.zzz.fill", title: "Bedtime Routine",
                                 subtitle: "Story + Prayer + Sounds") {
                             select(.bedtimeRoutine)
+                        }
+                        menuRow(icon: "sparkles", title: "Lumi's Night Sky",
+                                subtitle: "Decorate with your treasures") {
+                            select(.nightSky)
                         }
                         menuRow(icon: "chart.bar.fill", title: "Parent Dashboard",
                                 subtitle: "Progress & insights") {

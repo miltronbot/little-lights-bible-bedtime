@@ -265,6 +265,8 @@ struct HomeView: View {
                 BedtimeRoutineView()
             case .parentDashboard:
                 ParentDashboardView()
+            case .nightSky:
+                NightSkyView()
             }
         }
     }
