@@ -120,6 +120,11 @@ enum RewardIconCatalog {
         // Moment badges
         "bedtime-believer":   RewardIconSpec(symbol: "bed.double.fill",       top: rgb(0xB2A8E8), bottom: rgb(0x4A3D8C)),
         "weekend-wonder":     RewardIconSpec(symbol: "sun.max.fill",          top: rgb(0xFADF6B), bottom: rgb(0xC8941A)),
+
+        // Completion rewards
+        "treasure-keeper":    RewardIconSpec(symbol: "archivebox.fill",       top: rgb(0xFAD478), bottom: rgb(0x9C6A12)),
+        "badge-champion":     RewardIconSpec(symbol: "rosette",               top: rgb(0xD2A8F0), bottom: rgb(0x6A2D9C)),
+        "grand-light":        RewardIconSpec(symbol: "burst.fill",            top: rgb(0xFFF1B8), bottom: rgb(0xE8A012)),
     ]
 
     static let fallback = RewardIconSpec(symbol: "star.fill", top: rgb(0xFFE08A), bottom: rgb(0xD99A1B))

@@ -1,4 +1,5 @@
 import SwiftUI
+import Photos
 
 // MARK: - Lumi's Night Sky
 // A personal scene the child decorates. Two kinds of pieces can be placed:
@@ -23,7 +24,12 @@ struct NightSkyView: View {
     @State private var scene: NightSkyScene = .starryNight
     /// Drawer can tuck away so the whole scene is usable for decorating.
     @State private var drawerOpen = true
+    /// The full 100-sticker palette drops down when tapped.
+    @State private var paletteExpanded = false
     @State private var loaded = false
+    /// Camera-shutter flash + "saved" feedback for sky snapshots.
+    @State private var shutterFlash = false
+    @State private var snapshotMessage: String?
 
     private var positionsKey: String {
         ProfileScope.key("nightSky.positions", profile: appSettings.activeChildName)
@@ -212,32 +218,53 @@ struct NightSkyView: View {
                             .foregroundStyle(.white.opacity(0.65))
                             .padding(.horizontal, 14)
 
-                        // Always-available sticker palette
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 12) {
-                                ForEach(NightSkySticker.palette) { sticker in
-                                    Button {
-                                        withAnimation(.spring(response: 0.4)) {
-                                            stickers.append(
-                                                PlacedSticker(
-                                                    id: UUID().uuidString,
-                                                    type: sticker.id,
-                                                    x: Double.random(in: 0.2...0.8),
-                                                    y: Double.random(in: 0.15...0.6)
-                                                )
-                                            )
-                                        }
-                                        saveStickers()
-                                    } label: {
-                                        Text(sticker.emoji)
-                                            .font(.system(size: 34))
-                                            .padding(8)
-                                            .background(Circle().fill(Color.white.opacity(0.10)))
-                                    }
-                                    .buttonStyle(.plain)
+                        // Always-available sticker palette — a row when tucked,
+                        // the full set of 100 when dropped down
+                        HStack {
+                            Text("Stickers")
+                                .font(.caption2)
+                                .foregroundStyle(.white.opacity(0.55))
+                            Spacer()
+                            Button {
+                                withAnimation(.spring(response: 0.35)) {
+                                    paletteExpanded.toggle()
                                 }
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Text(paletteExpanded ? "Show less" : "All \(NightSkySticker.palette.count) stickers")
+                                    Image(systemName: "chevron.down")
+                                        .rotationEffect(.degrees(paletteExpanded ? 180 : 0))
+                                }
+                                .font(.caption2.bold())
+                                .foregroundStyle(.white.opacity(0.85))
+                                .contentShape(Rectangle())
                             }
-                            .padding(.horizontal, 14)
+                            .buttonStyle(.plain)
+                            .accessibilityLabel(paletteExpanded ? "Show fewer stickers" : "Show all stickers")
+                        }
+                        .padding(.horizontal, 14)
+
+                        if paletteExpanded {
+                            ScrollView {
+                                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 7), spacing: 6) {
+                                    ForEach(NightSkySticker.palette) { sticker in
+                                        stickerButton(sticker, size: 26)
+                                    }
+                                }
+                                .padding(.horizontal, 14)
+                                .padding(.bottom, 4)
+                            }
+                            .frame(maxHeight: 250)
+                            .transition(.opacity.combined(with: .move(edge: .bottom)))
+                        } else {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 12) {
+                                    ForEach(NightSkySticker.palette) { sticker in
+                                        stickerButton(sticker, size: 34)
+                                    }
+                                }
+                                .padding(.horizontal, 14)
+                            }
                         }
 
                         // Earned treasures (collectibles not yet on the canvas)
@@ -295,6 +322,51 @@ struct NightSkyView: View {
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 }
+
+                // Camera — saves a picture of the child's sky to Photos
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button {
+                            takeSnapshot(size: geo.size)
+                        } label: {
+                            Image(systemName: "camera.fill")
+                                .font(.title3)
+                                .foregroundStyle(.white)
+                                .padding(12)
+                                .background(Circle().fill(Color.black.opacity(0.5)))
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Take a picture of your night sky")
+                        .padding(.trailing, 16)
+                        .padding(.top, 8)
+                    }
+                    Spacer()
+                }
+
+                // Shutter flash
+                if shutterFlash {
+                    Color.white
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                        .allowsHitTesting(false)
+                }
+
+                // Saved / error toast
+                if let snapshotMessage {
+                    VStack {
+                        Text(snapshotMessage)
+                            .font(.subheadline.bold())
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, 10)
+                            .background(Capsule().fill(Color.black.opacity(0.7)))
+                            .padding(.top, 58)
+                        Spacer()
+                    }
+                    .transition(.opacity)
+                    .allowsHitTesting(false)
+                }
             }
         }
         .navigationTitle(scene.title)
@@ -303,6 +375,76 @@ struct NightSkyView: View {
     }
 
     // MARK: Sticker helpers
+
+    /// One tappable palette sticker — used by both the tucked row and the
+    /// full drop-down grid.
+    private func stickerButton(_ sticker: NightSkySticker, size: CGFloat) -> some View {
+        Button {
+            withAnimation(.spring(response: 0.4)) {
+                stickers.append(
+                    PlacedSticker(
+                        id: UUID().uuidString,
+                        type: sticker.id,
+                        x: Double.random(in: 0.2...0.8),
+                        y: Double.random(in: 0.15...0.6)
+                    )
+                )
+            }
+            saveStickers()
+        } label: {
+            Text(sticker.emoji)
+                .font(.system(size: size))
+                .padding(size < 30 ? 5 : 8)
+                .background(Circle().fill(Color.white.opacity(0.10)))
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: Snapshot — save the child's creation to Photos
+
+    private func takeSnapshot(size: CGSize) {
+        let content = NightSkySnapshotView(
+            scene: scene,
+            stickers: stickers,
+            placed: placed,
+            collected: collected,
+            size: size
+        )
+        let renderer = ImageRenderer(content: content)
+        renderer.scale = UIScreen.main.scale
+        guard let image = renderer.uiImage else {
+            showSnapshotMessage("Hmm, the camera blinked — try again!")
+            return
+        }
+
+        withAnimation(.easeOut(duration: 0.12)) { shutterFlash = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            withAnimation(.easeIn(duration: 0.25)) { shutterFlash = false }
+        }
+
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            DispatchQueue.main.async {
+                guard status == .authorized || status == .limited else {
+                    showSnapshotMessage("Ask a grown-up to allow Photos in Settings")
+                    return
+                }
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAsset(from: image)
+                }) { success, _ in
+                    DispatchQueue.main.async {
+                        showSnapshotMessage(success ? "Saved to Photos! 📸" : "Couldn't save — try again")
+                    }
+                }
+            }
+        }
+    }
+
+    private func showSnapshotMessage(_ text: String) {
+        withAnimation(.spring(response: 0.3)) { snapshotMessage = text }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
+            withAnimation(.easeOut(duration: 0.3)) { snapshotMessage = nil }
+        }
+    }
 
     private func updateSticker(_ id: String, x: Double, y: Double) {
         guard let idx = stickers.firstIndex(where: { $0.id == id }) else { return }
@@ -864,12 +1006,15 @@ private struct NightSkySceneBackdrop: View {
 
 // MARK: - Sticker model
 
-/// A type in the always-available palette.
+/// A type in the always-available palette — 100 kid-safe stickers, all
+/// gentle and positive. The first eight ids predate the expansion and must
+/// NEVER change: children's saved skies reference them by id.
 private struct NightSkySticker: Identifiable {
     let id: String
     let emoji: String
 
     static let palette: [NightSkySticker] = [
+        // The original eight (ids frozen — saved layouts use them)
         NightSkySticker(id: "star",     emoji: "⭐"),
         NightSkySticker(id: "moon",     emoji: "🌙"),
         NightSkySticker(id: "lumi",     emoji: "🐝"),
@@ -877,7 +1022,106 @@ private struct NightSkySticker: Identifiable {
         NightSkySticker(id: "heart",    emoji: "💛"),
         NightSkySticker(id: "sparkle",  emoji: "✨"),
         NightSkySticker(id: "rainbow",  emoji: "🌈"),
-        NightSkySticker(id: "shooting", emoji: "🌠")
+        NightSkySticker(id: "shooting", emoji: "🌠"),
+        // Sky & space
+        NightSkySticker(id: "sun",       emoji: "☀️"),
+        NightSkySticker(id: "glowstar",  emoji: "🌟"),
+        NightSkySticker(id: "comet",     emoji: "☄️"),
+        NightSkySticker(id: "planet",    emoji: "🪐"),
+        NightSkySticker(id: "earth",     emoji: "🌍"),
+        NightSkySticker(id: "dizzy",     emoji: "💫"),
+        NightSkySticker(id: "snowflake", emoji: "❄️"),
+        NightSkySticker(id: "suncloud",  emoji: "⛅"),
+        NightSkySticker(id: "moonface",  emoji: "🌛"),
+        // Little friends
+        NightSkySticker(id: "butterfly",   emoji: "🦋"),
+        NightSkySticker(id: "ladybug",     emoji: "🐞"),
+        NightSkySticker(id: "snail",       emoji: "🐌"),
+        NightSkySticker(id: "caterpillar", emoji: "🐛"),
+        // Hearts
+        NightSkySticker(id: "redheart",     emoji: "❤️"),
+        NightSkySticker(id: "pinkhearts",   emoji: "💕"),
+        NightSkySticker(id: "sparkleheart", emoji: "💖"),
+        NightSkySticker(id: "blueheart",    emoji: "💙"),
+        NightSkySticker(id: "greenheart",   emoji: "💚"),
+        NightSkySticker(id: "purpleheart",  emoji: "💜"),
+        NightSkySticker(id: "orangeheart",  emoji: "🧡"),
+        // Animals
+        NightSkySticker(id: "bunny",    emoji: "🐰"),
+        NightSkySticker(id: "bear",     emoji: "🐻"),
+        NightSkySticker(id: "cat",      emoji: "🐱"),
+        NightSkySticker(id: "dog",      emoji: "🐶"),
+        NightSkySticker(id: "owl",      emoji: "🦉"),
+        NightSkySticker(id: "fox",      emoji: "🦊"),
+        NightSkySticker(id: "koala",    emoji: "🐨"),
+        NightSkySticker(id: "panda",    emoji: "🐼"),
+        NightSkySticker(id: "penguin",  emoji: "🐧"),
+        NightSkySticker(id: "chick",    emoji: "🐥"),
+        NightSkySticker(id: "sheep",    emoji: "🐑"),
+        NightSkySticker(id: "cow",      emoji: "🐮"),
+        NightSkySticker(id: "horse",    emoji: "🐴"),
+        NightSkySticker(id: "frog",     emoji: "🐸"),
+        NightSkySticker(id: "duck",     emoji: "🦆"),
+        NightSkySticker(id: "dove",     emoji: "🕊️"),
+        NightSkySticker(id: "turtle",   emoji: "🐢"),
+        NightSkySticker(id: "fish",     emoji: "🐠"),
+        NightSkySticker(id: "dolphin",  emoji: "🐬"),
+        NightSkySticker(id: "whale",    emoji: "🐳"),
+        NightSkySticker(id: "octopus",  emoji: "🐙"),
+        NightSkySticker(id: "seal",     emoji: "🦭"),
+        NightSkySticker(id: "hedgehog", emoji: "🦔"),
+        NightSkySticker(id: "lion",     emoji: "🦁"),
+        NightSkySticker(id: "elephant", emoji: "🐘"),
+        NightSkySticker(id: "monkey",   emoji: "🐵"),
+        NightSkySticker(id: "unicorn",  emoji: "🦄"),
+        NightSkySticker(id: "deer",     emoji: "🦌"),
+        NightSkySticker(id: "parrot",   emoji: "🦜"),
+        NightSkySticker(id: "swan",     emoji: "🦢"),
+        NightSkySticker(id: "flamingo", emoji: "🦩"),
+        NightSkySticker(id: "peacock",  emoji: "🦚"),
+        // Garden & nature
+        NightSkySticker(id: "flower",    emoji: "🌸"),
+        NightSkySticker(id: "sunflower", emoji: "🌻"),
+        NightSkySticker(id: "tulip",     emoji: "🌷"),
+        NightSkySticker(id: "rose",      emoji: "🌹"),
+        NightSkySticker(id: "hibiscus",  emoji: "🌺"),
+        NightSkySticker(id: "daisy",     emoji: "🌼"),
+        NightSkySticker(id: "clover",    emoji: "🍀"),
+        NightSkySticker(id: "leaf",      emoji: "🍃"),
+        NightSkySticker(id: "tree",      emoji: "🌳"),
+        NightSkySticker(id: "evergreen", emoji: "🌲"),
+        NightSkySticker(id: "mushroom",  emoji: "🍄"),
+        NightSkySticker(id: "seedling",  emoji: "🌱"),
+        NightSkySticker(id: "shell",     emoji: "🐚"),
+        NightSkySticker(id: "gem",       emoji: "💎"),
+        // Yummy treats
+        NightSkySticker(id: "apple",      emoji: "🍎"),
+        NightSkySticker(id: "strawberry", emoji: "🍓"),
+        NightSkySticker(id: "watermelon", emoji: "🍉"),
+        NightSkySticker(id: "cherries",   emoji: "🍒"),
+        NightSkySticker(id: "banana",     emoji: "🍌"),
+        NightSkySticker(id: "orange",     emoji: "🍊"),
+        NightSkySticker(id: "pineapple",  emoji: "🍍"),
+        NightSkySticker(id: "cupcake",    emoji: "🧁"),
+        NightSkySticker(id: "cookie",     emoji: "🍪"),
+        NightSkySticker(id: "icecream",   emoji: "🍦"),
+        NightSkySticker(id: "donut",      emoji: "🍩"),
+        // Fun things
+        NightSkySticker(id: "teddy",     emoji: "🧸"),
+        NightSkySticker(id: "gift",      emoji: "🎁"),
+        NightSkySticker(id: "crown",     emoji: "👑"),
+        NightSkySticker(id: "book",      emoji: "📖"),
+        NightSkySticker(id: "musicnote", emoji: "🎵"),
+        NightSkySticker(id: "notes",     emoji: "🎶"),
+        NightSkySticker(id: "bell",      emoji: "🔔"),
+        NightSkySticker(id: "drum",      emoji: "🥁"),
+        NightSkySticker(id: "guitar",    emoji: "🎸"),
+        NightSkySticker(id: "balloon",   emoji: "🎈"),
+        NightSkySticker(id: "kite",      emoji: "🪁"),
+        NightSkySticker(id: "boat",      emoji: "⛵"),
+        NightSkySticker(id: "rocket",    emoji: "🚀"),
+        NightSkySticker(id: "train",     emoji: "🚂"),
+        NightSkySticker(id: "umbrella",  emoji: "☂️"),
     ]
 
     static func emoji(for typeID: String) -> String {
@@ -904,5 +1148,68 @@ private struct StickerView: View {
             .font(.system(size: 44))
             .shadow(color: .yellow.opacity(0.45), radius: 8)
             .contentShape(Circle())
+    }
+}
+
+// MARK: - Snapshot rendering
+
+/// The child's sky rebuilt for ImageRenderer: backdrop + placed stickers +
+/// placed treasures, no drawer/buttons/Lumi. Same fraction math as on screen.
+private struct NightSkySnapshotView: View {
+    let scene: NightSkyScene
+    let stickers: [PlacedSticker]
+    let placed: [String: CGPoint]
+    let collected: [Collectible]
+    let size: CGSize
+
+    var body: some View {
+        ZStack {
+            if scene == .starryNight {
+                SnapshotStarrySky()
+            } else {
+                NightSkySceneBackdrop(scene: scene)
+            }
+            ForEach(stickers) { sticker in
+                StickerView(emoji: sticker.emoji)
+                    .position(x: sticker.x * size.width, y: sticker.y * size.height)
+            }
+            ForEach(collected.filter { placed[$0.id] != nil }) { item in
+                let frac = placed[item.id] ?? .zero
+                CollectibleIconView(collectible: item, size: 46)
+                    .position(x: frac.x * size.width, y: frac.y * size.height)
+            }
+        }
+        .frame(width: size.width, height: size.height)
+        .clipped()
+    }
+}
+
+/// Static seeded stand-in for the animated StarryNightBackground —
+/// ImageRenderer doesn't run onAppear state, so the snapshot draws its own sky.
+private struct SnapshotStarrySky: View {
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                colors: [Color(red: 0.02, green: 0.05, blue: 0.12),
+                         Color(red: 0.05, green: 0.10, blue: 0.20)],
+                startPoint: .top, endPoint: .bottom
+            )
+            Canvas { context, canvasSize in
+                var seed: UInt64 = 99
+                func rand() -> Double {
+                    seed = seed &* 6364136223846793005 &+ 1442695040888963407
+                    return Double(seed >> 33) / Double(UInt32.max)
+                }
+                for _ in 0..<140 {
+                    let x = rand() * canvasSize.width
+                    let y = rand() * canvasSize.height
+                    let r = 0.6 + rand() * 1.6
+                    context.fill(
+                        Path(ellipseIn: CGRect(x: x, y: y, width: r, height: r)),
+                        with: .color(.white.opacity(0.25 + rand() * 0.6))
+                    )
+                }
+            }
+        }
     }
 }

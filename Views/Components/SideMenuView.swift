@@ -13,6 +13,7 @@ enum SideMenuDestination: Hashable, Identifiable {
     case nightSky
     case journeys
     case favorites
+    case tonightsGoals
 
     var id: String {
         switch self {
@@ -22,6 +23,7 @@ enum SideMenuDestination: Hashable, Identifiable {
         case .nightSky: return "night-sky"
         case .journeys: return "journeys"
         case .favorites: return "favorites"
+        case .tonightsGoals: return "tonights-goals"
         }
     }
 }
@@ -153,6 +155,16 @@ struct SideMenuView: View {
                         .padding(.top, 2)
 
                     VStack(spacing: 10) {
+                        linkTile(icon: "checklist", title: "Tonight's Goals",
+                                 subtitle: "Three little quests before sleep", glow: .yellow,
+                                 light: (Color(red: 0.40, green: 0.30, blue: 0.10),
+                                         Color(red: 0.50, green: 0.38, blue: 0.14),
+                                         Color(red: 0.58, green: 0.45, blue: 0.20)),
+                                 dim: (Color(red: 0.28, green: 0.21, blue: 0.07),
+                                       Color(red: 0.34, green: 0.26, blue: 0.10),
+                                       Color(red: 0.39, green: 0.30, blue: 0.13))) {
+                            select(.tonightsGoals)
+                        }
                         linkTile(icon: "heart.fill", title: "My Favorites",
                                  subtitle: "The stories you love most", glow: .pink,
                                  light: (Color(red: 0.45, green: 0.18, blue: 0.28),
