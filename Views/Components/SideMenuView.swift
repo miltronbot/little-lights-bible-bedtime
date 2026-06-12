@@ -43,7 +43,9 @@ struct SideMenuView: View {
                     }
             }
 
-            // Drawer panel
+            // Drawer panel — only exists while open, so the closed state
+            // renders nothing at all (no shadow/edge bleed on Home)
+            if isOpen {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     // Header
@@ -116,8 +118,9 @@ struct SideMenuView: View {
                 }
                 .ignoresSafeArea()
             )
-            .offset(x: isOpen ? 0 : -panelWidth - 60)
-            .shadow(color: .black.opacity(isOpen ? 0.5 : 0), radius: 24, x: 8)
+            .shadow(color: .black.opacity(0.5), radius: 24, x: 8)
+            .transition(.move(edge: .leading))
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .gesture(
