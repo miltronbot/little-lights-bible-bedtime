@@ -7,8 +7,14 @@ import SwiftUI
 struct StarryNightBackground: View {
     /// When true, stars show even outside bedtime mode — a calmer version
     /// (dimmer stars, no floating particles) so it reads as ambience, not
-    /// decoration. Used by the Home screen.
+    /// decoration.
     var alwaysStarry: Bool = false
+
+    /// Deep-sky mode for the Home screen: adds a dense field of tiny distant
+    /// stars (one static Canvas — no extra animations) and lets the twinkling
+    /// stars fill the whole height, so it feels like gazing up into a sky
+    /// full of stars rather than a sprinkle along the top.
+    var deepField: Bool = false
 
     @EnvironmentObject private var appSettings: AppSettings
     @Environment(\.colorScheme) private var colorScheme
@@ -71,6 +77,12 @@ struct StarryNightBackground: View {
                 )
 
                 if showStars {
+                    // Distant-star field — hundreds of faint pinpricks in a
+                    // single static Canvas, drawn behind the twinkling stars
+                    if deepField {
+                        DeepStarFieldLayer(color: starColor, intensity: starIntensity)
+                    }
+
                     // Subtle aurora glow
                     Ellipse()
                         .fill(
@@ -107,13 +119,17 @@ struct StarryNightBackground: View {
     private func generateStars(in size: CGSize) {
         guard stars.isEmpty else { return }
         var generated: [Star] = []
-        _ = SeededRandom(seed: 42) // Available for deterministic placement if needed
 
-        for _ in 0..<60 {
+        // Deep field: more twinkles spread over the WHOLE sky, skewed small —
+        // the handful of big ones read as the bright stars in front.
+        let count = deepField ? 80 : 60
+        let yMax = deepField ? size.height : size.height * 0.7
+
+        for _ in 0..<count {
             let star = Star(
                 x: CGFloat.random(in: 0...size.width),
-                y: CGFloat.random(in: 0...size.height * 0.7),
-                size: CGFloat.random(in: 1.5...4.0),
+                y: CGFloat.random(in: 0...yMax),
+                size: deepField ? CGFloat.random(in: 1.0...3.5) : CGFloat.random(in: 1.5...4.0),
                 opacity: Double.random(in: 0.3...1.0),
                 twinkleSpeed: Double.random(in: 1.5...4.0),
                 delay: Double.random(in: 0...3.0)
@@ -121,6 +137,50 @@ struct StarryNightBackground: View {
             generated.append(star)
         }
         stars = generated
+    }
+}
+
+// MARK: - Deep Star Field
+// Hundreds of faint distant stars in ONE static Canvas — no per-star views,
+// no animations, so the dense sky costs almost nothing. Seeded so the sky
+// looks the same every time the screen appears.
+
+private struct DeepStarFieldLayer: View {
+    var color: Color = .white
+    var intensity: Double = 1.0
+
+    var body: some View {
+        Canvas { context, size in
+            var rng = SeededRandom(seed: 99)
+
+            // Scattered distant stars across the whole sky
+            for _ in 0..<150 {
+                let x = rng.next() * size.width
+                let y = rng.next() * size.height
+                let d = 0.6 + rng.next() * 1.6
+                let opacity = (0.12 + rng.next() * 0.45) * intensity
+                context.fill(
+                    Path(ellipseIn: CGRect(x: x, y: y, width: d, height: d)),
+                    with: .color(color.opacity(opacity))
+                )
+            }
+
+            // A denser diagonal band — a soft hint of the Milky Way
+            for _ in 0..<90 {
+                let t = rng.next()
+                let x = t * size.width
+                let bandCenterY = size.height * (0.72 - 0.45 * t)
+                let spread = size.height * 0.09
+                let y = bandCenterY + (rng.next() - 0.5) * 2 * spread
+                let d = 0.5 + rng.next() * 1.3
+                let opacity = (0.10 + rng.next() * 0.38) * intensity
+                context.fill(
+                    Path(ellipseIn: CGRect(x: x, y: y, width: d, height: d)),
+                    with: .color(color.opacity(opacity))
+                )
+            }
+        }
+        .allowsHitTesting(false)
     }
 }
 
@@ -219,11 +279,11 @@ struct FloatAnimation: ViewModifier {
     }
 }
 
-// Simple seeded random for deterministic star placement
+// Simple seeded random for deterministic star placement. Returns 0...1.
 struct SeededRandom {
     var seed: UInt64
     mutating func next() -> Double {
         seed = seed &* 6364136223846793005 &+ 1442695040888963407
-        return Double(seed >> 33) / Double(UInt32.max)
+        return Double(seed >> 32) / Double(UInt32.max)
     }
 }
