@@ -1,11 +1,13 @@
 
 import SwiftUI
 import Combine
+import StoreKit
 
 struct ContentView: View {
     @EnvironmentObject private var appSettings: AppSettings
     @EnvironmentObject private var readingStreak: ReadingStreakViewModel
     @EnvironmentObject private var audioPlayer: AudioPlayerViewModel
+    @Environment(\.requestReview) private var requestReview
 
     private var dynamicTypeSize: DynamicTypeSize {
         switch appSettings.fontSize {
@@ -43,6 +45,9 @@ struct ContentView: View {
         .dynamicTypeSize(dynamicTypeSize)
         .tint(AppTheme.accent(for: appSettings.isBedtimeMode))
         .preferredColorScheme(appSettings.isBedtimeMode ? .dark : nil)
+        .onChange(of: readingStreak.totalStoriesRead) { _, newCount in
+            maybeAskForReview(totalRead: newCount)
+        }
         .safeAreaInset(edge: .bottom) {
             SleepTimerBannerContainer()
                 .environmentObject(audioPlayer)
@@ -68,6 +73,23 @@ struct ContentView: View {
                 )
                 .transition(.opacity)
             }
+        }
+    }
+
+    /// Asks for an App Store review at happy milestones (5th, 20th and 60th
+    /// finished story), once per milestone, after a short delay so it never
+    /// lands on top of the completion celebration. Apple throttles actual
+    /// presentation to at most 3 prompts per year — this only nominates
+    /// good moments.
+    private func maybeAskForReview(totalRead: Int) {
+        let milestones: Set<Int> = [5, 20, 60]
+        guard milestones.contains(totalRead) else { return }
+        let key = "lastReviewMilestone"
+        guard UserDefaults.standard.integer(forKey: key) < totalRead else { return }
+        UserDefaults.standard.set(totalRead, forKey: key)
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 6_000_000_000)
+            requestReview()
         }
     }
 }
