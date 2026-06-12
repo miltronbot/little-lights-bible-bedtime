@@ -29,8 +29,10 @@ struct ContentView: View {
             NavigationStack { LibraryView() }
                 .tabItem { Label("Library", systemImage: "books.vertical.fill") }
 
-            NavigationStack { FavoritesView() }
-                .tabItem { Label("Favorites", systemImage: "heart.fill") }
+            // Favorites moved to the side menu — iOS only shows five tabs
+            // before hiding extras behind "More", and Games earns the slot
+            NavigationStack { GamesView() }
+                .tabItem { Label("Games", systemImage: "gamecontroller.fill") }
 
             NavigationStack { RewardsView() }
                 .tabItem { Label("Rewards", systemImage: "star.fill") }
