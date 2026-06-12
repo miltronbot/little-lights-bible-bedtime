@@ -259,9 +259,9 @@ struct HomeView: View {
             .padding()
         }
         .background {
-            // Always a starry night sky — full effect in bedtime mode,
-            // a calmer dimmed version otherwise
-            StarryNightBackground(alwaysStarry: true)
+            // Home looks up into a deep sky full of stars; other screens
+            // keep the calmer sprinkle
+            StarryNightBackground(alwaysStarry: true, deepField: true)
         }
         .navigationTitle("Home")
         .toolbar {
