@@ -63,8 +63,8 @@ struct ContentView: View {
                let badgeID = readingStreak.newBadgeID,
                let badgeInfo = ReadingStreak.badgeInfo[badgeID] {
                 BadgeCelebrationView(
+                    badgeID: badgeID,
                     badgeName: badgeInfo.name,
-                    badgeIcon: badgeInfo.icon,
                     badgeDescription: badgeInfo.description,
                     onDone: {
                         readingStreak.showNewBadgeAlert = false

@@ -111,7 +111,8 @@ struct NightSkyView: View {
                 // long-press returns them to the drawer
                 ForEach(collected.filter { placed[$0.id] != nil }) { item in
                     let frac = placed[item.id] ?? CGPoint(x: 0.5, y: 0.4)
-                    StickerView(emoji: item.emoji)
+                    CollectibleIconView(collectible: item, size: 46)
+                        .contentShape(Circle())
                         .position(x: frac.x * geo.size.width, y: frac.y * geo.size.height)
                         .onTapGesture(count: 2) {
                             withAnimation(.spring(response: 0.35)) {
@@ -257,9 +258,8 @@ struct NightSkyView: View {
                                             }
                                             savePositions()
                                         } label: {
-                                            Text(item.emoji)
-                                                .font(.system(size: 34))
-                                                .padding(8)
+                                            CollectibleIconView(collectible: item, size: 42)
+                                                .padding(4)
                                                 .background(Circle().fill(Color.white.opacity(0.10)))
                                         }
                                         .buttonStyle(.plain)

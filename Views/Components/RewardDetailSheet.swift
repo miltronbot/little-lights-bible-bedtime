@@ -37,9 +37,7 @@ struct CollectionAlbumView: View {
                 VStack(spacing: 20) {
                     // Featured treasure
                     VStack(spacing: 10) {
-                        Text(selected.emoji)
-                            .font(.system(size: 64))
-                            .opacity(isCollected ? 1.0 : 0.45)
+                        CollectibleIconView(collectible: selected, size: 88, earned: isCollected)
 
                         Text(selected.name)
                             .font(.title3.bold())
@@ -114,9 +112,8 @@ struct CollectionAlbumView: View {
                                     }
                                 } label: {
                                     VStack(spacing: 4) {
-                                        Text(collectible.emoji)
-                                            .font(.system(size: 30))
-                                            .opacity(manager.hasCollected(collectible.id) ? 1.0 : 0.3)
+                                        CollectibleIconView(collectible: collectible, size: 40,
+                                                            earned: manager.hasCollected(collectible.id))
                                         Text(collectible.name)
                                             .font(.system(size: 9, weight: .medium))
                                             .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
@@ -207,9 +204,7 @@ struct BadgeDetailSheet: View {
 
     var body: some View {
         VStack(spacing: 18) {
-            Text(badge.icon)
-                .font(.system(size: 72))
-                .opacity(badge.earned ? 1.0 : 0.45)
+            BadgeIconView(badgeID: badge.id, size: 96, earned: badge.earned)
                 .padding(.top, 28)
 
             Text(badge.name)

@@ -338,6 +338,10 @@ private struct MatchCardView: View {
 
     @EnvironmentObject private var appSettings: AppSettings
 
+    private var collectible: Collectible? {
+        Collectible.all.first { $0.id == card.pairID }
+    }
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 14)
@@ -346,8 +350,12 @@ private struct MatchCardView: View {
                       : AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.8))
 
             if card.isFaceUp || card.isMatched {
-                Text(card.emoji)
-                    .font(.system(size: height * 0.42))
+                if let collectible = collectible {
+                    CollectibleIconView(collectible: collectible, size: height * 0.6)
+                } else {
+                    Text(card.emoji)
+                        .font(.system(size: height * 0.42))
+                }
             } else {
                 Image(systemName: "sparkles")
                     .font(.title3)
@@ -361,7 +369,9 @@ private struct MatchCardView: View {
         )
         .rotation3DEffect(.degrees(card.isFaceUp || card.isMatched ? 0 : 180),
                           axis: (x: 0, y: 1, z: 0))
-        .accessibilityLabel(card.isFaceUp || card.isMatched ? card.emoji : "Hidden card")
+        .accessibilityLabel(card.isFaceUp || card.isMatched
+                            ? (collectible?.name ?? card.emoji)
+                            : "Hidden card")
     }
 }
 

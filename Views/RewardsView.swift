@@ -132,8 +132,8 @@ struct RewardsView: View {
                                 )
                             } label: {
                                 BadgeView(
+                                    id: badge.id,
                                     name: badge.info.name,
-                                    icon: badge.info.icon,
                                     description: badge.info.description,
                                     earned: badge.earned
                                 )
@@ -203,20 +203,18 @@ struct StatBox: View {
 // MARK: - Badge View
 
 // Card styling matches CollectibleItemView so badges and collectibles
-// share one visual language: emoji on a rounded card, dimmed until
-// earned, accent ring when earned.
+// share one visual language: a medal icon on a rounded card, dimmed
+// until earned, accent ring when earned.
 struct BadgeView: View {
+    let id: String
     let name: String
-    let icon: String
     let description: String
     let earned: Bool
     @EnvironmentObject private var appSettings: AppSettings
 
     var body: some View {
         VStack(spacing: 8) {
-            Text(icon)
-                .font(.system(size: 36))
-                .opacity(earned ? 1.0 : 0.3)
+            BadgeIconView(badgeID: id, size: 50, earned: earned)
 
             Text(name)
                 .font(.caption2)

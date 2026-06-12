@@ -47,9 +47,7 @@ struct CollectibleItemView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            Text(collectible.emoji)
-                .font(.system(size: 40))
-                .opacity(isCollected ? 1.0 : 0.3)
+            CollectibleIconView(collectible: collectible, size: 54, earned: isCollected)
 
             Text(collectible.name)
                 .font(.caption2)
