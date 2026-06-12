@@ -29,7 +29,7 @@ Our collection features 50 Bible stories specially adapted for young listeners. 
 Hear these beloved tales through warm, AI-narrated audio that feels like a caring adult reading bedtime stories to your child. Our Bedtime Mode creates the perfect environment—a dark, starry-night theme that's easy on tired eyes.
 
 **Complete Bedtime Routine**
-We believe bedtime should be a cherished ritual. That's why Firefly guides you through a complete bedtime routine: Start with a Bible story, move into a prayer, practice calming breathing exercises, and finish with positive affirmations—all designed to help your child feel loved, safe, and ready for sleep.
+We believe bedtime should be a cherished ritual. That's why Firefly guides you through a complete bedtime routine: Start with a Bible story, move into a prayer, practice calming breathing exercises, and finish with positive blessings—all designed to help your child feel loved, safe, and ready for sleep.
 
 **Ambient Sounds for Sleep**
 Let the sounds of nature enhance the experience. Choose from soothing options: gentle rain on a roof, ocean waves rolling in, or forest sounds. Create the perfect soundscape to help your child relax into sleep.
@@ -154,7 +154,7 @@ Character count: 112 / 100 ⚠️
 > 3. Breathing
 
 **Step 4 (Heart Icon):**
-> 4. Affirmations
+> 4. Blessings
 
 **Supporting Text:**
 > Guided from start to sleep
@@ -194,7 +194,7 @@ Character count: 112 / 100 ⚠️
 - Ambient sound options: rain, ocean, forest, or silence
 
 🧘 **Guided Bedtime Routine**
-- Complete 4-step bedtime journey: Story → Prayer → Breathing → Affirmations
+- Complete 4-step bedtime journey: Story → Prayer → Breathing → Blessings
 - Calming breathing exercises children can use anytime
 - Discussion questions to deepen understanding of lessons
 
@@ -251,7 +251,7 @@ Thank you for trusting Firefly with your child's bedtime. Sweet dreams.
 2. ✅ Privacy-first—zero data collection
 3. ✅ Age-appropriate—designed specifically for young children
 4. ✅ Professional quality—warm narration, beautiful stories
-5. ✅ Holistic bedtime—story + prayer + breathing + affirmations
+5. ✅ Holistic bedtime—story + prayer + breathing + blessings
 6. ✅ Faith-building—meaningful Bible stories with lessons
 7. ✅ Parent-approved—supports healthy sleep routines
 

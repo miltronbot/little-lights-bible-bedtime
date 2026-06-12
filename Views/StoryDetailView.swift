@@ -323,7 +323,7 @@ struct StoryDetailView: View {
                             Image(systemName: "star.fill")
                                 .foregroundStyle(.yellow)
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Goodnight Affirmations")
+                                Text("Goodnight Blessings")
                                     .font(.subheadline.bold())
                                     .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
                                 Text("Positive words before sleep")
