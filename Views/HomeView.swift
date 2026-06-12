@@ -292,6 +292,8 @@ struct HomeView: View {
                 NightSkyView()
             case .journeys:
                 JourneysView()
+            case .favorites:
+                FavoritesView()
             }
         }
     }

@@ -12,6 +12,7 @@ enum SideMenuDestination: Hashable, Identifiable {
     case parentDashboard
     case nightSky
     case journeys
+    case favorites
 
     var id: String {
         switch self {
@@ -20,6 +21,7 @@ enum SideMenuDestination: Hashable, Identifiable {
         case .parentDashboard: return "parent-dashboard"
         case .nightSky: return "night-sky"
         case .journeys: return "journeys"
+        case .favorites: return "favorites"
         }
     }
 }
@@ -99,6 +101,10 @@ struct SideMenuView: View {
                         .foregroundStyle(.white.opacity(0.85))
 
                     VStack(spacing: 10) {
+                        menuRow(icon: "heart.fill", title: "My Favorites",
+                                subtitle: "The stories you love most") {
+                            select(.favorites)
+                        }
                         menuRow(icon: "map.fill", title: "7-Day Journeys",
                                 subtitle: "A gentle week of themed stories") {
                             select(.journeys)
