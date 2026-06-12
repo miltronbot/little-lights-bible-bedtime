@@ -267,6 +267,8 @@ struct HomeView: View {
                 ParentDashboardView()
             case .nightSky:
                 NightSkyView()
+            case .journeys:
+                JourneysView()
             }
         }
     }

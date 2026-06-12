@@ -11,6 +11,7 @@ enum SideMenuDestination: Hashable, Identifiable {
     case bedtimeRoutine
     case parentDashboard
     case nightSky
+    case journeys
 
     var id: String {
         switch self {
@@ -18,6 +19,7 @@ enum SideMenuDestination: Hashable, Identifiable {
         case .bedtimeRoutine: return "bedtime-routine"
         case .parentDashboard: return "parent-dashboard"
         case .nightSky: return "night-sky"
+        case .journeys: return "journeys"
         }
     }
 }
@@ -97,6 +99,10 @@ struct SideMenuView: View {
                         .foregroundStyle(.white.opacity(0.85))
 
                     VStack(spacing: 10) {
+                        menuRow(icon: "map.fill", title: "7-Day Journeys",
+                                subtitle: "A gentle week of themed stories") {
+                            select(.journeys)
+                        }
                         menuRow(icon: "moon.zzz.fill", title: "Bedtime Routine",
                                 subtitle: "Story + Prayer + Sounds") {
                             select(.bedtimeRoutine)

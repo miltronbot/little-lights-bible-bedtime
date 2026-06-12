@@ -13,7 +13,7 @@ import Foundation
 
 enum CloudSync {
     private static let store = NSUbiquitousKeyValueStore.default
-    private static let syncedBases = ["favoriteStoryIDs", "readingStreak", "CollectiblesManager.collectedIDs"]
+    private static let syncedBases = ["favoriteStoryIDs", "readingStreak", "CollectiblesManager.collectedIDs", "journeyProgress"]
 
     // MARK: Mirror up (called from each store's save path)
 
@@ -91,6 +91,21 @@ enum CloudSync {
             }
             if cloudWins {
                 defaults.set(cloudData, forKey: key)
+            }
+
+        case "journeyProgress":
+            // Data(JSON [String: Set<Int>]) — union completed days per journey
+            let cloudMap: [String: Set<Int>] = store.data(forKey: key)
+                .flatMap { try? JSONDecoder().decode([String: Set<Int>].self, from: $0) } ?? [:]
+            guard !cloudMap.isEmpty else { return }
+            let localMap: [String: Set<Int>] = defaults.data(forKey: key)
+                .flatMap { try? JSONDecoder().decode([String: Set<Int>].self, from: $0) } ?? [:]
+            var merged = localMap
+            for (journeyID, cloudDays) in cloudMap {
+                merged[journeyID] = (merged[journeyID] ?? []).union(cloudDays)
+            }
+            if merged != localMap, let data = try? JSONEncoder().encode(merged) {
+                defaults.set(data, forKey: key)
             }
 
         default:

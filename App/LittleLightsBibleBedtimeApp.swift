@@ -11,6 +11,7 @@ struct LittleLightsBibleBedtimeApp: App {
     @StateObject private var readingStreakViewModel = ReadingStreakViewModel()
     @StateObject private var collectiblesManager = CollectiblesManager()
     @StateObject private var goalsTracker = GoalsTracker()
+    @StateObject private var journeyProgress = JourneyProgressManager()
 
     init() {
         // Configure audio session once at startup — must happen before any playback attempt
@@ -39,6 +40,7 @@ struct LittleLightsBibleBedtimeApp: App {
             .environmentObject(readingStreakViewModel)
             .environmentObject(collectiblesManager)
             .environmentObject(goalsTracker)
+            .environmentObject(journeyProgress)
             .onAppear {
                 // Restore any iCloud progress, then point stores at the
                 // active child
@@ -106,6 +108,7 @@ struct LittleLightsBibleBedtimeApp: App {
         favoritesViewModel.reload()
         readingStreakViewModel.reload()
         collectiblesManager.reload()
+        journeyProgress.reload()
     }
 
     /// Points the per-child stores (favorites, streak, collectibles) at the
@@ -115,6 +118,7 @@ struct LittleLightsBibleBedtimeApp: App {
         favoritesViewModel.setProfile(name)
         readingStreakViewModel.setProfile(name)
         collectiblesManager.setProfile(name)
+        journeyProgress.setProfile(name)
     }
 
     /// Pre-profile versions stored favorites/streak/collectibles under global
