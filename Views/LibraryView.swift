@@ -52,16 +52,21 @@ struct LibraryView: View {
         .background { StarryNightBackground(alwaysStarry: true) }
         .navigationTitle("Library")
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            // Leading + plain glyph to match Home's hamburger exactly — the
+            // two drawer buttons read as one consistent control, and this
+            // drawer slides in from the left anyway
+            ToolbarItem(placement: .topBarLeading) {
                 Button {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.86)) {
                         showFilters = true
                     }
                 } label: {
-                    Image(systemName: (viewModel.selectedAgeGroup != nil || viewModel.selectedCategory != nil)
-                        ? "line.3.horizontal.decrease.circle.fill"
-                        : "line.3.horizontal.decrease.circle")
-                        .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                    Image(systemName: "line.3.horizontal.decrease")
+                        .foregroundStyle(
+                            (viewModel.selectedAgeGroup != nil || viewModel.selectedCategory != nil)
+                                ? AppTheme.accent(for: appSettings.isBedtimeMode)
+                                : AppTheme.primaryText(for: appSettings.isBedtimeMode)
+                        )
                 }
                 .accessibilityLabel("Filter stories")
             }

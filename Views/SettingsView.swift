@@ -363,6 +363,12 @@ struct SettingsView: View {
                 }
             }
 
+            Section("Help Us Improve") {
+                NavigationLink(destination: FeedbackView()) {
+                    Label("Feedback & Ideas", systemImage: "lightbulb.fill")
+                }
+            }
+
             Section("About") {
                 NavigationLink(destination: PrivacyPolicyView()) {
                     Label("Privacy Policy", systemImage: "hand.raised.fill")
