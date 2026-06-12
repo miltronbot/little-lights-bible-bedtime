@@ -70,8 +70,7 @@ struct ConfettiPiece {
 struct StoryCelebrationView: View {
     @EnvironmentObject var appSettings: AppSettings
 
-    let collectibleName: String?
-    let collectibleEmoji: String?
+    let collectible: Collectible?
     var shootingStar: Bool = false
     let onDone: () -> Void
 
@@ -93,8 +92,12 @@ struct StoryCelebrationView: View {
             if showContent {
                 VStack(spacing: 24) {
                     // Checkmark with bounce animation
-                    Text("✅")
-                        .font(.system(size: 80))
+                    Image(systemName: "checkmark.seal.fill")
+                        .font(.system(size: 76))
+                        .foregroundStyle(
+                            LinearGradient(colors: [.green, .mint], startPoint: .top, endPoint: .bottom)
+                        )
+                        .shadow(color: .green.opacity(0.6), radius: 14)
                         .scaleEffect(checkmarkScale)
                         .opacity(checkmarkOpacity)
 
@@ -115,16 +118,15 @@ struct StoryCelebrationView: View {
                     }
 
                     // Collectible reveal (if applicable)
-                    if let collectibleEmoji = collectibleEmoji, let collectibleName = collectibleName {
+                    if let collectible = collectible {
                         VStack(spacing: 12) {
-                            Text(collectibleEmoji)
-                                .font(.system(size: 60))
+                            CollectibleIconView(collectible: collectible, size: 76)
 
                             Text("New Collectible!")
                                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                                 .foregroundStyle(.cyan)
 
-                            Text(collectibleName)
+                            Text(collectible.name)
                                 .font(.system(size: 18, weight: .bold, design: .rounded))
                                 .foregroundStyle(.white)
                         }
@@ -177,8 +179,8 @@ struct StoryCelebrationView: View {
 // MARK: - BadgeCelebrationView
 /// A fullscreen overlay shown when earning a new badge
 struct BadgeCelebrationView: View {
+    let badgeID: String
     let badgeName: String
-    let badgeIcon: String
     let badgeDescription: String
     let onDone: () -> Void
 
@@ -214,9 +216,8 @@ struct BadgeCelebrationView: View {
                             )
                             .frame(width: 200, height: 200)
 
-                        // Badge emoji — same artwork language as collectibles
-                        Text(badgeIcon)
-                            .font(.system(size: 76))
+                        // Badge medal — same artwork language as collectibles
+                        BadgeIconView(badgeID: badgeID, size: 104)
                             .scaleEffect(badgeScale)
                             .opacity(badgeOpacity)
                     }
@@ -288,8 +289,7 @@ struct BadgeCelebrationView: View {
             .ignoresSafeArea()
 
         StoryCelebrationView(
-            collectibleName: "Golden Candle",
-            collectibleEmoji: "🕯️",
+            collectible: Collectible.all.first,
             onDone: { }
         )
         .environmentObject(AppSettings())

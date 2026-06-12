@@ -407,8 +407,8 @@ struct StoryDetailView: View {
                 // Collectible preview
                 if let collectible = collectiblesManager.collectibleForStory(story.id) {
                     HStack(spacing: 12) {
-                        Text(collectible.emoji)
-                            .font(.system(size: 32))
+                        CollectibleIconView(collectible: collectible, size: 44,
+                                            earned: collectiblesManager.hasCollected(collectible.id))
                         VStack(alignment: .leading, spacing: 2) {
                             Text(collectible.name)
                                 .font(.subheadline.bold())
@@ -537,10 +537,8 @@ struct StoryDetailView: View {
         }
         .overlay {
             if showCelebration {
-                let collectible = collectiblesManager.collectibleForStory(story.id)
                 StoryCelebrationView(
-                    collectibleName: collectible?.name,
-                    collectibleEmoji: collectible?.emoji,
+                    collectible: collectiblesManager.collectibleForStory(story.id),
                     shootingStar: collectiblesManager.shootingStarTonight,
                     onDone: {
                         showCelebration = false
