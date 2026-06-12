@@ -79,6 +79,12 @@ struct LittleLightsBibleBedtimeApp: App {
             .onChange(of: appSettings.activeChildName) {
                 applyActiveProfile()
             }
+            .onReceive(NotificationCenter.default.publisher(for: .playTonightsStory)) { _ in
+                // Siri / Shortcuts: "Play tonight's story"
+                if let story = libraryViewModel.tonightsStory {
+                    audioPlayerViewModel.loadAndPlay(story: story)
+                }
+            }
             .onReceive(NotificationCenter.default.publisher(
                 for: NSUbiquitousKeyValueStore.didChangeExternallyNotification)) { _ in
                 // Another device pushed progress — merge and refresh
