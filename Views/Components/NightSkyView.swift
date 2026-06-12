@@ -21,6 +21,8 @@ struct NightSkyView: View {
     @State private var stickers: [PlacedSticker] = []
     /// The backdrop scene the child picked (per child, defaults to starry).
     @State private var scene: NightSkyScene = .starryNight
+    /// Drawer can tuck away so the whole scene is usable for decorating.
+    @State private var drawerOpen = true
     @State private var loaded = false
 
     private var positionsKey: String {
@@ -92,7 +94,7 @@ struct NightSkyView: View {
                                     updateSticker(
                                         sticker.id,
                                         x: min(max(value.location.x / geo.size.width, 0.05), 0.95),
-                                        y: min(max(value.location.y / geo.size.height, 0.08), 0.85)
+                                        y: min(max(value.location.y / geo.size.height, 0.08), 0.92)
                                     )
                                 }
                                 .onEnded { _ in saveStickers() }
@@ -122,7 +124,7 @@ struct NightSkyView: View {
                                 .onChanged { value in
                                     placed[item.id] = CGPoint(
                                         x: min(max(value.location.x / geo.size.width, 0.05), 0.95),
-                                        y: min(max(value.location.y / geo.size.height, 0.08), 0.85)
+                                        y: min(max(value.location.y / geo.size.height, 0.08), 0.92)
                                     )
                                 }
                                 .onEnded { _ in savePositions() }
@@ -135,10 +137,33 @@ struct NightSkyView: View {
                         }
                 }
 
-                // Bottom drawer: fixed sticker palette + earned treasures
+                // Bottom drawer: fixed sticker palette + earned treasures.
+                // Tucks away (chevron / floating button) so the WHOLE scene
+                // is reachable while decorating.
                 VStack {
                     Spacer()
+                    if drawerOpen {
                     VStack(alignment: .leading, spacing: 8) {
+                        // Tuck-away handle
+                        HStack {
+                            Spacer()
+                            Button {
+                                withAnimation(.spring(response: 0.35)) {
+                                    drawerOpen = false
+                                }
+                            } label: {
+                                Image(systemName: "chevron.down")
+                                    .font(.subheadline.bold())
+                                    .foregroundStyle(.white.opacity(0.7))
+                                    .padding(.horizontal, 18)
+                                    .padding(.vertical, 4)
+                                    .contentShape(Rectangle())
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Hide sticker drawer")
+                            Spacer()
+                        }
+
                         // Scene picker — seven backdrops to decorate
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 10) {
@@ -246,10 +271,33 @@ struct NightSkyView: View {
                     }
                     .padding(.vertical, 10)
                     .background(Color.black.opacity(0.45))
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    } else {
+                        // Floating reopen button keeps the scene clear
+                        HStack {
+                            Spacer()
+                            Button {
+                                withAnimation(.spring(response: 0.35)) {
+                                    drawerOpen = true
+                                }
+                            } label: {
+                                Image(systemName: "square.grid.2x2.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(.white)
+                                    .padding(14)
+                                    .background(Circle().fill(Color.black.opacity(0.5)))
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Show sticker drawer")
+                            .padding(.trailing, 16)
+                            .padding(.bottom, 12)
+                        }
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                    }
                 }
             }
         }
-        .navigationTitle("Lumi's Night Sky")
+        .navigationTitle(scene.title)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { if !loaded { load(); loaded = true } }
     }
@@ -341,6 +389,19 @@ enum NightSkyScene: String, CaseIterable, Identifiable {
         }
     }
 
+    /// Screen title — follows the chosen environment.
+    var title: String {
+        switch self {
+        case .starryNight: return "Lumi's Night Sky"
+        case .sunset:      return "Lumi's Sunset"
+        case .ocean:       return "Lumi's Ocean"
+        case .meadow:      return "Lumi's Meadow"
+        case .cottonCandy: return "Lumi's Candy Sky"
+        case .rainbow:     return "Lumi's Rainbow"
+        case .snowy:       return "Lumi's Snowy Night"
+        }
+    }
+
     /// Tiny emoji shown on the picker swatch so pre-readers can choose.
     var badge: String {
         switch self {
@@ -386,9 +447,12 @@ enum NightSkyScene: String, CaseIterable, Identifiable {
     }
 }
 
-/// Draws the six non-starry scenes: the sky gradient plus a few simple,
-/// seeded decorations in one static Canvas — same zero-cost approach as the
-/// Home deep star field.
+/// Draws the six non-starry scenes: a sky gradient plus layered, seeded
+/// decorations in one static Canvas — same zero-cost approach as the Home
+/// deep star field. Each scene is composed so it clearly reads as its
+/// environment (waves and fish in the ocean, grassy hills and flowers in
+/// the meadow, a snowman and pines in the snow…) while staying dim enough
+/// that the glowing stickers pop.
 private struct NightSkySceneBackdrop: View {
     let scene: NightSkyScene
 
@@ -403,102 +467,341 @@ private struct NightSkySceneBackdrop: View {
                     break // handled by StarryNightBackground
 
                 case .sunset:
-                    // A big soft sun low on the horizon + a few dusk stars
-                    let sun = CGRect(x: size.width * 0.30, y: size.height * 0.52,
-                                     width: size.width * 0.40, height: size.width * 0.40)
-                    context.fill(Path(ellipseIn: sun.insetBy(dx: -40, dy: -40)),
-                                 with: .color(Color(red: 1.0, green: 0.75, blue: 0.40).opacity(0.18)))
-                    context.fill(Path(ellipseIn: sun),
-                                 with: .color(Color(red: 1.0, green: 0.80, blue: 0.45).opacity(0.45)))
-                    for _ in 0..<25 {
-                        dot(&context, &rng, size, yRange: 0...0.4, maxD: 1.8,
-                            color: .white, maxOpacity: 0.5)
-                    }
-
+                    drawSunset(&context, &rng, size)
                 case .ocean:
-                    // Rising bubbles and gentle seafloor light shafts
-                    for _ in 0..<35 {
-                        let x = rng.next() * size.width
-                        let y = rng.next() * size.height
-                        let d = 3 + rng.next() * 9
-                        context.stroke(
-                            Path(ellipseIn: CGRect(x: x, y: y, width: d, height: d)),
-                            with: .color(.white.opacity(0.10 + rng.next() * 0.15)),
-                            lineWidth: 1
-                        )
-                    }
-                    for i in 0..<3 {
-                        let x = size.width * (0.2 + 0.3 * Double(i))
-                        var shaft = Path()
-                        shaft.move(to: CGPoint(x: x, y: 0))
-                        shaft.addLine(to: CGPoint(x: x + 60, y: 0))
-                        shaft.addLine(to: CGPoint(x: x + 140, y: size.height))
-                        shaft.addLine(to: CGPoint(x: x + 40, y: size.height))
-                        shaft.closeSubpath()
-                        context.fill(shaft, with: .color(.white.opacity(0.04)))
-                    }
-
+                    drawOcean(&context, &rng, size)
                 case .meadow:
-                    // Rolling hills + drifting fireflies
-                    let hill1 = CGRect(x: -size.width * 0.3, y: size.height * 0.78,
-                                       width: size.width * 1.1, height: size.height * 0.5)
-                    let hill2 = CGRect(x: size.width * 0.3, y: size.height * 0.84,
-                                       width: size.width * 1.1, height: size.height * 0.5)
-                    context.fill(Path(ellipseIn: hill1),
-                                 with: .color(Color(red: 0.10, green: 0.30, blue: 0.20).opacity(0.9)))
-                    context.fill(Path(ellipseIn: hill2),
-                                 with: .color(Color(red: 0.08, green: 0.24, blue: 0.16).opacity(0.9)))
-                    for _ in 0..<14 {
-                        dot(&context, &rng, size, yRange: 0.35...0.85, maxD: 3.0,
-                            color: Color(red: 1.0, green: 0.9, blue: 0.4), maxOpacity: 0.7)
-                    }
-                    for _ in 0..<20 {
-                        dot(&context, &rng, size, yRange: 0...0.3, maxD: 1.6,
-                            color: .white, maxOpacity: 0.5)
-                    }
-
+                    drawMeadow(&context, &rng, size)
                 case .cottonCandy:
-                    // Fluffy pastel clouds
-                    for _ in 0..<7 {
-                        let cx = rng.next() * size.width
-                        let cy = (0.15 + rng.next() * 0.6) * size.height
-                        let w = 70 + rng.next() * 110
-                        cloud(&context, center: CGPoint(x: cx, y: cy), width: w,
-                              color: .white.opacity(0.10 + rng.next() * 0.10))
-                    }
-
+                    drawCottonCandy(&context, &rng, size)
                 case .rainbow:
-                    // Soft pastel arcs rising over two little clouds
-                    let bands: [Color] = [.red, .orange, .yellow, .green, .blue, .purple]
-                    // Center low but radius generous, so the arc crests well
-                    // above the sticker drawer
-                    let center = CGPoint(x: size.width * 0.5, y: size.height * 0.78)
-                    for (i, band) in bands.enumerated() {
-                        let radius = size.width * 0.60 - Double(i) * 16
-                        var arc = Path()
-                        arc.addArc(center: center, radius: radius,
-                                   startAngle: .degrees(180), endAngle: .degrees(360),
-                                   clockwise: false)
-                        context.stroke(arc, with: .color(band.opacity(0.30)), lineWidth: 12)
-                    }
-                    cloud(&context, center: CGPoint(x: size.width * 0.12, y: size.height * 0.62),
-                          width: 90, color: .white.opacity(0.16))
-                    cloud(&context, center: CGPoint(x: size.width * 0.88, y: size.height * 0.60),
-                          width: 100, color: .white.opacity(0.16))
-
+                    drawRainbow(&context, size)
                 case .snowy:
-                    // Falling snow + a soft snowy ground
-                    let ground = CGRect(x: -40, y: size.height * 0.86,
-                                        width: size.width + 80, height: size.height * 0.4)
-                    context.fill(Path(ellipseIn: ground), with: .color(.white.opacity(0.18)))
-                    for _ in 0..<60 {
-                        dot(&context, &rng, size, yRange: 0...0.95, maxD: 3.2,
-                            color: .white, maxOpacity: 0.65)
-                    }
+                    drawSnowy(&context, &rng, size)
                 }
             }
         }
         .ignoresSafeArea()
+    }
+
+    // MARK: Scenes
+
+    /// Sun sinking into water: glowing sun, streaky clouds, a dark sea band
+    /// with a shimmering sun path, and a few birds heading home.
+    private func drawSunset(_ c: inout GraphicsContext, _ rng: inout SeededRandom, _ size: CGSize) {
+        let horizon = size.height * 0.62
+
+        // Dusk stars high up
+        for _ in 0..<20 {
+            dot(&c, &rng, size, yRange: 0...0.25, maxD: 1.8, color: .white, maxOpacity: 0.5)
+        }
+
+        // Sun halo + disc, sitting ON the horizon
+        let sunR = size.width * 0.17
+        let sunCenter = CGPoint(x: size.width * 0.5, y: horizon - sunR * 0.4)
+        c.fill(Path(ellipseIn: rect(center: sunCenter, r: sunR * 2.1)),
+               with: .color(Color(red: 1.0, green: 0.72, blue: 0.38).opacity(0.16)))
+        c.fill(Path(ellipseIn: rect(center: sunCenter, r: sunR)),
+               with: .color(Color(red: 1.0, green: 0.82, blue: 0.46).opacity(0.85)))
+
+        // Long streaky clouds crossing the sun
+        for i in 0..<4 {
+            let y = size.height * (0.30 + 0.09 * Double(i)) + (rng.next() - 0.5) * 14
+            let w = size.width * (0.36 + rng.next() * 0.4)
+            let x = rng.next() * (size.width - w)
+            let h = 9.0 + rng.next() * 8
+            c.fill(Path(roundedRect: CGRect(x: x, y: y, width: w, height: h), cornerRadius: h / 2),
+                   with: .color(Color(red: 0.45, green: 0.18, blue: 0.30).opacity(0.45)))
+        }
+
+        // The sea: dark band below the horizon with a shimmering sun path
+        c.fill(Path(CGRect(x: 0, y: horizon, width: size.width, height: size.height - horizon)),
+               with: .color(Color(red: 0.13, green: 0.08, blue: 0.22).opacity(0.92)))
+        for i in 0..<9 {
+            let t = Double(i) / 9.0
+            let y = horizon + 12 + t * (size.height - horizon - 40)
+            let w = sunR * (0.9 - t * 0.5) * (1.4 + rng.next() * 0.5)
+            c.fill(Path(roundedRect: CGRect(x: size.width * 0.5 - w / 2, y: y, width: w, height: 4),
+                        cornerRadius: 2),
+                   with: .color(Color(red: 1.0, green: 0.75, blue: 0.42).opacity(0.30 - t * 0.2)))
+        }
+
+        // Birds flying home
+        for _ in 0..<4 {
+            bird(&c, at: CGPoint(x: (0.12 + rng.next() * 0.7) * size.width,
+                                 y: (0.16 + rng.next() * 0.22) * size.height),
+                 wing: 7 + rng.next() * 5)
+        }
+    }
+
+    /// Under the sea: layered wave bands, fish swimming by, seaweed and sand.
+    private func drawOcean(_ c: inout GraphicsContext, _ rng: inout SeededRandom, _ size: CGSize) {
+        // Light shafts from the surface
+        for i in 0..<3 {
+            let x = size.width * (0.15 + 0.32 * Double(i))
+            var shaft = Path()
+            shaft.move(to: CGPoint(x: x, y: 0))
+            shaft.addLine(to: CGPoint(x: x + 55, y: 0))
+            shaft.addLine(to: CGPoint(x: x + 150, y: size.height))
+            shaft.addLine(to: CGPoint(x: x + 45, y: size.height))
+            shaft.closeSubpath()
+            c.fill(shaft, with: .color(.white.opacity(0.05)))
+        }
+
+        // Rolling wave bands near the top (we're just under the surface)
+        for band in 0..<3 {
+            let baseY = size.height * (0.06 + 0.045 * Double(band))
+            var wave = Path()
+            wave.move(to: CGPoint(x: 0, y: baseY))
+            let waveLen = size.width / 4.5
+            var x = 0.0
+            while x < size.width {
+                wave.addQuadCurve(
+                    to: CGPoint(x: x + waveLen, y: baseY),
+                    control: CGPoint(x: x + waveLen / 2, y: baseY - 16)
+                )
+                x += waveLen
+            }
+            wave.addLine(to: CGPoint(x: size.width, y: 0))
+            wave.addLine(to: CGPoint(x: 0, y: 0))
+            wave.closeSubpath()
+            c.fill(wave, with: .color(.white.opacity(0.07 - Double(band) * 0.015)))
+        }
+
+        // Fish swimming in small schools
+        for _ in 0..<7 {
+            fish(&c, &rng,
+                 at: CGPoint(x: (0.1 + rng.next() * 0.8) * size.width,
+                             y: (0.25 + rng.next() * 0.45) * size.height),
+                 length: 16 + rng.next() * 14,
+                 flip: rng.next() > 0.5)
+        }
+
+        // Bubbles drifting up
+        for _ in 0..<22 {
+            let x = rng.next() * size.width
+            let y = rng.next() * size.height
+            let d = 3 + rng.next() * 8
+            c.stroke(Path(ellipseIn: CGRect(x: x, y: y, width: d, height: d)),
+                     with: .color(.white.opacity(0.10 + rng.next() * 0.15)), lineWidth: 1)
+        }
+
+        // Sandy floor + swaying seaweed
+        let sandTop = size.height * 0.88
+        c.fill(Path(ellipseIn: CGRect(x: -60, y: sandTop, width: size.width + 120, height: size.height * 0.3)),
+               with: .color(Color(red: 0.55, green: 0.45, blue: 0.30).opacity(0.45)))
+        for _ in 0..<6 {
+            let baseX = rng.next() * size.width
+            let h = 36 + rng.next() * 50
+            var weed = Path()
+            weed.move(to: CGPoint(x: baseX, y: sandTop + 14))
+            weed.addQuadCurve(to: CGPoint(x: baseX + 6, y: sandTop + 14 - h),
+                              control: CGPoint(x: baseX - 16 + rng.next() * 32, y: sandTop + 14 - h / 2))
+            c.stroke(weed, with: .color(Color(red: 0.15, green: 0.50, blue: 0.35).opacity(0.6)),
+                     style: StrokeStyle(lineWidth: 4, lineCap: .round))
+        }
+    }
+
+    /// A twilight meadow: moon, layered grassy hills, grass tufts, flowers
+    /// and fireflies.
+    private func drawMeadow(_ c: inout GraphicsContext, _ rng: inout SeededRandom, _ size: CGSize) {
+        // Crescent moon + a few stars
+        let moonCenter = CGPoint(x: size.width * 0.78, y: size.height * 0.14)
+        c.fill(Path(ellipseIn: rect(center: moonCenter, r: 26)),
+               with: .color(Color(red: 0.96, green: 0.93, blue: 0.78).opacity(0.85)))
+        c.fill(Path(ellipseIn: rect(center: CGPoint(x: moonCenter.x - 11, y: moonCenter.y - 7), r: 22)),
+               with: .color(Color(red: 0.07, green: 0.14, blue: 0.26)))
+        for _ in 0..<18 {
+            dot(&c, &rng, size, yRange: 0...0.3, maxD: 1.8, color: .white, maxOpacity: 0.55)
+        }
+
+        // Layered hills filling the lower half — unmistakably a meadow
+        let hillColors = [
+            Color(red: 0.16, green: 0.34, blue: 0.24).opacity(0.95),
+            Color(red: 0.12, green: 0.28, blue: 0.19).opacity(0.95),
+            Color(red: 0.09, green: 0.22, blue: 0.15),
+        ]
+        let hillTops = [0.52, 0.62, 0.74]
+        for (i, top) in hillTops.enumerated() {
+            var hill = Path()
+            let y = size.height * top
+            hill.move(to: CGPoint(x: 0, y: size.height))
+            hill.addLine(to: CGPoint(x: 0, y: y + 40))
+            hill.addQuadCurve(to: CGPoint(x: size.width, y: y + (i % 2 == 0 ? 60 : 10)),
+                              control: CGPoint(x: size.width * (i % 2 == 0 ? 0.35 : 0.65), y: y - 50))
+            hill.addLine(to: CGPoint(x: size.width, y: size.height))
+            hill.closeSubpath()
+            c.fill(hill, with: .color(hillColors[i]))
+        }
+
+        // Grass tufts along the front hill
+        for _ in 0..<26 {
+            let baseX = rng.next() * size.width
+            let baseY = size.height * (0.80 + rng.next() * 0.16)
+            for blade in 0..<3 {
+                let lean = Double(blade - 1) * 5.0
+                var grass = Path()
+                grass.move(to: CGPoint(x: baseX, y: baseY))
+                grass.addQuadCurve(to: CGPoint(x: baseX + lean, y: baseY - 13 - rng.next() * 8),
+                                   control: CGPoint(x: baseX + lean / 2, y: baseY - 8))
+                c.stroke(grass, with: .color(Color(red: 0.25, green: 0.50, blue: 0.30).opacity(0.8)),
+                         style: StrokeStyle(lineWidth: 1.6, lineCap: .round))
+            }
+        }
+
+        // Little flowers dotted through the grass
+        for _ in 0..<10 {
+            let center = CGPoint(x: rng.next() * size.width,
+                                 y: size.height * (0.68 + rng.next() * 0.26))
+            let petal = [Color.pink, Color.yellow, Color.white, Color.orange][Int(rng.next() * 3.99)]
+            for angle in stride(from: 0.0, to: 360.0, by: 72.0) {
+                let rad = angle * .pi / 180
+                c.fill(Path(ellipseIn: rect(center: CGPoint(x: center.x + cos(rad) * 4,
+                                                            y: center.y + sin(rad) * 4), r: 2.6)),
+                       with: .color(petal.opacity(0.75)))
+            }
+            c.fill(Path(ellipseIn: rect(center: center, r: 2.2)),
+                   with: .color(.yellow.opacity(0.9)))
+        }
+
+        // Fireflies above the grass
+        for _ in 0..<12 {
+            let center = CGPoint(x: rng.next() * size.width,
+                                 y: size.height * (0.45 + rng.next() * 0.35))
+            c.fill(Path(ellipseIn: rect(center: center, r: 4.5)),
+                   with: .color(Color(red: 1.0, green: 0.9, blue: 0.4).opacity(0.18)))
+            c.fill(Path(ellipseIn: rect(center: center, r: 1.8)),
+                   with: .color(Color(red: 1.0, green: 0.92, blue: 0.5).opacity(0.8)))
+        }
+    }
+
+    /// Cotton-candy sky: big soft pastel clouds stacked like spun sugar,
+    /// with sprinkle stars.
+    private func drawCottonCandy(_ c: inout GraphicsContext, _ rng: inout SeededRandom, _ size: CGSize) {
+        // Sprinkle stars
+        for _ in 0..<24 {
+            dot(&c, &rng, size, yRange: 0...0.5, maxD: 2.2, color: .white, maxOpacity: 0.6)
+        }
+
+        // Stacked candy clouds in alternating pinks and whites
+        let tones: [Color] = [
+            Color(red: 1.0, green: 0.75, blue: 0.85).opacity(0.30),
+            Color.white.opacity(0.20),
+            Color(red: 0.85, green: 0.65, blue: 0.95).opacity(0.28),
+        ]
+        for i in 0..<9 {
+            let cx = rng.next() * size.width
+            let cy = (0.18 + rng.next() * 0.62) * size.height
+            let w = 80 + rng.next() * 130
+            cloud(&c, center: CGPoint(x: cx, y: cy), width: w, color: tones[i % tones.count])
+        }
+
+        // A drifting candy-floss swirl
+        var swirl = Path()
+        swirl.move(to: CGPoint(x: size.width * 0.18, y: size.height * 0.74))
+        swirl.addCurve(to: CGPoint(x: size.width * 0.85, y: size.height * 0.70),
+                       control1: CGPoint(x: size.width * 0.38, y: size.height * 0.64),
+                       control2: CGPoint(x: size.width * 0.62, y: size.height * 0.80))
+        c.stroke(swirl, with: .color(.white.opacity(0.18)),
+                 style: StrokeStyle(lineWidth: 18, lineCap: .round))
+    }
+
+    /// A rainbow arcing between two clouds, with sparkles beneath it.
+    private func drawRainbow(_ c: inout GraphicsContext, _ size: CGSize) {
+        let bands: [Color] = [.red, .orange, .yellow, .green, .blue, .purple]
+        let center = CGPoint(x: size.width * 0.5, y: size.height * 0.78)
+        for (i, band) in bands.enumerated() {
+            let radius = size.width * 0.60 - Double(i) * 16
+            var arc = Path()
+            arc.addArc(center: center, radius: radius,
+                       startAngle: .degrees(180), endAngle: .degrees(360),
+                       clockwise: false)
+            c.stroke(arc, with: .color(band.opacity(0.32)), lineWidth: 12)
+        }
+        cloud(&c, center: CGPoint(x: size.width * 0.5 - size.width * 0.58, y: size.height * 0.78),
+              width: 110, color: .white.opacity(0.22))
+        cloud(&c, center: CGPoint(x: size.width * 0.5 + size.width * 0.58, y: size.height * 0.78),
+              width: 110, color: .white.opacity(0.22))
+        var rng = SeededRandom(seed: 11)
+        for _ in 0..<26 {
+            dot(&c, &rng, size, yRange: 0...0.45, maxD: 2.2, color: .white, maxOpacity: 0.6)
+        }
+    }
+
+    /// A snowy night: drifts of snow on the ground, frosted pine trees, a
+    /// friendly snowman, and falling snow at three depths.
+    private func drawSnowy(_ c: inout GraphicsContext, _ rng: inout SeededRandom, _ size: CGSize) {
+        // Snowy ground: two soft drifts
+        let groundY = size.height * 0.80
+        c.fill(Path(ellipseIn: CGRect(x: -80, y: groundY, width: size.width * 0.9, height: size.height * 0.35)),
+               with: .color(.white.opacity(0.30)))
+        c.fill(Path(ellipseIn: CGRect(x: size.width * 0.35, y: groundY + 26, width: size.width * 0.95, height: size.height * 0.35)),
+               with: .color(.white.opacity(0.24)))
+
+        // Frosted pines on the left
+        for (i, treeX) in [0.12, 0.24].enumerated() {
+            let baseY = groundY + 30 + Double(i) * 8
+            let treeH = 95.0 - Double(i) * 18
+            let halfW = 30.0 - Double(i) * 5
+            let x = treeX * size.width
+            for layer in 0..<3 {
+                let layerY = baseY - treeH * (0.40 + 0.30 * Double(layer))
+                let layerW = halfW * (1.0 - 0.26 * Double(layer))
+                var tri = Path()
+                tri.move(to: CGPoint(x: x, y: layerY - treeH * 0.30))
+                tri.addLine(to: CGPoint(x: x - layerW, y: layerY))
+                tri.addLine(to: CGPoint(x: x + layerW, y: layerY))
+                tri.closeSubpath()
+                c.fill(tri, with: .color(Color(red: 0.16, green: 0.30, blue: 0.30).opacity(0.95)))
+                // Snow resting on each layer
+                c.fill(Path(ellipseIn: CGRect(x: x - layerW * 0.7, y: layerY - 4, width: layerW * 1.4, height: 7)),
+                       with: .color(.white.opacity(0.55)))
+            }
+        }
+
+        // A friendly snowman on the right
+        let snowmanX = size.width * 0.78
+        let baseY = groundY + 34
+        c.fill(Path(ellipseIn: rect(center: CGPoint(x: snowmanX, y: baseY), r: 26)),
+               with: .color(.white.opacity(0.85)))
+        c.fill(Path(ellipseIn: rect(center: CGPoint(x: snowmanX, y: baseY - 38), r: 19)),
+               with: .color(.white.opacity(0.88)))
+        c.fill(Path(ellipseIn: rect(center: CGPoint(x: snowmanX, y: baseY - 66), r: 13)),
+               with: .color(.white.opacity(0.92)))
+        // Face + buttons
+        c.fill(Path(ellipseIn: rect(center: CGPoint(x: snowmanX - 4, y: baseY - 69), r: 1.6)),
+               with: .color(.black.opacity(0.7)))
+        c.fill(Path(ellipseIn: rect(center: CGPoint(x: snowmanX + 4, y: baseY - 69), r: 1.6)),
+               with: .color(.black.opacity(0.7)))
+        var carrot = Path()
+        carrot.move(to: CGPoint(x: snowmanX, y: baseY - 66))
+        carrot.addLine(to: CGPoint(x: snowmanX + 9, y: baseY - 64))
+        carrot.addLine(to: CGPoint(x: snowmanX, y: baseY - 62))
+        carrot.closeSubpath()
+        c.fill(carrot, with: .color(.orange.opacity(0.85)))
+        for b in 0..<2 {
+            c.fill(Path(ellipseIn: rect(center: CGPoint(x: snowmanX, y: baseY - 42 + Double(b) * 9), r: 1.8)),
+                   with: .color(.black.opacity(0.6)))
+        }
+
+        // Falling snow at three depths — small/dim far, big/bright near
+        for depth in 0..<3 {
+            let count = [26, 18, 12][depth]
+            let dia = [2.0, 3.4, 5.0][depth]
+            let opacity = [0.35, 0.55, 0.8][depth]
+            for _ in 0..<count {
+                let x = rng.next() * size.width
+                let y = rng.next() * size.height * 0.92
+                c.fill(Path(ellipseIn: CGRect(x: x, y: y, width: dia, height: dia)),
+                       with: .color(.white.opacity(opacity * (0.7 + rng.next() * 0.3))))
+            }
+        }
+    }
+
+    // MARK: Drawing helpers
+
+    private func rect(center: CGPoint, r: Double) -> CGRect {
+        CGRect(x: center.x - r, y: center.y - r, width: r * 2, height: r * 2)
     }
 
     /// One seeded dot — stars, fireflies, snowflakes.
@@ -522,6 +825,40 @@ private struct NightSkySceneBackdrop: View {
                                             width: width * 0.5, height: h * 0.9)), with: .color(color))
         context.fill(Path(ellipseIn: CGRect(x: center.x - width * 0.05, y: center.y - h * 0.75,
                                             width: width * 0.42, height: h * 0.8)), with: .color(color))
+    }
+
+    /// A tiny "m"-shaped bird silhouette.
+    private func bird(_ context: inout GraphicsContext, at p: CGPoint, wing: Double) {
+        var path = Path()
+        path.move(to: CGPoint(x: p.x - wing, y: p.y))
+        path.addQuadCurve(to: CGPoint(x: p.x, y: p.y),
+                          control: CGPoint(x: p.x - wing / 2, y: p.y - wing * 0.8))
+        path.addQuadCurve(to: CGPoint(x: p.x + wing, y: p.y),
+                          control: CGPoint(x: p.x + wing / 2, y: p.y - wing * 0.8))
+        context.stroke(path, with: .color(.black.opacity(0.5)),
+                       style: StrokeStyle(lineWidth: 1.6, lineCap: .round))
+    }
+
+    /// A simple fish: body ellipse + tail triangle + eye.
+    private func fish(_ context: inout GraphicsContext, _ rng: inout SeededRandom,
+                      at p: CGPoint, length: Double, flip: Bool) {
+        let dir: Double = flip ? -1 : 1
+        let bodyW = length
+        let bodyH = length * 0.55
+        let tone = [Color.orange, Color.yellow, Color.cyan, Color.pink][Int(rng.next() * 3.99)]
+
+        context.fill(Path(ellipseIn: CGRect(x: p.x - bodyW / 2, y: p.y - bodyH / 2,
+                                            width: bodyW, height: bodyH)),
+                     with: .color(tone.opacity(0.55)))
+        var tail = Path()
+        tail.move(to: CGPoint(x: p.x - dir * bodyW / 2, y: p.y))
+        tail.addLine(to: CGPoint(x: p.x - dir * (bodyW / 2 + length * 0.4), y: p.y - bodyH * 0.45))
+        tail.addLine(to: CGPoint(x: p.x - dir * (bodyW / 2 + length * 0.4), y: p.y + bodyH * 0.45))
+        tail.closeSubpath()
+        context.fill(tail, with: .color(tone.opacity(0.45)))
+        context.fill(Path(ellipseIn: CGRect(x: p.x + dir * bodyW * 0.22 - 1.5, y: p.y - bodyH * 0.12,
+                                            width: 3, height: 3)),
+                     with: .color(.black.opacity(0.6)))
     }
 }
 
