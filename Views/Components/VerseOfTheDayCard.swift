@@ -117,3 +117,73 @@ enum PostcardRenderer {
         return renderer.uiImage
     }
 }
+
+// MARK: - Tonight's Goals
+// Three tiny nightly quests; completing all three earns a bonus Sleep
+// Star (a "Golden Night"). Resets each day.
+
+struct TonightsGoalsCard: View {
+    @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var goals: GoalsTracker
+    @EnvironmentObject private var readingStreak: ReadingStreakViewModel
+
+    private var storyDone: Bool {
+        !readingStreak.streak.storiesReadToday.isEmpty && readingStreak.isActiveToday
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Label("Tonight's Goals", systemImage: "checklist")
+                    .font(.subheadline.bold())
+                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                Spacer()
+                if goals.bonusAwardedToday {
+                    Text("Golden Night! ⭐")
+                        .font(.caption.bold())
+                        .foregroundStyle(.yellow)
+                }
+            }
+
+            goalRow(done: storyDone, icon: "headphones", text: "Listen to a story")
+            goalRow(done: goals.versePracticedToday, icon: "text.quote", text: "Practice a verse")
+            goalRow(done: goals.breathedToday, icon: "wind", text: "Breathe with Lumi")
+
+            if !goals.bonusAwardedToday {
+                Text("Finish all three for a bonus Sleep Star!")
+                    .font(.caption2)
+                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+            }
+        }
+        .padding()
+        .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+        .onAppear { checkBonus() }
+        .onChange(of: goals.versePracticedToday) { checkBonus() }
+        .onChange(of: goals.breathedToday) { checkBonus() }
+        .onChange(of: readingStreak.totalStoriesRead) { checkBonus() }
+    }
+
+    private func checkBonus() {
+        if goals.claimBonusIfEarned(storyListenedToday: storyDone) {
+            readingStreak.awardBonusStar()
+        }
+    }
+
+    @ViewBuilder
+    private func goalRow(done: Bool, icon: String, text: String) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: done ? "checkmark.circle.fill" : "circle")
+                .foregroundStyle(done ? .green : AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+            Image(systemName: icon)
+                .font(.caption)
+                .frame(width: 18)
+                .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+            Text(text)
+                .font(.subheadline)
+                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                .strikethrough(done, color: .green)
+            Spacer()
+        }
+    }
+}

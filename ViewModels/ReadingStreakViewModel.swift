@@ -58,6 +58,12 @@ final class ReadingStreakViewModel: ObservableObject {
         }
     }
 
+    /// Tonight's Goals bonus: one extra Sleep Star for a Golden Night.
+    func awardBonusStar() {
+        streak.totalSleepStars += 1
+        saveStreak()
+    }
+
     func resetAll() {
         streak = ReadingStreak()
         showNewBadgeAlert = false

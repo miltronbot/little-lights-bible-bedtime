@@ -9,35 +9,44 @@ struct RewardsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Sleep Stars Header
-                VStack(spacing: 8) {
+                // Lumi's Level — she grows brighter with every Sleep Star
+                VStack(spacing: 10) {
+                    let stars = readingStreak.sleepStars
+                    let level = FireflyLevel.level(forStars: stars)
+                    let progress = FireflyLevel.progress(forStars: stars)
+
                     ZStack {
                         Circle()
-                            .fill(
-                                LinearGradient(
-                                    colors: [.yellow.opacity(0.3), .orange.opacity(0.2)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
+                            .stroke(AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.18), lineWidth: 10)
+                            .frame(width: 130, height: 130)
+                        Circle()
+                            .trim(from: 0, to: progress)
+                            .stroke(
+                                LinearGradient(colors: [.yellow, .orange], startPoint: .top, endPoint: .bottom),
+                                style: StrokeStyle(lineWidth: 10, lineCap: .round)
                             )
-                            .frame(width: 100, height: 100)
-
-                        Image(systemName: "star.fill")
-                            .font(.system(size: 44))
-                            .foregroundStyle(.yellow)
+                            .rotationEffect(.degrees(-90))
+                            .frame(width: 130, height: 130)
+                        LumiMascotView(size: 52, message: nil)
                     }
 
-                    Text("\(readingStreak.sleepStars)")
-                        .font(.system(size: 42, weight: .bold, design: .rounded))
+                    Text("Level \(level.number) · \(level.name) \(level.emoji)")
+                        .font(.headline)
                         .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
 
-                    Text("Sleep Stars")
-                        .font(.title3)
-                        .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    Text("\(stars) Sleep Stars")
+                        .font(.subheadline)
+                        .foregroundStyle(.yellow)
 
-                    Text("Earn stars by reading stories each night!")
-                        .font(.caption)
-                        .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    if let next = FireflyLevel.next(after: level) {
+                        Text("\(next.starsRequired - stars) more to become \(next.name) \(next.emoji)")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    } else {
+                        Text("Lumi shines her very brightest! ✨")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    }
                 }
                 .padding(.top)
 

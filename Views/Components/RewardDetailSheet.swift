@@ -24,6 +24,13 @@ struct CollectionAlbumView: View {
         library.stories.first { $0.id == selected.storyID }?.title ?? "its story"
     }
 
+    /// Collectibles whose story belongs to the given theme.
+    private func collectibles(in category: StoryCategory) -> [Collectible] {
+        Collectible.all.filter { collectible in
+            library.stories.first(where: { $0.id == collectible.storyID })?.category == category
+        }
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -62,6 +69,36 @@ struct CollectionAlbumView: View {
                     .frame(maxWidth: .infinity)
                     .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
                     .clipShape(RoundedRectangle(cornerRadius: 20))
+
+                    // Treasure Sets — complete a theme's stories to finish its set
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Treasure Sets")
+                            .font(.headline)
+                            .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+
+                        ForEach(StoryCategory.allCases) { category in
+                            let setItems = collectibles(in: category)
+                            let owned = setItems.filter { manager.hasCollected($0.id) }.count
+                            HStack(spacing: 10) {
+                                Image(systemName: category.icon)
+                                    .font(.caption)
+                                    .frame(width: 22)
+                                    .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+                                Text("\(category.rawValue) Treasures")
+                                    .font(.caption.bold())
+                                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                                ProgressView(value: Double(owned), total: Double(max(setItems.count, 1)))
+                                    .tint(.yellow)
+                                Text(owned == setItems.count ? "Complete! 🏆" : "\(owned)/\(setItems.count)")
+                                    .font(.caption2)
+                                    .foregroundStyle(owned == setItems.count ? .yellow : AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                                    .frame(width: 70, alignment: .trailing)
+                            }
+                        }
+                    }
+                    .padding(14)
+                    .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
 
                     // Every treasure in the collection
                     VStack(alignment: .leading, spacing: 10) {
