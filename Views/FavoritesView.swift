@@ -31,10 +31,7 @@ struct FavoritesView: View {
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         ForEach(favoriteStories) { story in
-                            NavigationLink(destination: StoryDetailView(story: story)) {
-                                StoryCardView(story: story)
-                            }
-                            .buttonStyle(.plain)
+                            StoryCardView(story: story)
                             .contextMenu {
                                 Button(role: .destructive) {
                                     favoritesViewModel.removeFavorite(story)
