@@ -195,6 +195,9 @@ struct LibraryFilterMenu: View {
     @EnvironmentObject private var viewModel: StoryLibraryViewModel
     @EnvironmentObject private var appSettings: AppSettings
 
+    @State private var agesExpanded = false
+    @State private var themesExpanded = true
+
     private let panelWidth: CGFloat = 290
 
     var body: some View {
@@ -222,36 +225,50 @@ struct LibraryFilterMenu: View {
                             }
                             .padding(.top, 8)
 
-                            Text("Ages")
-                                .font(.headline)
-                                .foregroundStyle(.white.opacity(0.85))
-
-                            filterRow(title: "All Ages", icon: "person.3.fill",
-                                      selected: viewModel.selectedAgeGroup == nil) {
-                                viewModel.selectedAgeGroup = nil
-                            }
-                            ForEach(AgeGroup.allCases) { age in
-                                filterRow(title: age.rawValue, icon: age.icon,
-                                          selected: viewModel.selectedAgeGroup == age) {
-                                    viewModel.selectedAgeGroup = age
+                            // Ages — drop-down
+                            dropDownHeader(
+                                title: "Ages",
+                                current: viewModel.selectedAgeGroup?.rawValue ?? "All Ages",
+                                expanded: $agesExpanded
+                            )
+                            if agesExpanded {
+                                Group {
+                                    filterRow(title: "All Ages", icon: "person.3.fill",
+                                              selected: viewModel.selectedAgeGroup == nil) {
+                                        viewModel.selectedAgeGroup = nil
+                                    }
+                                    ForEach(AgeGroup.allCases) { age in
+                                        filterRow(title: age.rawValue, icon: age.icon,
+                                                  selected: viewModel.selectedAgeGroup == age) {
+                                            viewModel.selectedAgeGroup = age
+                                        }
+                                    }
                                 }
+                                .transition(.opacity.combined(with: .move(edge: .top)))
                             }
 
                             Divider().overlay(Color.white.opacity(0.15))
 
-                            Text("Themes")
-                                .font(.headline)
-                                .foregroundStyle(.white.opacity(0.85))
-
-                            filterRow(title: "All Themes", icon: "sparkles",
-                                      selected: viewModel.selectedCategory == nil) {
-                                viewModel.selectedCategory = nil
-                            }
-                            ForEach(StoryCategory.allCases) { category in
-                                filterRow(title: category.rawValue, icon: category.icon,
-                                          selected: viewModel.selectedCategory == category) {
-                                    viewModel.selectedCategory = category
+                            // Themes — drop-down
+                            dropDownHeader(
+                                title: "Themes",
+                                current: viewModel.selectedCategory?.rawValue ?? "All Themes",
+                                expanded: $themesExpanded
+                            )
+                            if themesExpanded {
+                                Group {
+                                    filterRow(title: "All Themes", icon: "sparkles",
+                                              selected: viewModel.selectedCategory == nil) {
+                                        viewModel.selectedCategory = nil
+                                    }
+                                    ForEach(StoryCategory.allCases) { category in
+                                        filterRow(title: category.rawValue, icon: category.icon,
+                                                  selected: viewModel.selectedCategory == category) {
+                                            viewModel.selectedCategory = category
+                                        }
+                                    }
                                 }
+                                .transition(.opacity.combined(with: .move(edge: .top)))
                             }
                         }
                         .padding(.horizontal, 16)
@@ -289,6 +306,35 @@ struct LibraryFilterMenu: View {
         withAnimation(.spring(response: 0.35, dampingFraction: 0.86)) {
             isOpen = false
         }
+    }
+
+    @ViewBuilder
+    private func dropDownHeader(title: String, current: String, expanded: Binding<Bool>) -> some View {
+        Button {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                expanded.wrappedValue.toggle()
+            }
+        } label: {
+            HStack {
+                Text(title)
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                Spacer()
+                Text(current)
+                    .font(.caption.bold())
+                    .foregroundStyle(.yellow)
+                Image(systemName: "chevron.down")
+                    .font(.caption.bold())
+                    .foregroundStyle(.white.opacity(0.7))
+                    .rotationEffect(.degrees(expanded.wrappedValue ? 0 : -90))
+            }
+            .padding(.vertical, 10)
+            .padding(.horizontal, 12)
+            .background(Color.white.opacity(0.07))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint(expanded.wrappedValue ? "Collapses \(title)" : "Expands \(title)")
     }
 
     @ViewBuilder
