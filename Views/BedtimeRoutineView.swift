@@ -362,11 +362,11 @@ struct BreathingStepView: View {
 
             // Title
             VStack(spacing: 12) {
-                Text("Time to Wind Down")
+                Text("Breathe with Lumi")
                     .font(.title.bold())
                     .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
 
-                Text("Take 3 deep, calming breaths")
+                Text("Breathe with her glow — 3 big, slow breaths")
                     .font(.subheadline)
                     .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
             }
@@ -382,21 +382,27 @@ struct BreathingStepView: View {
                         )
                         .frame(height: 240)
 
-                    // Animated breathing circle
+                    // Lumi's glow swells as you breathe in, softens as
+                    // you breathe out — kids sync their breath to her light
                     Circle()
                         .fill(
-                            LinearGradient(
+                            RadialGradient(
                                 colors: [
-                                    AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.6),
-                                    AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.2)
+                                    Color(red: 1.0, green: 0.85, blue: 0.45).opacity(0.65),
+                                    Color(red: 1.0, green: 0.75, blue: 0.35).opacity(0.25),
+                                    .clear
                                 ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+                                center: .center,
+                                startRadius: 10,
+                                endRadius: isBreathingIn ? 110 : (isBreathCycleActive ? 55 : 85)
                             )
                         )
                         .frame(
-                            height: isBreathingIn ? 160 : (isBreathCycleActive ? 100 : 140)
+                            height: isBreathingIn ? 200 : (isBreathCycleActive ? 110 : 160)
                         )
+                        .blur(radius: 2)
+
+                    LumiMascotView(size: isBreathingIn ? 54 : 40, message: nil)
                 }
 
                 // Breathing instruction text

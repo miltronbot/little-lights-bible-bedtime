@@ -25,6 +25,14 @@ final class AudioPlayerViewModel: ObservableObject {
     @Published var ambientVolume: Float = 0.3
     @Published var narrationVolume: Float = 1.0
 
+    /// Slower narration pace for extra-sleepy nights (persisted)
+    @Published var sleepySpeed: Bool = UserDefaults.standard.bool(forKey: "sleepySpeed") {
+        didSet {
+            UserDefaults.standard.set(sleepySpeed, forKey: "sleepySpeed")
+            audioService.setRate(sleepySpeed ? 0.85 : 1.0)
+        }
+    }
+
     private let audioService = AudioPlaybackService()
     private var timerCancellable: AnyCancellable?
     private var currentFadeID: UUID = UUID()
@@ -214,6 +222,7 @@ final class AudioPlayerViewModel: ObservableObject {
         errorMessage = nil
         audioService.stop()
         audioService.setVolume(narrationVolume)
+        audioService.setRate(sleepySpeed ? 0.85 : 1.0)
         isPlaying = false
         currentTime = 0
         currentStoryID = story.id

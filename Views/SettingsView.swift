@@ -45,6 +45,18 @@ struct SettingsView: View {
             }
 
             Section("Playback") {
+                Toggle(isOn: Binding(
+                    get: { audioPlayerViewModel.sleepySpeed },
+                    set: { audioPlayerViewModel.sleepySpeed = $0 }
+                )) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Sleepy Speed")
+                        Text("Slower, extra-calm narration pace")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    }
+                }
+
                 Toggle(isOn: $appSettings.autoPlayNarration) {
                     Label("Auto-play Narration", systemImage: "play.circle")
                 }
