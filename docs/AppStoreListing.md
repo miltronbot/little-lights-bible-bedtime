@@ -1,12 +1,12 @@
 # App Store Listing Document
-## Little Lights Bible Bedtime
+## Firefly Bible Bedtime
 
 ---
 
 ## BASIC APP INFORMATION
 
 ### App Name
-**Little Lights Bible Bedtime**
+**Firefly Bible Bedtime**
 - Character count: 29 / 30 ✓
 
 ### Subtitle
@@ -18,9 +18,9 @@
 ## FULL DESCRIPTION
 (4000 characters maximum)
 
-Good night, sweet child. Welcome to Little Lights Bible Bedtime—where ancient Bible stories become gentle companions for peaceful slumber.
+Good night, sweet child. Welcome to Firefly Bible Bedtime—where ancient Bible stories become gentle companions for peaceful slumber.
 
-We know bedtime can be a challenge. That's why we created Little Lights: a completely free app that transforms Bible stories into soothing rituals that help children ages 3-8 wind down, feel secure, and drift off to sleep wrapped in God's love.
+We know bedtime can be a challenge. That's why we created Firefly: a completely free app that transforms Bible stories into soothing rituals that help children ages 3-8 wind down, feel secure, and drift off to sleep wrapped in God's love.
 
 **A Library of 50 Beautiful Stories**
 Our collection features 50 Bible stories specially adapted for young listeners. From Noah's faithful heart to David's courage, from Jonah's adventure to Mary's gentle trust—each story is written to be calming, age-appropriate, and filled with timeless wisdom. Stories are organized into 7 meaningful categories: Trust, Courage, Peace, Love, Hope, Prayer, and Kindness.
@@ -29,7 +29,7 @@ Our collection features 50 Bible stories specially adapted for young listeners. 
 Hear these beloved tales through warm, AI-narrated audio that feels like a caring adult reading bedtime stories to your child. Our Bedtime Mode creates the perfect environment—a dark, starry-night theme that's easy on tired eyes.
 
 **Complete Bedtime Routine**
-We believe bedtime should be a cherished ritual. That's why Little Lights guides you through a complete bedtime routine: Start with a Bible story, move into a prayer, practice calming breathing exercises, and finish with positive affirmations—all designed to help your child feel loved, safe, and ready for sleep.
+We believe bedtime should be a cherished ritual. That's why Firefly guides you through a complete bedtime routine: Start with a Bible story, move into a prayer, practice calming breathing exercises, and finish with positive affirmations—all designed to help your child feel loved, safe, and ready for sleep.
 
 **Ambient Sounds for Sleep**
 Let the sounds of nature enhance the experience. Choose from soothing options: gentle rain on a roof, ocean waves rolling in, or forest sounds. Create the perfect soundscape to help your child relax into sleep.
@@ -38,7 +38,7 @@ Let the sounds of nature enhance the experience. Choose from soothing options: g
 Set a sleep timer so the story fades gently when your child is ready. Guided breathing exercises teach children simple techniques they can use anytime they need to calm down—whether at bedtime, during transitions, or when feeling worried.
 
 **Interactive Elements & Lumi the Firefly**
-Children love engaging with stories. Little Lights includes gentle, story-appropriate touch elements and introduces Lumi, a friendly firefly mascot who guides children through their bedtime journey. Discussion questions help you deepen conversations about the story's lessons.
+Children love engaging with stories. Firefly includes gentle, story-appropriate touch elements and introduces Lumi, a friendly firefly mascot who guides children through their bedtime journey. Discussion questions help you deepen conversations about the story's lessons.
 
 **Earn Rewards & Collectibles**
 Every one of the 50 stories hides its own treasure—Noah's Dove, the Jericho Trumpet, Two Small Coins—celebrated the moment each story ends. Browse them all in the Collection Book, earn 27 badges, and tap any reward to see exactly how to get it.
@@ -50,13 +50,13 @@ Each story includes a memorable verse that captures its lesson—and a gentle pr
 Add up to four children, each with their own streaks, favorites, and collectibles. Queue up to three stories for Tonight's Queue—they play back-to-back, then drift into ambient sound as your little one falls asleep.
 
 **100% Free. Zero Ads. No Surprises.**
-Little Lights is completely free to download and use. There are no ads interrupting your experience, no in-app purchases, and no paywalls hiding features. We believe quality bedtime content should be accessible to every family.
+Firefly is completely free to download and use. There are no ads interrupting your experience, no in-app purchases, and no paywalls hiding features. We believe quality bedtime content should be accessible to every family.
 
 **Your Child's Privacy is Sacred**
-We take protection seriously. Little Lights is built with COPPA compliance at its core—meeting federal standards for children's privacy. We collect zero personal data. Your child's information stays with you. No tracking. No sharing. Just peace of mind.
+We take protection seriously. Firefly is built with COPPA compliance at its core—meeting federal standards for children's privacy. We collect zero personal data. Your child's information stays with you. No tracking. No sharing. Just peace of mind.
 
 **Trusted by Parents**
-Little Lights Bible Bedtime is more than an app—it's a gift you give your child each night. Let these stories become part of your family's bedtime ritual, building memories, teaching values, and creating a foundation of faith, security, and peaceful sleep.
+Firefly Bible Bedtime is more than an app—it's a gift you give your child each night. Let these stories become part of your family's bedtime ritual, building memories, teaching values, and creating a foundation of faith, security, and peaceful sleep.
 
 Download today. It's free. It's safe. It's love, one story at a time.
 
@@ -91,7 +91,7 @@ Character count: 112 / 100 ⚠️
 
 #### Screenshot 1: Hero Shot
 **Main Headline:**
-> Little Lights Bible Bedtime
+> Firefly Bible Bedtime
 
 **Subheading:**
 > Bible Stories for Sleepy Time
@@ -177,7 +177,7 @@ Character count: 112 / 100 ⚠️
 
 ## WHAT'S NEW — v1.0 Release Notes
 
-**Little Lights Bible Bedtime – Version 1.0**
+**Firefly Bible Bedtime – Version 1.0**
 
 *Welcome to the beginning of peaceful, faith-filled bedtimes.*
 
@@ -225,7 +225,7 @@ Character count: 112 / 100 ⚠️
 - Stories written specifically for young listeners
 
 **Why We Built This**
-We understand that bedtime matters. It's when children feel most vulnerable, most in need of reassurance, and most open to the comfort of faith. Little Lights Bible Bedtime brings timeless Bible stories to life in a way that helps children feel loved, secure, and ready for restful sleep.
+We understand that bedtime matters. It's when children feel most vulnerable, most in need of reassurance, and most open to the comfort of faith. Firefly Bible Bedtime brings timeless Bible stories to life in a way that helps children feel loved, secure, and ready for restful sleep.
 
 **Coming Soon** (Planned Updates)
 - Additional story collections (Old Testament Adventures, New Testament Journeys)
@@ -233,7 +233,7 @@ We understand that bedtime matters. It's when children feel most vulnerable, mos
 - Parental insights dashboard
 - Extended ambient sound library
 
-Thank you for trusting Little Lights with your child's bedtime. Sweet dreams.
+Thank you for trusting Firefly with your child's bedtime. Sweet dreams.
 
 ---
 
@@ -261,7 +261,7 @@ Thank you for trusting Little Lights with your child's bedtime. Sweet dreams.
 
 | Element | Content | Count | Limit | Status |
 |---------|---------|-------|-------|--------|
-| App Name | Little Lights Bible Bedtime | 29 | 30 | ✓ |
+| App Name | Firefly Bible Bedtime | 29 | 30 | ✓ |
 | Subtitle | Bible Stories for Sleepy Time | 30 | 30 | ✓ |
 | Description | (Full text above) | 3,847 | 4,000 | ✓ |
 | Keywords | (Optimized version) | 98 | 100 | ✓ |

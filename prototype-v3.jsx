@@ -240,7 +240,7 @@ function Onboarding({onDone}){
         <div className="mb-6" style={{transition:"all .8s cubic-bezier(.34,1.56,.64,1)",transform:`scale(${v?1:.2})`,opacity:v?1:0}}>
           <span style={{fontSize:80}}>🌙</span>
         </div>
-        <h1 className="text-4xl font-bold text-white mb-1">Little Lights</h1>
+        <h1 className="text-4xl font-bold text-white mb-1">Firefly</h1>
         <p className="text-2xl font-bold mb-2" style={{color:"#818cf8"}}>Bible Bedtime</p>
         <p className="text-white/40 text-sm mb-10 text-center leading-relaxed">Beautiful Bible stories to help<br/>your little one drift off to sleep</p>
         <button onClick={()=>setPg(1)} className="w-full py-4 rounded-2xl font-bold text-white text-lg active:scale-95 transition-transform" style={{background:"linear-gradient(135deg,#4f46e5,#7c3aed)",boxShadow:"0 4px 24px rgba(99,102,241,.4)"}}>Get Started</button>
@@ -528,7 +528,7 @@ function Home({bed,name,onStory,onRoutine,favs,reads,streak,stars}){
       <div className="fadeUp flex items-center justify-between">
         <div>
           <p className={`text-lg ${bed?"text-gray-400":"text-gray-500"}`}>{greet}{name?`, ${name}`:""}</p>
-          <h1 className="text-3xl font-bold"><span className={bed?"text-white":"text-gray-900"}>Little Lights </span><span style={{color:"#818cf8"}}>Bible Bedtime</span></h1>
+          <h1 className="text-3xl font-bold"><span className={bed?"text-white":"text-gray-900"}>Firefly </span><span style={{color:"#818cf8"}}>Bible Bedtime</span></h1>
         </div>
         <Lumi size={32} message={h>=18?"Sleepy time!":h>=12?"Story time!":"Good morning!"}/>
       </div>
@@ -714,7 +714,7 @@ function Settings({bed,onToggle,onDash}){
         </div>
       </div>)}
       <div className={`text-center pt-8 pb-6 ${bed?"text-gray-700":"text-gray-400"}`}>
-        <p className="text-xs font-bold">Little Lights Bible Bedtime</p>
+        <p className="text-xs font-bold">Firefly Bible Bedtime</p>
         <p className="text-xs">Version 3.0 — Free for all families</p>
         <p className="text-xs mt-0.5">Made with ❤️ for families everywhere</p>
       </div>

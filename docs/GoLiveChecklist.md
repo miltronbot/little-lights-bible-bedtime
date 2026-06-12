@@ -1,4 +1,4 @@
-# Little Lights Bible Bedtime — Go Live Checklist
+# Firefly Bible Bedtime — Go Live Checklist
 
 ## Phase 1: Apple Developer Account (Do This First)
 - [ ] Go to https://developer.apple.com/programs/enroll/
@@ -7,7 +7,7 @@
 - [ ] Wait for approval (usually instant, can take up to 48 hours)
 
 ## Phase 2: Test in Simulator
-- [ ] Reset onboarding: In simulator, go to Settings app → scroll to Little Lights → delete app data, OR delete the app and reinstall
+- [ ] Reset onboarding: In simulator, go to Settings app → scroll to Firefly → delete app data, OR delete the app and reinstall
 - [ ] Walk through onboarding (enter child name, pick age, set bedtime reminder)
 - [ ] Test home screen (check Recently Read, Favorites, Tonight's Story, Story of the Week, Seasonal Pick all display)
 - [ ] Play a story end-to-end (tap play, verify narration audio works)
@@ -47,7 +47,7 @@ Once your developer account is approved:
 2. Click **My Apps** → **+** → **New App**
 3. Fill in:
    - **Platform:** iOS
-   - **Name:** Little Lights Bible Bedtime
+   - **Name:** Firefly Bible Bedtime
    - **Primary Language:** English (U.S.)
    - **Bundle ID:** com.littlelightsbiblebedtime.app
    - **SKU:** LittleLightsBibleBedtime

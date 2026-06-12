@@ -1,5 +1,5 @@
 
-# Little Lights Bible Bedtime for Kids
+# Firefly Bible Bedtime for Kids
 
 A SwiftUI iOS app featuring 50 Bible bedtime stories with audio narration, bedtime reading mode, and a one-time premium unlock via StoreKit 2.
 

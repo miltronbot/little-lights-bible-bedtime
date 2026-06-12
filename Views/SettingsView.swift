@@ -357,7 +357,7 @@ struct SettingsView: View {
 
             Section {
                 VStack(spacing: 6) {
-                    Text("Little Lights Bible Bedtime")
+                    Text("Firefly Bible Bedtime")
                         .font(.footnote.bold())
                         .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
                     Text("Version 2.0 — Free for all families")
