@@ -10,6 +10,7 @@ final class AppSettings: ObservableObject {
     @AppStorage("narrationVolume") var narrationVolume: Double = 1.0
     @AppStorage("selectedAgeGroup") var selectedAgeGroup: String = ""
     @AppStorage("autoPlayNarration") var autoPlayNarration: Bool = true
+    @AppStorage("kidLock") var kidLock: Bool = false
     @AppStorage("fontSize") var fontSize: Double = 19.0
     @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
     @AppStorage("activeChildIndex") var activeChildIndex: Int = 0

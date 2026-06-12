@@ -9,6 +9,7 @@ import SwiftUI
 struct LightsOutView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var audioPlayer: AudioPlayerViewModel
+    @EnvironmentObject private var appSettings: AppSettings
 
     @State private var moonOffset: CGSize = CGSize(width: -60, height: -40)
     @State private var showHint = true
@@ -35,7 +36,7 @@ struct LightsOutView: View {
                             .font(.footnote)
                             .foregroundStyle(.white.opacity(0.4))
                     }
-                    Text("Double-tap to wake")
+                    Text(appSettings.kidLock ? "Hold 3 seconds to wake" : "Double-tap to wake")
                         .font(.footnote)
                         .foregroundStyle(.white.opacity(0.45))
                 }
@@ -46,7 +47,11 @@ struct LightsOutView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture(count: 2) {
-            dismiss()
+            // With Kid Lock on, little taps can't wake the screen
+            if !appSettings.kidLock { dismiss() }
+        }
+        .onLongPressGesture(minimumDuration: 3) {
+            if appSettings.kidLock { dismiss() }
         }
         .statusBarHidden(true)
         .persistentSystemOverlays(.hidden)

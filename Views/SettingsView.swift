@@ -57,6 +57,15 @@ struct SettingsView: View {
                     }
                 }
 
+                Toggle(isOn: $appSettings.kidLock) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Kid Lock")
+                        Text("Lights Out wakes only with a 3-second hold")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    }
+                }
+
                 Toggle(isOn: $appSettings.autoPlayNarration) {
                     Label("Auto-play Narration", systemImage: "play.circle")
                 }
