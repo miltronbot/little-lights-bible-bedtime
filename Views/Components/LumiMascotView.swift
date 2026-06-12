@@ -95,16 +95,19 @@ struct LumiMascotView: View {
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundStyle(.white)
                 .lineLimit(3)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .frame(maxWidth: 210)
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
         .background(
-            Capsule()
+            RoundedRectangle(cornerRadius: 18)
                 .fill(AppTheme.cardBackground(for: settings.isBedtimeMode))
                 .opacity(0.95)
         )
         .overlay(
-            Capsule()
+            RoundedRectangle(cornerRadius: 18)
                 .stroke(AppTheme.accent(for: settings.isBedtimeMode), lineWidth: 1.5)
         )
     }
@@ -147,8 +150,19 @@ struct WanderingLumiView: View {
                 .offset(y: bobbing ? -7 : 7)
                 .position(position == .zero ? startPoint(in: geo.size) : position)
                 .onTapGesture {
-                    message = LumiReaction.reaction(for: storyID)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                    // Glide toward the middle first so her speech bubble
+                    // never runs off the screen edge
+                    let safe = CGPoint(
+                        x: min(max(position.x, geo.size.width * 0.32), geo.size.width * 0.68),
+                        y: min(max(position.y, geo.size.height * 0.22), geo.size.height * 0.65)
+                    )
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        position = safe
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                        message = LumiReaction.reaction(for: storyID)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
                         message = nil
                     }
                 }
