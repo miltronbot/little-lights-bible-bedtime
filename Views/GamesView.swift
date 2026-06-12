@@ -68,8 +68,8 @@ struct GamesView: View {
                 }
                 .buttonStyle(.plain)
 
-                NavigationLink(destination: TrueOrLumiGameView()) {
-                    GameCard(icon: "checkmark.seal.fill", title: "True or Lumi?",
+                NavigationLink(destination: TrueFalseGameView()) {
+                    GameCard(icon: "checkmark.seal.fill", title: "Lumi's True or False",
                              subtitle: "True or false — Lumi tells you the story behind each one", tint: .green)
                 }
                 .buttonStyle(.plain)

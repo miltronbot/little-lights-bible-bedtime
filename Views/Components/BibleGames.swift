@@ -166,9 +166,9 @@ struct WhoAmIGameView: View {
     }
 }
 
-// MARK: - True or Lumi? (true/false)
+// MARK: - Lumi's True or False
 
-struct TrueOrLumiGameView: View {
+struct TrueFalseGameView: View {
     @EnvironmentObject private var appSettings: AppSettings
 
     private let itemsPerRound = 8
@@ -198,7 +198,7 @@ struct TrueOrLumiGameView: View {
         }
         .padding()
         .background { StarryNightBackground(alwaysStarry: true) }
-        .navigationTitle("True or Lumi?")
+        .navigationTitle("Lumi's True or False")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { if items.isEmpty { startRound() } }
     }

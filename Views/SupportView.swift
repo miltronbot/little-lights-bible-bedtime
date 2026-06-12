@@ -7,7 +7,7 @@ struct SupportView: View {
     var body: some View {
         List {
             Section("Help") {
-                if let supportURL = URL(string: "mailto:support@littlelightsbiblebedtime.com") {
+                if let supportURL = URL(string: "mailto:Miltonbot@icloud.com") {
                     Link("Email Support", destination: supportURL)
                 }
                 Text("Response goal: within 2 business days")
@@ -16,10 +16,10 @@ struct SupportView: View {
 
             Section("Common Questions") {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("How do I restore my purchase?")
+                    Text("Is the app really free?")
                         .font(.headline)
                         .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                    Text("Open Settings and tap Restore Purchase.")
+                    Text("Yes — all 50 stories, games, and features are completely free. No purchases, no ads.")
                         .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
                 }
 
@@ -81,7 +81,7 @@ struct FeedbackView: View {
     @State private var message: String = ""
     @State private var showMailUnavailable = false
 
-    private let supportAddress = "support@littlelightsbiblebedtime.com"
+    private let supportAddress = "Miltonbot@icloud.com"
 
     var body: some View {
         ScrollView {
