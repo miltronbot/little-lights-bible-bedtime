@@ -18,5 +18,7 @@
 	<array>
 		<string>audio</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Firefly uses the microphone so a grown-up can record their own voice reading a story.</string>
 </dict>
 </plist>

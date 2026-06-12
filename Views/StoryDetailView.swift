@@ -21,6 +21,8 @@ struct StoryDetailView: View {
     @State private var showLightsOut: Bool = false
     @State private var playPulse: Bool = false
     @State private var postcard: UIImage?
+    @State private var showParentVoice: Bool = false
+    @State private var hasParentVoice: Bool = false
 
     var body: some View {
         ScrollView {
@@ -175,6 +177,42 @@ struct StoryDetailView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
+
+                // Parent Voice — let a grown-up record their own narration.
+                // Presented as a .sheet (not a fullScreenCover) so it stays
+                // clear of the onDisappear audio-stop guard.
+                Button {
+                    showParentVoice = true
+                } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: hasParentVoice ? "mic.circle.fill" : "mic.circle")
+                            .font(.title3)
+                            .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Parent Voice")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                            Text(hasParentVoice
+                                 ? "Your voice plays for this story"
+                                 : "Record yourself reading this story")
+                                .font(.caption2)
+                                .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                        }
+                        Spacer()
+                        if hasParentVoice {
+                            Image(systemName: "checkmark.seal.fill")
+                                .font(.caption)
+                                .foregroundStyle(.green)
+                        }
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    }
+                    .padding(12)
+                    .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
+                .buttonStyle(.plain)
 
                 // Audio player bar
                 AudioPlayerBar(story: story)
@@ -437,6 +475,7 @@ struct StoryDetailView: View {
             withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
                 playPulse = true
             }
+            refreshParentVoice()
             // Tap the story, hear the story — auto-start narration unless
             // the parent turned it off in Settings
             if appSettings.autoPlayNarration && audioPlayerViewModel.currentStoryID != story.id {
@@ -471,6 +510,12 @@ struct StoryDetailView: View {
                 .environmentObject(appSettings)
                 .environmentObject(goalsTracker)
         }
+        .sheet(isPresented: $showParentVoice, onDismiss: { refreshParentVoice() }) {
+            ParentVoiceSheet(story: story)
+                .environmentObject(appSettings)
+                .environmentObject(audioPlayerViewModel)
+                .presentationDetents([.medium, .large])
+        }
         .fullScreenCover(isPresented: $showLightsOut) {
             LightsOutView()
                 .environmentObject(audioPlayerViewModel)
@@ -500,6 +545,15 @@ struct StoryDetailView: View {
     }
 
     private var category: StoryCategory { story.category }
+
+    /// Refreshes the "your voice plays for this story" indicator for the
+    /// active child. Cheap file-existence check.
+    private func refreshParentVoice() {
+        hasParentVoice = VoiceRecordingService.hasRecording(
+            storyID: story.id,
+            profile: appSettings.activeChildName
+        )
+    }
 }
 
 // MARK: - Sleep Timer Sheet

@@ -228,6 +228,28 @@ final class AudioPlayerViewModel: ObservableObject {
         currentStoryID = story.id
         currentStory = story
 
+        // 0. Parent Voice — if a grown-up recorded their own narration for this
+        // story + active child, play that INSTEAD of the bundled MP3. This is
+        // the single chokepoint, so lock screen / sleep timer / queue all work
+        // automatically. Falls through to the bundled path when none exists.
+        let profile = Self.activeProfileName()
+        if let voiceURL = VoiceRecordingService.recordingURL(storyID: story.id, profile: profile),
+           FileManager.default.fileExists(atPath: voiceURL.path) {
+            do {
+                try audioService.loadAudio(from: voiceURL)
+                audioService.setVolume(narrationVolume)
+                duration = max(audioService.duration, 1)
+                currentTime = 0
+                audioService.play()
+                isPlaying = audioService.isPlaying
+                startTimer()
+                publishNowPlaying()
+                return
+            } catch {
+                print("[AudioPlayerViewModel] Parent recording failed to load — \(error.localizedDescription). Falling back to bundled audio.")
+            }
+        }
+
         // 1. Try bundled MP3 first (instant, no network needed)
         do {
             try audioService.loadAudio(named: story.audioFileName)
@@ -293,6 +315,21 @@ final class AudioPlayerViewModel: ObservableObject {
                 currentStoryID = nil
             }
         }
+    }
+
+    /// Resolves the active child's profile name the same way
+    /// `AppSettings.activeChildName` does, but read straight from UserDefaults so
+    /// this view model needs no AppSettings dependency. Empty string → no
+    /// children yet (Parent Voice then uses the "default" profile folder).
+    private static func activeProfileName() -> String {
+        let defaults = UserDefaults.standard
+        guard let data = defaults.data(forKey: "childrenNames"),
+              let names = try? JSONDecoder().decode([String].self, from: data),
+              !names.isEmpty else {
+            return ""
+        }
+        let index = min(max(0, defaults.integer(forKey: "activeChildIndex")), names.count - 1)
+        return names[index]
     }
 
     func play() {
