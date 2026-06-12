@@ -134,6 +134,8 @@
 		E0ABCDEF1234567890ABCC9 /* JourneysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C9 /* Views/JourneysView.swift */; };
 		E0ABCDEF1234567890ABCCA /* JourneyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234CA /* Views/JourneyDetailView.swift */; };
 		E0ABCDEF1234567890ABCCB /* GamesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234CB /* Views/GamesView.swift */; };
+		E0ABCDEF1234567890ABCCC /* GameContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234CC /* Models/GameContent.swift */; };
+		E0ABCDEF1234567890ABCCD /* BibleGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234CD /* Views/Components/BibleGames.swift */; };
 		F2000000000000000000F201 /* VoiceRecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2000000000000000000F211 /* Services/VoiceRecordingService.swift */; };
 		F2000000000000000000F202 /* ParentVoiceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2000000000000000000F212 /* Views/Components/ParentVoiceSheet.swift */; };
 		E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */; };
@@ -263,6 +265,8 @@
 		E01234567890ABCDEF1234C9 /* Views/JourneysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/JourneysView.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234CA /* Views/JourneyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/JourneyDetailView.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234CB /* Views/GamesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/GamesView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234CC /* Models/GameContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/GameContent.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234CD /* Views/Components/BibleGames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/BibleGames.swift; sourceTree = "<group>"; };
 		F2000000000000000000F211 /* Services/VoiceRecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/VoiceRecordingService.swift; sourceTree = "<group>"; };
 		F2000000000000000000F212 /* Views/Components/ParentVoiceSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/ParentVoiceSheet.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/StoryProgressBar.swift; sourceTree = "<group>"; };
@@ -457,6 +461,7 @@
 				3485BA021E484E4DB5C3596D /* Models/ReadingStreak.swift */,
 				AA0002222222222222222222 /* Models/Collectible.swift */,
 				E01234567890ABCDEF1234C7 /* Models/Journey.swift */,
+				E01234567890ABCDEF1234CC /* Models/GameContent.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -500,6 +505,7 @@
 				AA0006666666666666666666 /* Views/Components/ReadAlongTextView.swift */,
 				AA0008888888888888888888 /* Views/Components/StarryNightBackground.swift */,
 				F2000000000000000000F212 /* Views/Components/ParentVoiceSheet.swift */,
+				E01234567890ABCDEF1234CD /* Views/Components/BibleGames.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -707,6 +713,8 @@
 				E0ABCDEF1234567890ABCC9 /* JourneysView.swift in Sources */,
 				E0ABCDEF1234567890ABCCA /* JourneyDetailView.swift in Sources */,
 				E0ABCDEF1234567890ABCCB /* GamesView.swift in Sources */,
+				E0ABCDEF1234567890ABCCC /* GameContent.swift in Sources */,
+				E0ABCDEF1234567890ABCCD /* BibleGames.swift in Sources */,
 				F2000000000000000000F201 /* VoiceRecordingService.swift in Sources */,
 				F2000000000000000000F202 /* ParentVoiceSheet.swift in Sources */,
 				E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */,

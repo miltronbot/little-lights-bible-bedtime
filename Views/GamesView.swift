@@ -1,16 +1,20 @@
 import SwiftUI
 
 // MARK: - Games
-// A kid-friendly hub of small Bible games, all offline and procedural:
-//   1. Treasure Match  — flip-card memory pairs using the story collectibles
-//   2. Story Quiz      — gentle multiple-choice questions about the stories
-//   3. Verse Practice  — the existing missing-word game on a random story
-// No ads, no timers that pressure, no losing states that sting — every game
-// ends in encouragement (COPPA-clean, bedtime-calm).
+// A kid-friendly arcade of Bible games, all offline and procedural, all
+// rooted in the app's stories. Games award shared "game stars"
+// (GameStars.award → the hub counter). No ads, no pressure timers, no
+// losing states that sting — every game ends in encouragement.
+//
+// Content banks (quiz questions, riddles, true/false, scrambles) live in
+// Models/GameContent.swift; the five newer game views live in
+// Views/Components/BibleGames.swift.
 
 struct GamesView: View {
     @EnvironmentObject private var appSettings: AppSettings
     @EnvironmentObject private var library: StoryLibraryViewModel
+
+    @AppStorage(GameStars.key) private var totalStars: Int = 0
 
     /// A story with a memory verse for Verse Practice — re-rolled each visit.
     private var verseStory: Story? {
@@ -20,6 +24,7 @@ struct GamesView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
+                // Header with the running star count
                 HStack(spacing: 10) {
                     LumiMascotView(size: 32, message: nil)
                     VStack(alignment: .leading, spacing: 2) {
@@ -31,37 +36,76 @@ struct GamesView: View {
                             .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
                     }
                     Spacer()
+                    if totalStars > 0 {
+                        HStack(spacing: 4) {
+                            Image(systemName: "star.fill")
+                                .font(.caption)
+                            Text("\(totalStars)")
+                                .font(.subheadline.bold())
+                                .monospacedDigit()
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 7)
+                        .background(Color.yellow.opacity(0.18))
+                        .foregroundStyle(.yellow)
+                        .clipShape(Capsule())
+                        .accessibilityLabel("\(totalStars) game stars earned")
+                    }
                 }
                 .padding(.top, 4)
 
-                NavigationLink(destination: MemoryMatchGameView()) {
-                    GameCard(
-                        icon: "rectangle.grid.2x2.fill",
-                        title: "Treasure Match",
-                        subtitle: "Find the matching pairs of story treasures",
-                        tint: .indigo
-                    )
+                sectionHeader("Guess & Remember")
+
+                NavigationLink(destination: StoryQuizView()) {
+                    GameCard(icon: "questionmark.circle.fill", title: "Story Quiz",
+                             subtitle: "Six little questions about the stories", tint: .teal)
                 }
                 .buttonStyle(.plain)
 
-                NavigationLink(destination: StoryQuizView()) {
-                    GameCard(
-                        icon: "questionmark.circle.fill",
-                        title: "Story Quiz",
-                        subtitle: "Do you remember the stories? Six little questions",
-                        tint: .teal
-                    )
+                NavigationLink(destination: WhoAmIGameView()) {
+                    GameCard(icon: "person.fill.questionmark", title: "Who Am I?",
+                             subtitle: "Three clues — guess sooner for more stars", tint: .purple)
+                }
+                .buttonStyle(.plain)
+
+                NavigationLink(destination: TrueOrLumiGameView()) {
+                    GameCard(icon: "checkmark.seal.fill", title: "True or Lumi?",
+                             subtitle: "True or false — Lumi tells you the story behind each one", tint: .green)
+                }
+                .buttonStyle(.plain)
+
+                NavigationLink(destination: GuessTheStoryGameView()) {
+                    GameCard(icon: "photo.fill", title: "Guess the Story",
+                             subtitle: "A foggy picture clears — name it early for more stars", tint: .pink)
+                }
+                .buttonStyle(.plain)
+
+                sectionHeader("Match & Order")
+
+                NavigationLink(destination: MemoryMatchGameView()) {
+                    GameCard(icon: "rectangle.grid.2x2.fill", title: "Treasure Match",
+                             subtitle: "Find the matching pairs of story treasures", tint: .indigo)
+                }
+                .buttonStyle(.plain)
+
+                NavigationLink(destination: StoryScrambleGameView()) {
+                    GameCard(icon: "list.number", title: "Story Scramble",
+                             subtitle: "Put the story back in the right order", tint: .brown)
+                }
+                .buttonStyle(.plain)
+
+                sectionHeader("Learn the Verse")
+
+                NavigationLink(destination: VerseBuilderGameView()) {
+                    GameCard(icon: "text.word.spacing", title: "Verse Builder",
+                             subtitle: "Tap the words to build the verse", tint: .cyan)
                 }
                 .buttonStyle(.plain)
 
                 if let story = verseStory {
                     NavigationLink(destination: MemoryVerseGameView(story: story)) {
-                        GameCard(
-                            icon: "text.book.closed.fill",
-                            title: "Verse Practice",
-                            subtitle: "Find the missing word in \"\(story.title)\"",
-                            tint: .orange
-                        )
+                        GameCard(icon: "text.book.closed.fill", title: "Verse Practice",
+                                 subtitle: "Find the missing word in \"\(story.title)\"", tint: .orange)
                     }
                     .buttonStyle(.plain)
                 }
@@ -72,11 +116,18 @@ struct GamesView: View {
         .navigationTitle("Games")
         .navigationBarTitleDisplayMode(.inline)
     }
+
+    private func sectionHeader(_ title: String) -> some View {
+        Text(title)
+            .font(.headline)
+            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+            .padding(.top, 6)
+    }
 }
 
 // MARK: - Game Card
 
-private struct GameCard: View {
+struct GameCard: View {
     let icon: String
     let title: String
     let subtitle: String
@@ -124,63 +175,81 @@ struct MemoryMatchGameView: View {
 
     @AppStorage("game.memoryMatch.bestMoves") private var bestMoves: Int = 0
 
+    enum Difficulty: String, CaseIterable, Identifiable {
+        case cozy = "Cozy"      // 6 pairs, 3×4
+        case big  = "Big Kid"   // 8 pairs, 4×4
+
+        var id: String { rawValue }
+        var pairCount: Int { self == .cozy ? 6 : 8 }
+        var columns: Int { self == .cozy ? 3 : 4 }
+        var cardHeight: CGFloat { self == .cozy ? 86 : 74 }
+    }
+
+    @State private var difficulty: Difficulty = .cozy
     @State private var cards: [MatchCard] = []
     @State private var firstFlipped: Int? = nil
     @State private var moves: Int = 0
     @State private var matchesFound: Int = 0
     @State private var checking = false
 
-    private let pairCount = 6
-
-    private var won: Bool { matchesFound == pairCount }
+    private var won: Bool { !cards.isEmpty && matchesFound == difficulty.pairCount }
 
     var body: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Label("\(moves) flips", systemImage: "hand.tap.fill")
-                    .font(.subheadline.bold())
-                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+        VStack(spacing: 14) {
+            // Difficulty picker
+            HStack(spacing: 8) {
+                ForEach(Difficulty.allCases) { level in
+                    Button {
+                        difficulty = level
+                        startGame()
+                    } label: {
+                        Text(level.rawValue)
+                            .font(.subheadline.bold())
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(difficulty == level
+                                        ? AppTheme.accent(for: appSettings.isBedtimeMode)
+                                        : AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+                            .foregroundStyle(difficulty == level ? .white : AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                            .clipShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
+                }
                 Spacer()
                 if bestMoves > 0 {
                     Label("Best: \(bestMoves)", systemImage: "star.fill")
-                        .font(.subheadline)
+                        .font(.caption.bold())
                         .foregroundStyle(.yellow)
                 }
             }
             .padding(.horizontal)
 
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 3),
+            Label("\(moves) flips", systemImage: "hand.tap.fill")
+                .font(.subheadline.bold())
+                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10),
+                                     count: difficulty.columns),
                       spacing: 10) {
                 ForEach(cards.indices, id: \.self) { index in
-                    MatchCardView(card: cards[index])
+                    MatchCardView(card: cards[index], height: difficulty.cardHeight)
                         .onTapGesture { flip(index) }
                 }
             }
             .padding(.horizontal)
 
             if won {
-                VStack(spacing: 10) {
-                    Text("🎉 You found them all!")
-                        .font(.title3.bold())
-                        .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                    Text(bestMoves == moves
-                         ? "That's your best game yet — \(moves) flips!"
-                         : "All \(pairCount) pairs in \(moves) flips. Wonderful!")
-                        .font(.subheadline)
-                        .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
-                    Button {
-                        startGame()
-                    } label: {
-                        Label("Play Again", systemImage: "arrow.clockwise")
-                            .font(.headline)
-                            .padding(.horizontal, 24)
-                            .padding(.vertical, 12)
-                            .background(AppTheme.accent(for: appSettings.isBedtimeMode))
-                            .foregroundStyle(.white)
-                            .clipShape(Capsule())
-                    }
-                }
-                .padding()
+                GameResultCard(
+                    emoji: "🎉",
+                    headline: "You found them all!",
+                    message: bestMoves == moves
+                        ? "That's your best game yet — \(moves) flips!"
+                        : "All \(difficulty.pairCount) pairs in \(moves) flips. Wonderful!",
+                    buttonTitle: "Play Again"
+                ) { startGame() }
+                .padding(.horizontal)
                 .transition(.scale.combined(with: .opacity))
             }
 
@@ -194,7 +263,7 @@ struct MemoryMatchGameView: View {
     }
 
     private func startGame() {
-        let treasures = Collectible.all.shuffled().prefix(pairCount)
+        let treasures = Collectible.all.shuffled().prefix(difficulty.pairCount)
         var deck: [MatchCard] = []
         for t in treasures {
             deck.append(MatchCard(emoji: t.emoji, pairID: t.id))
@@ -227,7 +296,6 @@ struct MemoryMatchGameView: View {
         checking = true
 
         if cards[first].pairID == cards[index].pairID {
-            // A match — leave both up, glow them
             Task { @MainActor in
                 try? await Task.sleep(nanoseconds: 350_000_000)
                 withAnimation(.spring(response: 0.35)) {
@@ -236,12 +304,14 @@ struct MemoryMatchGameView: View {
                     matchesFound += 1
                 }
                 checking = false
-                if matchesFound == pairCount && (bestMoves == 0 || moves < bestMoves) {
-                    bestMoves = moves
+                if matchesFound == difficulty.pairCount {
+                    if bestMoves == 0 || moves < bestMoves { bestMoves = moves }
+                    // Tidy games earn more — perfect would be pairs×2 flips
+                    let perfect = difficulty.pairCount * 2
+                    GameStars.award(moves <= perfect + 4 ? 3 : moves <= perfect + 10 ? 2 : 1)
                 }
             }
         } else {
-            // No match — flip both back after a peek
             Task { @MainActor in
                 try? await Task.sleep(nanoseconds: 900_000_000)
                 withAnimation(.spring(response: 0.35)) {
@@ -264,6 +334,7 @@ struct MatchCard: Identifiable {
 
 private struct MatchCardView: View {
     let card: MatchCard
+    var height: CGFloat = 86
 
     @EnvironmentObject private var appSettings: AppSettings
 
@@ -276,14 +347,14 @@ private struct MatchCardView: View {
 
             if card.isFaceUp || card.isMatched {
                 Text(card.emoji)
-                    .font(.system(size: 36))
+                    .font(.system(size: height * 0.42))
             } else {
                 Image(systemName: "sparkles")
                     .font(.title3)
                     .foregroundStyle(.white.opacity(0.8))
             }
         }
-        .frame(height: 86)
+        .frame(height: height)
         .overlay(
             RoundedRectangle(cornerRadius: 14)
                 .stroke(card.isMatched ? Color.yellow.opacity(0.8) : .clear, lineWidth: 2)
@@ -308,15 +379,26 @@ struct StoryQuizView: View {
     private let questionsPerRound = 6
 
     var body: some View {
-        VStack(spacing: 18) {
-            if finished {
-                resultView
-            } else if current < questions.count {
-                questionView(questions[current])
+        ScrollView {
+            VStack(spacing: 18) {
+                if finished {
+                    GameResultCard(
+                        emoji: score == questions.count ? "🌟" : "✨",
+                        headline: "You got \(score) of \(questions.count)!",
+                        message: score == questions.count
+                            ? "Every single one — amazing!"
+                            : score >= questions.count / 2
+                              ? "Wonderful remembering!"
+                              : "Every story you hear makes you wiser. Try again?",
+                        buttonTitle: "Play Again"
+                    ) { startRound() }
+                    .padding(.top, 30)
+                } else if current < questions.count {
+                    questionView(questions[current])
+                }
             }
-            Spacer()
+            .padding()
         }
-        .padding()
         .background { StarryNightBackground(alwaysStarry: true) }
         .navigationTitle("Story Quiz")
         .navigationBarTitleDisplayMode(.inline)
@@ -395,37 +477,6 @@ struct StoryQuizView: View {
         }
     }
 
-    private var resultView: some View {
-        VStack(spacing: 14) {
-            Text(score == questions.count ? "🌟" : "✨")
-                .font(.system(size: 56))
-            Text("You got \(score) of \(questions.count)!")
-                .font(.title2.bold())
-                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-            Text(score == questions.count
-                 ? "Every single one — amazing!"
-                 : score >= questions.count / 2
-                   ? "Wonderful remembering!"
-                   : "Every story you hear makes you wiser. Try again?")
-                .font(.subheadline)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
-
-            Button {
-                startRound()
-            } label: {
-                Label("Play Again", systemImage: "arrow.clockwise")
-                    .font(.headline)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                    .background(AppTheme.accent(for: appSettings.isBedtimeMode))
-                    .foregroundStyle(.white)
-                    .clipShape(Capsule())
-            }
-        }
-        .padding(.top, 40)
-    }
-
     private func choiceBackground(_ i: Int, for q: QuizQuestion) -> Color {
         guard let picked else {
             return AppTheme.cardBackground(for: appSettings.isBedtimeMode)
@@ -446,6 +497,7 @@ struct StoryQuizView: View {
     private func advance() {
         withAnimation(.easeInOut(duration: 0.25)) {
             if current + 1 == questions.count {
+                GameStars.award(max(1, score / 2))   // 6/6 → 3⭐, 4–5 → 2⭐, else 1⭐
                 finished = true
             } else {
                 current += 1
@@ -453,65 +505,4 @@ struct StoryQuizView: View {
             }
         }
     }
-}
-
-// MARK: - Quiz question bank
-// Hand-written, kid-level, tied to stories in the app. Keep answers
-// unambiguous and the wrong choices gentle (no trick questions).
-
-struct QuizQuestion {
-    let prompt: String
-    let choices: [String]
-    let answerIndex: Int
-
-    static let bank: [QuizQuestion] = [
-        QuizQuestion(prompt: "Who built a big boat to keep the animals safe?",
-                     choices: ["Noah", "Moses", "David"], answerIndex: 0),
-        QuizQuestion(prompt: "What did God put in the sky as a promise to Noah?",
-                     choices: ["A rainbow", "A cloud", "A kite"], answerIndex: 0),
-        QuizQuestion(prompt: "Who was the shepherd boy who faced the giant Goliath?",
-                     choices: ["Jonah", "David", "Peter"], answerIndex: 1),
-        QuizQuestion(prompt: "What did David use to face Goliath?",
-                     choices: ["A sword", "A sling and a stone", "A spear"], answerIndex: 1),
-        QuizQuestion(prompt: "Where did Jonah end up when he ran from God?",
-                     choices: ["In a big fish", "On a mountain", "In a castle"], answerIndex: 0),
-        QuizQuestion(prompt: "Who spent a night with hungry lions and was kept safe?",
-                     choices: ["Daniel", "Joseph", "Abraham"], answerIndex: 0),
-        QuizQuestion(prompt: "What did Moses see burning that didn't burn up?",
-                     choices: ["A bush", "A house", "A boat"], answerIndex: 0),
-        QuizQuestion(prompt: "What happened to the sea when Moses lifted his staff?",
-                     choices: ["It froze", "It split in two", "It turned gold"], answerIndex: 1),
-        QuizQuestion(prompt: "Where was baby Jesus born?",
-                     choices: ["A palace", "A stable", "A ship"], answerIndex: 1),
-        QuizQuestion(prompt: "What led the wise men to baby Jesus?",
-                     choices: ["A map", "A bright star", "A river"], answerIndex: 1),
-        QuizQuestion(prompt: "What did Jesus do to the stormy sea?",
-                     choices: ["He told it to be still", "He swam in it", "He sailed away"], answerIndex: 0),
-        QuizQuestion(prompt: "How many loaves and fish fed the big crowd?",
-                     choices: ["Five loaves and two fish", "Ten loaves", "A basket of apples"], answerIndex: 0),
-        QuizQuestion(prompt: "Who climbed a tree to see Jesus?",
-                     choices: ["Zacchaeus", "Goliath", "Samuel"], answerIndex: 0),
-        QuizQuestion(prompt: "In Jesus' story, who stopped to help the hurt traveler?",
-                     choices: ["A king", "The good Samaritan", "A fisherman"], answerIndex: 1),
-        QuizQuestion(prompt: "What does the shepherd do when one sheep is lost?",
-                     choices: ["He goes looking for it", "He waits at home", "He buys a new one"], answerIndex: 0),
-        QuizQuestion(prompt: "How many days did God take to make the world?",
-                     choices: ["Six days, then He rested", "One day", "A hundred days"], answerIndex: 0),
-        QuizQuestion(prompt: "What fell down when Joshua's people marched and shouted?",
-                     choices: ["The walls of Jericho", "A big tree", "The rain"], answerIndex: 0),
-        QuizQuestion(prompt: "Whose colorful coat made his brothers jealous?",
-                     choices: ["Joseph", "Daniel", "John"], answerIndex: 0),
-        QuizQuestion(prompt: "Which brave queen spoke up to save her people?",
-                     choices: ["Esther", "Mary", "Ruth"], answerIndex: 0),
-        QuizQuestion(prompt: "What did God show Abraham to count?",
-                     choices: ["The stars", "His sheep", "His coins"], answerIndex: 0),
-        QuizQuestion(prompt: "Who walked on the water toward Jesus?",
-                     choices: ["Peter", "Paul", "Pharaoh"], answerIndex: 0),
-        QuizQuestion(prompt: "What did the little boy share so Jesus could feed everyone?",
-                     choices: ["His lunch", "His coat", "His sandals"], answerIndex: 0),
-        QuizQuestion(prompt: "How did God speak to Elijah on the mountain?",
-                     choices: ["In a gentle whisper", "With thunder only", "Through a lion"], answerIndex: 0),
-        QuizQuestion(prompt: "What is the very first thing God said when making the world?",
-                     choices: ["\"Let there be light\"", "\"Make a boat\"", "\"Count the stars\""], answerIndex: 0),
-    ]
 }
