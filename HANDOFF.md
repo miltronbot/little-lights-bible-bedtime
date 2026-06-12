@@ -1,7 +1,19 @@
 # Firefly Bible Bedtime — Session Handoff
-**Last updated:** June 12, 2026 (end of the v2 sprint)
-**Status:** v2.0 feature-complete on `main` · zero build warnings · v1.0 sitting in App Store review
+**Last updated:** June 12, 2026 (end of the v2-polish marathon — PRs #42–#55)
+**Status:** v2.0 feature-complete on `main` · zero build warnings on iPhone AND iPad · v1.0 sitting in App Store review
 **Read `CLAUDE.md` first** for the quick-reference facts; this file is the deep handoff.
+
+---
+
+## ⭐ START HERE — the owner's next requested task
+
+**Upgrade the Rewards icons.** The owner's words: emoji icons "seem cheap and low budget" — make them "strong/better." Scope:
+- The 50 collectibles (`Collectible.all` in `Models/Collectible.swift` — each has an `emoji` field rendered in RewardsView cards, CollectionAlbumView, NightSkyView stickers/drawer, and Treasure Match cards in `GamesView`)
+- The 27 badges (`ReadingStreak.badgeInfo` — emoji `icon` strings rendered as cards in RewardsView and `BadgeDetailSheet`)
+- Possibly the Night Sky sticker palette and Games-tab emoji accents while at it
+Options to weigh: (a) procedural SF-Symbol compositions with gradient/glow treatments (no assets, ships today, consistent with the app's hand-drawn-free aesthetic), (b) a Midjourney icon set in the story-art style (strongest look; needs the owner to generate ~50+27 images or grant Midjourney access — the claude-in-chrome extension currently BLOCKS midjourney.com, see §7), (c) hybrid: Midjourney for the 50 collectibles, styled SF Symbols for badges. Whatever the choice, keep every render site above in sync, keep Noah = Dove (never a rainbow), and mind Treasure Match/Night Sky which assume square-ish glyphs.
+
+Also queued by the owner this session (done, for context): review prompt at story milestones 5/20/60 via `requestReview` in ContentView (`lastReviewMilestone` key, 6s delay so it never lands on a celebration).
 
 ---
 
@@ -93,3 +105,12 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 - **#20–#25** — Rebrand: Firefly name + icon (#20–21), "Bible Bedtime Stories" header (#22), side menu (#23), wandering Lumi + drawer shading fix (#24), Wise Men sky app-wide (#25).
 - **#26–#36** — v2 sprint: lock-screen player (#26), Lights Out (#27), Blessings rename (#28), kid-friendly pass (#29), iCloud sync (#30), Breathe with Lumi + Sleepy Speed (#31), Verse of the Day + postcards (#32), Siri (#33), Kid Lock (#34), v2.0 docs (#35), Lumi bubble fix (#36).
 - **#37–#40** — Gamification: levels/goals/sets (#37), level-ups/weekly challenge/shooting stars/Night Sky (#38), Library filter drawer (#39), drop-down sections (#40).
+- **#42–#55** — The polish marathon: 7-Day Journeys (#42), Wind-Down auto mode (#43), Parent Voice (#44, device-only mic), Night Sky sticker palette (#45), Parent Voice sibling sharing (#46), Home deep star field (#47), read-along highlighting in routine + detail (#48), Night Sky 7 scenes + double-tap (#49), scene titles/tuck-away drawer/richer scenes (#50), Games tab (#51, Favorites → side menu), Games arcade 7 games + star currency (#52), Settings feedback channel + uniform leading drawer buttons (#53), QA shakedown fixes incl. iPad pass + terms rebrand leftovers (#54), review prompt + this handoff (#55).
+
+## 9. Session warnings for the next Claude (hard-won this cycle)
+
+1. **The owner uses this Mac concurrently.** Twice this session: another session's uncommitted work appeared mid-flight (never `git add -A`; stage explicitly — see the memory file), and a desktop capture revealed the owner's browser mid-automation (STOP cliclick immediately when that happens; prefer `xcrun simctl io <device> screenshot` which reads the framebuffer and never touches the desktop).
+2. **`simctl spawn defaults` writes reach the app, but app-written values don't show in spawn reads and can't be deleted by spawn** — don't trust spawn reads for verification; verify via UI state or container plists.
+3. **ASC rename still open** (§1) — and the colliding app is real: "Little Lights: Bible Puzzles" by Youngseok Lee (Education, 4+, jigsaw puzzles, 50 stories). Renaming to Firefly before v1.0 approval is strongly preferred. An ASC tab may be open at the sign-in page in Chrome (Claude-in-Chrome group) — the owner must sign in; never enter credentials.
+4. **Confirm `support@littlelightsbiblebedtime.com` actually receives mail** — the feedback feature (Settings → Help Us Improve) and all legal docs point at it.
+5. **Owner's design ideas inbox:** the owner floated web-style "liquid glass" ideas (WebGL/Three.js/GSAP). Verdict given: skip in-app (battery/perf/complexity wrong for a kids' bedtime app; iOS 26 gives native Liquid Glass free); native `.ultraThinMaterial` accents are the right translation if wanted; the GitHub Pages landing page is the place for `backdrop-filter` glass + floating-particle polish.
