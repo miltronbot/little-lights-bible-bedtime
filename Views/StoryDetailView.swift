@@ -463,7 +463,7 @@ struct StoryDetailView: View {
                 if let postcard {
                     ShareLink(
                         item: Image(uiImage: postcard),
-                        preview: SharePreview("\(story.title) — Firefly Bible Bedtime",
+                        preview: SharePreview("\(story.title) — FireFly: Bible Bedtime Stories",
                                               image: Image(uiImage: postcard))
                     ) {
                         Image(systemName: "square.and.arrow.up")

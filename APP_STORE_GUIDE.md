@@ -1,4 +1,4 @@
-# Firefly Bible Bedtime — App Store Submission Guide
+# FireFly: Bible Bedtime Stories — App Store Submission Guide
 
 ## Step 1: Apple Developer Program Enrollment
 
@@ -48,7 +48,7 @@ Open `LittleLightsBibleBedtime.xcodeproj` in Xcode, then:
 2. Click **My Apps** → **+** → **New App**
 3. Fill in:
    - **Platform**: iOS
-   - **Name**: Firefly Bible Bedtime
+   - **Name**: FireFly: Bible Bedtime Stories
    - **Primary Language**: English (U.S.)
    - **Bundle ID**: com.littlelightsbiblebedtime.app
    - **SKU**: LittleLightsBibleBedtime1
@@ -61,7 +61,7 @@ No in-app purchases needed — the app is completely free. Skip this step.
 ## Step 4: App Store Metadata
 
 ### App Name
-**Firefly Bible Bedtime**
+**FireFly: Bible Bedtime Stories**
 
 ### Subtitle (30 chars max)
 **Bible Bedtime Stories & Sleep**

@@ -92,12 +92,14 @@ struct OnboardingView: View {
             }
 
             VStack(spacing: 14) {
-                Text("Firefly")
+                Text("FireFly")
                     .font(.system(size: 36, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
-                Text("Bible Bedtime")
+                Text("Bible Bedtime Stories")
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .foregroundStyle(Color(red: 0.47, green: 0.52, blue: 0.95))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
 
                 Text("Beautiful Bible stories to help\nyour little one drift off to sleep")
                     .font(.body)

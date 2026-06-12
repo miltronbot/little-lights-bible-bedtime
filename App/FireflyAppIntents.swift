@@ -2,7 +2,7 @@ import AppIntents
 import Foundation
 
 // MARK: - Siri / Shortcuts / Spotlight
-// "Hey Siri, play tonight's story in Firefly" — opens the app and starts
+// "Hey Siri, play tonight's story in FireFly" — opens the app and starts
 // Tonight's Story immediately. Also surfaces in Spotlight and the
 // Shortcuts app automatically via the AppShortcutsProvider.
 

@@ -99,7 +99,7 @@ struct PostcardView: View {
                         .padding(.horizontal, 60)
                 }
 
-                Text("✨ Firefly Bible Bedtime")
+                Text("✨ FireFly: Bible Bedtime Stories")
                     .font(.system(size: 28, weight: .semibold, design: .rounded))
                     .foregroundStyle(.yellow.opacity(0.9))
             }

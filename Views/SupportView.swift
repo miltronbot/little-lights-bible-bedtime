@@ -70,7 +70,7 @@ struct FeedbackView: View {
         }
         var prompt: String {
             switch self {
-            case .idea: return "What would make Firefly better for your family?"
+            case .idea: return "What would make FireFly better for your family?"
             case .problem: return "What happened, and what did you expect instead?"
             case .feedback: return "We read every note — what's on your mind?"
             }
@@ -88,7 +88,7 @@ struct FeedbackView: View {
             VStack(alignment: .leading, spacing: 18) {
                 HStack(spacing: 10) {
                     LumiMascotView(size: 32, message: nil)
-                    Text("Firefly gets better because families like yours tell us what to fix and what to dream up next.")
+                    Text("FireFly gets better because families like yours tell us what to fix and what to dream up next.")
                         .font(.subheadline)
                         .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
                         .fixedSize(horizontal: false, vertical: true)
@@ -146,7 +146,7 @@ struct FeedbackView: View {
                 Button {
                     send()
                 } label: {
-                    Label("Send to the Firefly Team", systemImage: "paperplane.fill")
+                    Label("Send to the FireFly Team", systemImage: "paperplane.fill")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -180,14 +180,14 @@ struct FeedbackView: View {
         \(message)
 
         —
-        \(topic.subjectTag) · Firefly \(appVersion) · iOS \(UIDevice.current.systemVersion)
+        \(topic.subjectTag) · FireFly \(appVersion) · iOS \(UIDevice.current.systemVersion)
         """
 
         var components = URLComponents()
         components.scheme = "mailto"
         components.path = supportAddress
         components.queryItems = [
-            URLQueryItem(name: "subject", value: "Firefly — \(topic.subjectTag)"),
+            URLQueryItem(name: "subject", value: "FireFly — \(topic.subjectTag)"),
             URLQueryItem(name: "body", value: body),
         ]
         guard let url = components.url else { return }

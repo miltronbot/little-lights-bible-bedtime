@@ -118,4 +118,4 @@ Run `python generate_audio.py --dry-run` to see all 50 story IDs.
 
 ---
 
-Generated for Firefly Bible Bedtime audio narration project.
+Generated for FireFly: Bible Bedtime Stories audio narration project.

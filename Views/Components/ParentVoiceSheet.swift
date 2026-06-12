@@ -54,7 +54,7 @@ struct ParentVoiceSheet: View {
                     .padding(.top, 8)
 
                     if permissionDenied {
-                        Text("Microphone access is off. Turn it on in Settings → Firefly → Microphone to record.")
+                        Text("Microphone access is off. Turn it on in Settings → FireFly → Microphone to record.")
                             .font(.footnote)
                             .multilineTextAlignment(.center)
                             .foregroundStyle(.orange)

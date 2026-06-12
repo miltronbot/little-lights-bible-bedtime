@@ -1,6 +1,6 @@
 # Audio Narration Generator
 
-Generate high-quality audio narration files for all 50 Firefly Bible Bedtime stories using OpenAI's TTS API.
+Generate high-quality audio narration files for all 50 FireFly: Bible Bedtime Stories stories using OpenAI's TTS API.
 
 ## Quick Start
 
@@ -79,7 +79,7 @@ usage: generate_audio.py [-h] [--api-key API_KEY] [--dry-run] [--story STORY]
                          [--stories-json STORIES_JSON] [--output-dir OUTPUT_DIR]
                          [--verbose]
 
-Generate audio narration files for Firefly Bible Bedtime stories
+Generate audio narration files for FireFly: Bible Bedtime Stories stories
 
 options:
   -h, --help                    Show this help message
@@ -273,4 +273,4 @@ VOICE = "nova"  # Change this to another voice
 
 ## License
 
-This script is part of the Firefly Bible Bedtime app.
+This script is part of the FireFly: Bible Bedtime Stories app.

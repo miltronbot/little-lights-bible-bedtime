@@ -1,7 +1,7 @@
 
 # Privacy Policy
 
-Firefly Bible Bedtime is designed to keep things simple and private. We have no servers and never receive any data about you or your child.
+FireFly: Bible Bedtime Stories is designed to keep things simple and private. We have no servers and never receive any data about you or your child.
 
 ## Information We Collect
 We do not require users to create an account.
