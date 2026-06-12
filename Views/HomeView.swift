@@ -9,6 +9,8 @@ struct HomeView: View {
     @EnvironmentObject private var favoritesViewModel: FavoritesViewModel
 
     @State private var lumiGreeting: String? = nil
+    @State private var showSideMenu = false
+    @State private var menuDestination: SideMenuDestination?
 
     private var lumiTimeMessage: String {
         let hour = Calendar.current.component(.hour, from: Date())
@@ -178,24 +180,8 @@ struct HomeView: View {
                 // MARK: - Bedtime Routine Quick Start
                 BedtimeRoutineCard()
 
-                // MARK: - Browse by Category
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Browse by Theme")
-                        .font(.title3.bold())
-                        .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-
-                    LazyVGrid(columns: [
-                        GridItem(.flexible()),
-                        GridItem(.flexible()),
-                    ], spacing: 10) {
-                        ForEach(StoryCategory.allCases) { category in
-                            NavigationLink(destination: LibraryView(initialCategory: category)) {
-                                CategoryCard(category: category)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                }
+                // Browse by Theme now lives in the slide-out side menu
+                // (hamburger button, top left) — see SideMenuView
 
                 // MARK: - Seasonal Pick
                 if let seasonalStory = seasonalPickStory {
@@ -252,6 +238,32 @@ struct HomeView: View {
             StarryNightBackground(alwaysStarry: true)
         }
         .navigationTitle("Home")
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.86)) {
+                        showSideMenu = true
+                    }
+                } label: {
+                    Image(systemName: "line.3.horizontal")
+                        .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                }
+                .accessibilityLabel("Open menu")
+            }
+        }
+        .overlay {
+            SideMenuView(isOpen: $showSideMenu, selection: $menuDestination)
+        }
+        .navigationDestination(item: $menuDestination) { destination in
+            switch destination {
+            case .theme(let category):
+                LibraryView(initialCategory: category)
+            case .bedtimeRoutine:
+                BedtimeRoutineView()
+            case .parentDashboard:
+                ParentDashboardView()
+            }
+        }
     }
 
     private var recentlyReadStories: [Story] {
