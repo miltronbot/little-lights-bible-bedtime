@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate audio narration files for Little Lights Bible Bedtime stories using OpenAI's TTS API.
+Generate audio narration files for Firefly Bible Bedtime stories using OpenAI's TTS API.
 
 This script reads from stories.json and generates MP3 audio files for each story by combining:
 - Story title introduction
@@ -316,7 +316,7 @@ class StoryAudioGenerator:
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description="Generate audio narration files for Little Lights Bible Bedtime stories",
+        description="Generate audio narration files for Firefly Bible Bedtime stories",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

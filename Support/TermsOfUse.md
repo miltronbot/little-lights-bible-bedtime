@@ -1,7 +1,7 @@
 
 # Terms of Use
 
-Welcome to Little Lights Bible Bedtime for Kids.
+Welcome to Firefly Bible Bedtime for Kids.
 
 By using this app, you agree to the following simple terms:
 
