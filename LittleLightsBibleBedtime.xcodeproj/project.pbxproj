@@ -133,6 +133,8 @@
 		E0ABCDEF1234567890ABCC8 /* JourneyProgressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C8 /* ViewModels/JourneyProgressManager.swift */; };
 		E0ABCDEF1234567890ABCC9 /* JourneysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C9 /* Views/JourneysView.swift */; };
 		E0ABCDEF1234567890ABCCA /* JourneyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234CA /* Views/JourneyDetailView.swift */; };
+		F2000000000000000000F201 /* VoiceRecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2000000000000000000F211 /* Services/VoiceRecordingService.swift */; };
+		F2000000000000000000F202 /* ParentVoiceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2000000000000000000F212 /* Views/Components/ParentVoiceSheet.swift */; };
 		E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */; };
 /* End PBXBuildFile section */
 
@@ -259,6 +261,8 @@
 		E01234567890ABCDEF1234C8 /* ViewModels/JourneyProgressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/JourneyProgressManager.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C9 /* Views/JourneysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/JourneysView.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234CA /* Views/JourneyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/JourneyDetailView.swift; sourceTree = "<group>"; };
+		F2000000000000000000F211 /* Services/VoiceRecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/VoiceRecordingService.swift; sourceTree = "<group>"; };
+		F2000000000000000000F212 /* Views/Components/ParentVoiceSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/ParentVoiceSheet.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/StoryProgressBar.swift; sourceTree = "<group>"; };
 		AA0001111111111111111111 /* Views/Components/LumiMascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/LumiMascotView.swift; sourceTree = "<group>"; };
 		AA0002222222222222222222 /* Models/Collectible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Collectible.swift; sourceTree = "<group>"; };
@@ -374,6 +378,7 @@
 				A0F18B7494F2420C9F2D066F /* Services/SleepTimerService.swift */,
 				NTSVC002NOTIFY002SVC002N /* Services/NotificationService.swift */,
 				E01234567890ABCDEF1234D11 /* Services/WindDownService.swift */,
+				F2000000000000000000F211 /* Services/VoiceRecordingService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -491,6 +496,7 @@
 				AA0005555555555555555555 /* Views/Components/InteractiveTouchOverlay.swift */,
 				AA0006666666666666666666 /* Views/Components/ReadAlongTextView.swift */,
 				AA0008888888888888888888 /* Views/Components/StarryNightBackground.swift */,
+				F2000000000000000000F212 /* Views/Components/ParentVoiceSheet.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -697,6 +703,8 @@
 				E0ABCDEF1234567890ABCC8 /* JourneyProgressManager.swift in Sources */,
 				E0ABCDEF1234567890ABCC9 /* JourneysView.swift in Sources */,
 				E0ABCDEF1234567890ABCCA /* JourneyDetailView.swift in Sources */,
+				F2000000000000000000F201 /* VoiceRecordingService.swift in Sources */,
+				F2000000000000000000F202 /* ParentVoiceSheet.swift in Sources */,
 				E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */,
 				BB1111111111111111111111 /* Views/Components/LumiMascotView.swift in Sources */,
 				BB2222222222222222222222 /* Models/Collectible.swift in Sources */,
