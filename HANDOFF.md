@@ -1,7 +1,7 @@
 # Firefly Bible Bedtime — Claude Handoff Document
-**Last updated:** June 10, 2026
-**Handoff from:** Claude Opus 4.8 (launch-prep session)
-**Status:** Feature-complete v1.1, Release builds clean, App Store materials ready ✅ — awaiting owner's Apple ID for archive/upload
+**Last updated:** June 12, 2026 (overnight v2 sprint)
+**Handoff from:** Claude Fable 5
+**Status:** v2.0 feature-complete (rebranded Firefly Bible Bedtime); v1.0 in App Store review. v2 deferred backlog: Wind-Down auto-bedtime-mode (reminder exists; auto-flip + story tee-up remain), 7-Day Journeys, WidgetKit extension (Siri intents done; widgets need a new target — create in Xcode, not by hand), Parent Voice recording (v2.5 headline), Lumi's Night Sky sticker scene, verse songs, Spanish edition. Device/TestFlight checks needed: lock-screen Now Playing card, Siri phrases, iCloud two-device sync, Lights Out gestures.
 
 ---
 
