@@ -52,10 +52,10 @@ struct HomeView: View {
                                 .font(.title2)
                                 .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
                         }
-                        Text("Firefly")
+                        Text("Bible Bedtime")
                             .font(.system(size: 34, weight: .bold, design: .rounded))
                             .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                        + Text(" Bible Bedtime")
+                        + Text(" Stories")
                             .font(.system(size: 34, weight: .bold, design: .rounded))
                             .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
                     }
