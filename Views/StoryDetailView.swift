@@ -18,6 +18,7 @@ struct StoryDetailView: View {
     @State private var showCelebration: Bool = false
     @State private var showVerseGame: Bool = false
     @State private var showLightsOut: Bool = false
+    @State private var playPulse: Bool = false
 
     var body: some View {
         ScrollView {
@@ -74,6 +75,10 @@ struct StoryDetailView: View {
                         .background(AppTheme.accent(for: appSettings.isBedtimeMode))
                         .foregroundStyle(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .shadow(color: AppTheme.accent(for: appSettings.isBedtimeMode)
+                            .opacity(audioPlayerViewModel.isPlaying ? 0 : (playPulse ? 0.65 : 0.15)),
+                            radius: playPulse ? 14 : 6)
+                        .scaleEffect(!audioPlayerViewModel.isPlaying && playPulse ? 1.015 : 1.0)
                     }
 
                     Button {
@@ -406,8 +411,18 @@ struct StoryDetailView: View {
             collectiblesManager.celebrationStoryID = nil
             showCelebration = true
         }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
+                playPulse = true
+            }
+            // Tap the story, hear the story — auto-start narration unless
+            // the parent turned it off in Settings
+            if appSettings.autoPlayNarration && audioPlayerViewModel.currentStoryID != story.id {
+                audioPlayerViewModel.loadAndPlay(story: story)
+            }
+        }
         .onDisappear {
-            // Full-screen covers (Lights Out, affirmations) also trigger
+            // Full-screen covers (Lights Out, blessings) also trigger
             // onDisappear — only stop when actually leaving the story
             if !showLightsOut && !showAffirmations {
                 audioPlayerViewModel.stopIfPlaying(storyID: story.id)

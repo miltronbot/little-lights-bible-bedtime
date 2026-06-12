@@ -213,10 +213,7 @@ struct HomeView: View {
                         .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
 
                     ForEach(viewModel.stories.prefix(8)) { story in
-                        NavigationLink(destination: StoryDetailView(story: story)) {
-                            StoryCardView(story: story)
-                        }
-                        .buttonStyle(.plain)
+                        StoryCardView(story: story)
                     }
 
                     NavigationLink(destination: LibraryView()) {

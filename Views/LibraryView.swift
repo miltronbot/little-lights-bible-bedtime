@@ -57,10 +57,7 @@ struct LibraryView: View {
                 // Story list
                 LazyVStack(spacing: 12) {
                     ForEach(viewModel.filteredStories) { story in
-                        NavigationLink(destination: StoryDetailView(story: story)) {
-                            StoryCardView(story: story)
-                        }
-                        .buttonStyle(.plain)
+                        StoryCardView(story: story)
                     }
                 }
             }
