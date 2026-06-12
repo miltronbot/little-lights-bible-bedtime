@@ -66,7 +66,7 @@ struct LibraryView: View {
             }
             .padding()
         }
-        .background(AppTheme.background(for: appSettings.isBedtimeMode))
+        .background { StarryNightBackground(alwaysStarry: true) }
         .navigationTitle("Library")
         .onAppear {
             if let initial = initialCategory, viewModel.selectedCategory == nil {

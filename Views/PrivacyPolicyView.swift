@@ -23,7 +23,7 @@ struct PrivacyPolicyView: View {
             }
             .padding()
         }
-        .background(AppTheme.background(for: appSettings.isBedtimeMode))
+        .background { StarryNightBackground(alwaysStarry: true) }
         .navigationTitle("Privacy")
         .navigationBarTitleDisplayMode(.inline)
     }

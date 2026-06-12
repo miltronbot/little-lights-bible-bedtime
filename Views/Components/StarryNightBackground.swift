@@ -32,16 +32,16 @@ struct StarryNightBackground: View {
 
     private var skyColors: [Color] {
         if appSettings.isBedtimeMode {
-            return [Color(red: 0.04, green: 0.04, blue: 0.12),
-                    Color(red: 0.08, green: 0.06, blue: 0.18),
-                    Color(red: 0.10, green: 0.08, blue: 0.22)]
+            return [Color(red: 0.02, green: 0.06, blue: 0.09),
+                    Color(red: 0.04, green: 0.10, blue: 0.13),
+                    Color(red: 0.07, green: 0.14, blue: 0.16)]
         }
         if alwaysStarry {
             if colorScheme == .dark {
-                // Gentle night indigo, a touch lighter than bedtime
-                return [Color(red: 0.07, green: 0.07, blue: 0.16),
-                        Color(red: 0.10, green: 0.09, blue: 0.21),
-                        Color(red: 0.12, green: 0.10, blue: 0.24)]
+                // Wise Men night: deep teal-navy with a soft teal horizon
+                return [Color(red: 0.03, green: 0.09, blue: 0.12),
+                        Color(red: 0.05, green: 0.13, blue: 0.16),
+                        Color(red: 0.10, green: 0.19, blue: 0.20)]
             } else {
                 // Pale twilight for light mode — keeps dark text readable
                 return [Color(red: 0.91, green: 0.91, blue: 0.97),
@@ -75,7 +75,7 @@ struct StarryNightBackground: View {
                     Ellipse()
                         .fill(
                             RadialGradient(
-                                colors: [Color.indigo.opacity(subtle ? 0.08 : 0.15), Color.clear],
+                                colors: [Color(red: 1.0, green: 0.85, blue: 0.55).opacity(subtle ? 0.07 : 0.12), Color.clear],
                                 center: .center,
                                 startRadius: 0,
                                 endRadius: geo.size.width * 0.6

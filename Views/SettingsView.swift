@@ -372,7 +372,8 @@ struct SettingsView: View {
             .listRowBackground(Color.clear)
         }
         .scrollContentBackground(.hidden)
-        .background(AppTheme.background(for: appSettings.isBedtimeMode))
+        .scrollContentBackground(.hidden)
+        .background { StarryNightBackground(alwaysStarry: true) }
         .navigationTitle("Settings")
         .onAppear {
             // Restore previously cached voices immediately (no network needed)

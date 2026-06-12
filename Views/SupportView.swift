@@ -33,7 +33,7 @@ struct SupportView: View {
             }
         }
         .scrollContentBackground(.hidden)
-        .background(AppTheme.background(for: appSettings.isBedtimeMode))
+        .background { StarryNightBackground(alwaysStarry: true) }
         .navigationTitle("Support")
     }
 }

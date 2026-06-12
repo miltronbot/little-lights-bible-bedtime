@@ -106,7 +106,7 @@ struct PremiumView: View {
             }
             .padding()
         }
-        .background(AppTheme.background(for: appSettings.isBedtimeMode))
+        .background { StarryNightBackground(alwaysStarry: true) }
         .navigationTitle("Premium")
         .navigationBarTitleDisplayMode(.inline)
     }

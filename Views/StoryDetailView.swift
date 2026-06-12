@@ -366,11 +366,7 @@ struct StoryDetailView: View {
             .padding()
         }
         .background {
-            if appSettings.isBedtimeMode {
-                StarryNightBackground()
-            } else {
-                AppTheme.background(for: false)
-            }
+            StarryNightBackground(alwaysStarry: true)
         }
         .navigationTitle(story.title)
         .navigationBarTitleDisplayMode(.inline)
