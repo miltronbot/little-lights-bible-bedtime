@@ -7,7 +7,7 @@
 ## Project Overview
 A free SwiftUI children's Bible bedtime story app for iOS 17+. Features 50 fully-narrated Bible stories, rich procedural artwork, bedtime routine tools, reading streaks, and collectibles. Completely free — no paywall, no ads, no analytics. COPPA compliant.
 
-**Current status: ✅ Builds clean. Runs on simulator. All known bugs fixed.**
+**Current status: v2.0 feature-complete on main (zero warnings); v1.0 in App Store review — see HANDOFF.md §1 for the open ASC-name question.**
 
 ## Tech Stack
 - **Language:** Swift 5.0
