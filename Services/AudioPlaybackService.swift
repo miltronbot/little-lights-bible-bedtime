@@ -3,6 +3,7 @@ import AVFoundation
 
 final class AudioPlaybackService: NSObject {
     private var player: AVAudioPlayer?
+    private var playbackRate: Float = 1.0
     var onPlaybackFinished: (() -> Void)?
 
     static func configureAudioSession() {
@@ -21,6 +22,8 @@ final class AudioPlaybackService: NSObject {
         if let url = Bundle.main.url(forResource: name, withExtension: ext) {
             let p = try AVAudioPlayer(contentsOf: url)
             p.delegate = self
+            p.enableRate = true
+            p.rate = playbackRate
             p.prepareToPlay()
             self.player = p
             return
@@ -30,6 +33,8 @@ final class AudioPlaybackService: NSObject {
         if FileManager.default.fileExists(atPath: direct) {
             let p = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: direct))
             p.delegate = self
+            p.enableRate = true
+            p.rate = playbackRate
             p.prepareToPlay()
             self.player = p
             return
@@ -44,8 +49,16 @@ final class AudioPlaybackService: NSObject {
         try? AVAudioSession.sharedInstance().setActive(true)
         let p = try AVAudioPlayer(contentsOf: url)
         p.delegate = self
+        p.enableRate = true
+        p.rate = playbackRate
         p.prepareToPlay()
         self.player = p
+    }
+
+    /// 1.0 = normal; 0.85 = "extra sleepy" pace. Applies live if playing.
+    func setRate(_ rate: Float) {
+        playbackRate = rate
+        player?.rate = rate
     }
 
     @discardableResult
