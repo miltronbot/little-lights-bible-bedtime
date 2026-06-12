@@ -77,5 +77,9 @@ final class ReadingStreakViewModel: ObservableObject {
     private func saveStreak() {
         guard let data = try? JSONEncoder().encode(streak) else { return }
         UserDefaults.standard.set(data, forKey: storageKey)
+        CloudSync.mirror(data, forKey: storageKey)
     }
+
+    /// Re-reads from storage (after a cloud merge).
+    func reload() { loadStreak() }
 }

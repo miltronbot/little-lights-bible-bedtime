@@ -122,5 +122,9 @@ final class CollectiblesManager: ObservableObject {
     private func saveCollectedIDs() {
         guard let data = try? JSONEncoder().encode(collectedIDs) else { return }
         UserDefaults.standard.set(data, forKey: userDefaultsKey)
+        CloudSync.mirror(data, forKey: userDefaultsKey)
     }
+
+    /// Re-reads from storage (after a cloud merge).
+    func reload() { loadCollectedIDs() }
 }
