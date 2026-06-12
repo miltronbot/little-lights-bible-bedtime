@@ -16,7 +16,6 @@ struct StoryDetailView: View {
     @State private var showScrollProgress: Bool = false
     @State private var scrollProgress: CGFloat = 0
     @State private var showCelebration: Bool = false
-    @State private var lumiMessage: String? = nil
     @State private var showVerseGame: Bool = false
 
     var body: some View {
@@ -45,22 +44,8 @@ struct StoryDetailView: View {
                 }
                 .frame(height: 220)
 
-                // Lumi mascot
-                HStack(spacing: 8) {
-                    LumiMascotView(size: 28, message: lumiMessage)
-                    Button {
-                        lumiMessage = LumiReaction.reaction(for: story.id)
-                    } label: {
-                        Text("Tap to say hi to Lumi ✨")
-                            .font(.caption.bold())
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
-                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
-                            .clipShape(Capsule())
-                    }
-                    .buttonStyle(.plain)
-                }
+                // Lumi now flies around the screen — see WanderingLumiView
+                // overlay at the bottom of this view
 
                 // Info bar
                 HStack {
@@ -417,6 +402,10 @@ struct StoryDetailView: View {
         .sheet(isPresented: $showVerseGame) {
             MemoryVerseGameView(story: story)
                 .environmentObject(appSettings)
+        }
+        .overlay {
+            // Lumi drifts around the story screen like a real firefly
+            WanderingLumiView(storyID: story.id)
         }
         .overlay {
             if showCelebration {
