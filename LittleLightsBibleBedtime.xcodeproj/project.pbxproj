@@ -128,6 +128,7 @@
 		E0ABCDEF1234567890ABCC4 /* FireflyAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C4 /* App/FireflyAppIntents.swift */; };
 		E0ABCDEF1234567890ABCC5 /* FireflyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C5 /* Models/FireflyLevel.swift */; };
 		E0ABCDEF1234567890ABCC6 /* NightSkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C6 /* Views/Components/NightSkyView.swift */; };
+		E0ABCDEF1234567890ABD11 /* WindDownService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234D11 /* Services/WindDownService.swift */; };
 		E0ABCDEF1234567890ABCC7 /* Journey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C7 /* Models/Journey.swift */; };
 		E0ABCDEF1234567890ABCC8 /* JourneyProgressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C8 /* ViewModels/JourneyProgressManager.swift */; };
 		E0ABCDEF1234567890ABCC9 /* JourneysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C9 /* Views/JourneysView.swift */; };
@@ -253,6 +254,7 @@
 		E01234567890ABCDEF1234C4 /* App/FireflyAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/FireflyAppIntents.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C5 /* Models/FireflyLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/FireflyLevel.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C6 /* Views/Components/NightSkyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/NightSkyView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234D11 /* Services/WindDownService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/WindDownService.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C7 /* Models/Journey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Journey.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C8 /* ViewModels/JourneyProgressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/JourneyProgressManager.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C9 /* Views/JourneysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/JourneysView.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 				66A0E486B2354F0AA8DF3E0F /* Services/AmbientSoundService.swift */,
 				A0F18B7494F2420C9F2D066F /* Services/SleepTimerService.swift */,
 				NTSVC002NOTIFY002SVC002N /* Services/NotificationService.swift */,
+				E01234567890ABCDEF1234D11 /* Services/WindDownService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				E0ABCDEF1234567890ABCC4 /* FireflyAppIntents.swift in Sources */,
 				E0ABCDEF1234567890ABCC5 /* FireflyLevel.swift in Sources */,
 				E0ABCDEF1234567890ABCC6 /* NightSkyView.swift in Sources */,
+				E0ABCDEF1234567890ABD11 /* WindDownService.swift in Sources */,
 				E0ABCDEF1234567890ABCC7 /* Journey.swift in Sources */,
 				E0ABCDEF1234567890ABCC8 /* JourneyProgressManager.swift in Sources */,
 				E0ABCDEF1234567890ABCC9 /* JourneysView.swift in Sources */,

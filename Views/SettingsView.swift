@@ -290,6 +290,15 @@ struct SettingsView: View {
                         .datePickerStyle(.wheel)
                     }
                 }
+
+                Toggle(isOn: $appSettings.windDownAutoEnabled) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Label("Wind-Down Auto Mode", systemImage: "moon.zzz.fill")
+                        Text("Dim the app & line up tonight's story when you open it at bedtime")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    }
+                }
             }
 
             Section("Children") {
