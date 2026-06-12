@@ -112,7 +112,7 @@ struct SideMenuView: View {
             .frame(width: panelWidth)
             .background(
                 ZStack {
-                    Color(red: 0.07, green: 0.07, blue: 0.16)
+                    Color(red: 0.03, green: 0.09, blue: 0.12)
                     StarryNightBackground(alwaysStarry: true)
                         .opacity(0.85)
                 }

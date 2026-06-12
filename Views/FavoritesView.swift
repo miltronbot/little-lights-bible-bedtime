@@ -26,7 +26,7 @@ struct FavoritesView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(AppTheme.background(for: appSettings.isBedtimeMode))
+                .background { StarryNightBackground(alwaysStarry: true) }
             } else {
                 ScrollView {
                     LazyVStack(spacing: 12) {
@@ -46,7 +46,7 @@ struct FavoritesView: View {
                     }
                     .padding()
                 }
-                .background(AppTheme.background(for: appSettings.isBedtimeMode))
+                .background { StarryNightBackground(alwaysStarry: true) }
             }
         }
         .navigationTitle("Favorites")

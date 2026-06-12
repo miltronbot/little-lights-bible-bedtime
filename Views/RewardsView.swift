@@ -134,11 +134,7 @@ struct RewardsView: View {
             .padding()
         }
         .background {
-            if appSettings.isBedtimeMode {
-                StarryNightBackground()
-            } else {
-                AppTheme.background(for: false)
-            }
+            StarryNightBackground(alwaysStarry: true)
         }
         .navigationTitle("Rewards")
     }

@@ -19,11 +19,7 @@ struct BedtimeRoutineView: View {
     var body: some View {
         ZStack {
             // Background
-            if appSettings.isBedtimeMode {
-                StarryNightBackground()
-            } else {
-                AppTheme.background(for: false)
-            }
+            StarryNightBackground(alwaysStarry: true)
 
             VStack(spacing: 0) {
                 if !routineStarted {
