@@ -17,6 +17,7 @@ struct StoryDetailView: View {
     @State private var scrollProgress: CGFloat = 0
     @State private var showCelebration: Bool = false
     @State private var showVerseGame: Bool = false
+    @State private var showLightsOut: Bool = false
 
     var body: some View {
         ScrollView {
@@ -170,6 +171,35 @@ struct StoryDetailView: View {
 
                 // Audio player bar
                 AudioPlayerBar(story: story)
+
+                // Lights Out — dark screen while the story keeps playing
+                if audioPlayerViewModel.isPlaying {
+                    Button {
+                        showLightsOut = true
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "moon.fill")
+                                .foregroundStyle(.yellow.opacity(0.85))
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Lights Out")
+                                    .font(.subheadline.bold())
+                                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                                Text("Darken the screen while the story plays")
+                                    .font(.caption2)
+                                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                        }
+                        .padding(12)
+                        .background(Color.black.opacity(0.35))
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+                    .buttonStyle(.plain)
+                    .transition(.opacity)
+                }
 
                 // Tonight's Queue — up next
                 if !audioPlayerViewModel.storyQueue.isEmpty {
@@ -377,7 +407,11 @@ struct StoryDetailView: View {
             showCelebration = true
         }
         .onDisappear {
-            audioPlayerViewModel.stopIfPlaying(storyID: story.id)
+            // Full-screen covers (Lights Out, affirmations) also trigger
+            // onDisappear — only stop when actually leaving the story
+            if !showLightsOut && !showAffirmations {
+                audioPlayerViewModel.stopIfPlaying(storyID: story.id)
+            }
         }
         .sheet(isPresented: $showSleepTimerSheet) {
             SleepTimerSheet()
@@ -398,6 +432,10 @@ struct StoryDetailView: View {
         .sheet(isPresented: $showVerseGame) {
             MemoryVerseGameView(story: story)
                 .environmentObject(appSettings)
+        }
+        .fullScreenCover(isPresented: $showLightsOut) {
+            LightsOutView()
+                .environmentObject(audioPlayerViewModel)
         }
         .overlay {
             // Lumi drifts around the story screen like a real firefly

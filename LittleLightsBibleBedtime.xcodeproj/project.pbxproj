@@ -122,6 +122,7 @@
 		E0ABCDEF1234567890ABCB8 /* MemoryVerseGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234B8 /* Views/Components/MemoryVerseGameView.swift */; };
 		E0ABCDEF1234567890ABCB9 /* RewardDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234B9 /* Views/Components/RewardDetailSheet.swift */; };
 		E0ABCDEF1234567890ABCC0 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C0 /* Views/Components/SideMenuView.swift */; };
+		E0ABCDEF1234567890ABCC1 /* LightsOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C1 /* Views/Components/LightsOutView.swift */; };
 		E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */; };
 /* End PBXBuildFile section */
 
@@ -237,6 +238,7 @@
 		E01234567890ABCDEF1234B8 /* Views/Components/MemoryVerseGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/MemoryVerseGameView.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234B9 /* Views/Components/RewardDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/RewardDetailSheet.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C0 /* Views/Components/SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/SideMenuView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234C1 /* Views/Components/LightsOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/LightsOutView.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/StoryProgressBar.swift; sourceTree = "<group>"; };
 		AA0001111111111111111111 /* Views/Components/LumiMascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/LumiMascotView.swift; sourceTree = "<group>"; };
 		AA0002222222222222222222 /* Models/Collectible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Collectible.swift; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 				E01234567890ABCDEF1234B8 /* Views/Components/MemoryVerseGameView.swift */,
 				E01234567890ABCDEF1234B9 /* Views/Components/RewardDetailSheet.swift */,
 				E01234567890ABCDEF1234C0 /* Views/Components/SideMenuView.swift */,
+				E01234567890ABCDEF1234C1 /* Views/Components/LightsOutView.swift */,
 				E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */,
 				AA0001111111111111111111 /* Views/Components/LumiMascotView.swift */,
 				AA0003333333333333333333 /* Views/Components/CollectiblesShowcaseView.swift */,
@@ -653,6 +656,7 @@
 				E0ABCDEF1234567890ABCB8 /* MemoryVerseGameView.swift in Sources */,
 				E0ABCDEF1234567890ABCB9 /* RewardDetailSheet.swift in Sources */,
 				E0ABCDEF1234567890ABCC0 /* SideMenuView.swift in Sources */,
+				E0ABCDEF1234567890ABCC1 /* LightsOutView.swift in Sources */,
 				E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */,
 				BB1111111111111111111111 /* Views/Components/LumiMascotView.swift in Sources */,
 				BB2222222222222222222222 /* Models/Collectible.swift in Sources */,
