@@ -69,6 +69,9 @@ struct HomeView: View {
                 // MARK: - Reading Streak Banner
                 StreakBannerView()
 
+                // MARK: - Verse of the Day
+                VerseOfTheDayCard()
+
                 // MARK: - Recently Read
                 if !recentlyReadStories.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
