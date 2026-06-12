@@ -485,7 +485,11 @@ struct StoryDetailView: View {
                 StoryCelebrationView(
                     collectibleName: collectible?.name,
                     collectibleEmoji: collectible?.emoji,
-                    onDone: { showCelebration = false }
+                    shootingStar: collectiblesManager.shootingStarTonight,
+                    onDone: {
+                        showCelebration = false
+                        collectiblesManager.shootingStarTonight = false
+                    }
                 )
                 .environmentObject(appSettings)
             } else {

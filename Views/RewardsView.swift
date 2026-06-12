@@ -4,6 +4,7 @@ import SwiftUI
 struct RewardsView: View {
     @EnvironmentObject private var readingStreak: ReadingStreakViewModel
     @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var library: StoryLibraryViewModel
     @State private var selectedBadge: SelectedBadge?
 
     var body: some View {
@@ -50,6 +51,9 @@ struct RewardsView: View {
                 }
                 .padding(.top)
 
+                // Weekly Challenge
+                WeeklyChallengeCard()
+
                 // Stats Row
                 HStack(spacing: 0) {
                     StatBox(
@@ -79,6 +83,28 @@ struct RewardsView: View {
 
                 // Collectibles Showcase
                 CollectiblesShowcaseView()
+
+                NavigationLink(destination: NightSkyView()) {
+                    HStack(spacing: 12) {
+                        Text("🌌").font(.title2)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Lumi's Night Sky")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                            Text("Decorate your own sky with earned treasures")
+                                .font(.caption2)
+                                .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    }
+                    .padding()
+                    .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+                    .clipShape(RoundedRectangle(cornerRadius: 18))
+                }
+                .buttonStyle(.plain)
 
                 // Badges Section
                 VStack(alignment: .leading, spacing: 14) {

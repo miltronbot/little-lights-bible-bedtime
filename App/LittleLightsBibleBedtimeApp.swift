@@ -71,6 +71,12 @@ struct LittleLightsBibleBedtimeApp: App {
                         if isFirstCompletion {
                             collectiblesManager?.celebrationStoryID = storyID
                         }
+
+                        // Shooting star! Rare surprise bonus (about 1 night in 7)
+                        if Int.random(in: 0..<7) == 0 {
+                            readingStreakViewModel?.awardBonusStar()
+                            collectiblesManager?.shootingStarTonight = true
+                        }
                     }
                 }
             }
