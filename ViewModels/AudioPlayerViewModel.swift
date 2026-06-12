@@ -1,6 +1,9 @@
 
 import Foundation
 import Combine
+import MediaPlayer
+import AVFoundation
+import UIKit
 
 @MainActor
 final class AudioPlayerViewModel: ObservableObject {
@@ -8,6 +11,7 @@ final class AudioPlayerViewModel: ObservableObject {
     @Published private(set) var currentTime: TimeInterval = 0
     @Published private(set) var duration: TimeInterval = 1
     @Published private(set) var currentStoryID: String?
+    private(set) var currentStory: Story?
     @Published var errorMessage: String?
     @Published private(set) var isGeneratingAudio: Bool = false
 
@@ -64,6 +68,124 @@ final class AudioPlayerViewModel: ObservableObject {
         sleepTimerCancellable = sleepTimer.objectWillChange.sink { [weak self] in
             self?.objectWillChange.send()
         }
+
+        setupRemoteCommands()
+        setupInterruptionHandling()
+    }
+
+    // MARK: - Lock screen / Control Center (Now Playing)
+
+    /// Registers remote commands so the lock screen, Control Center,
+    /// AirPods, and CarPlay can drive playback.
+    private func setupRemoteCommands() {
+        let center = MPRemoteCommandCenter.shared()
+
+        center.playCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.play() }
+            return .success
+        }
+        center.pauseCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.pause() }
+            return .success
+        }
+        center.togglePlayPauseCommand.addTarget { [weak self] _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.isPlaying ? self.pause() : self.play()
+            }
+            return .success
+        }
+        center.skipForwardCommand.preferredIntervals = [15]
+        center.skipForwardCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.skipForward() }
+            return .success
+        }
+        center.skipBackwardCommand.preferredIntervals = [15]
+        center.skipBackwardCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.skipBackward() }
+            return .success
+        }
+        center.changePlaybackPositionCommand.addTarget { [weak self] event in
+            guard let event = event as? MPChangePlaybackPositionCommandEvent else { return .commandFailed }
+            Task { @MainActor in self?.seekTo(time: event.positionTime) }
+            return .success
+        }
+    }
+
+    /// Publishes full story metadata to the lock screen.
+    private func publishNowPlaying() {
+        guard let story = currentStory else {
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+            return
+        }
+        var info: [String: Any] = [
+            MPMediaItemPropertyTitle: story.title,
+            MPMediaItemPropertyArtist: "Firefly Bible Bedtime",
+            MPMediaItemPropertyAlbumTitle: story.bibleReference,
+            MPMediaItemPropertyPlaybackDuration: duration,
+            MPNowPlayingInfoPropertyElapsedPlaybackTime: currentTime,
+            MPNowPlayingInfoPropertyPlaybackRate: isPlaying ? 1.0 : 0.0,
+        ]
+        if let image = UIImage(named: story.id) {
+            info[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+        }
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+    }
+
+    /// Lightweight progress/rate update (play, pause, seek).
+    private func updateNowPlayingProgress() {
+        guard var info = MPNowPlayingInfoCenter.default().nowPlayingInfo else { return }
+        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = currentTime
+        info[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+        info[MPMediaItemPropertyPlaybackDuration] = duration
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+    }
+
+    // MARK: - Interruption & route-change recovery
+
+    /// Auto-resume after calls/Siri end; pause when headphones unplug.
+    private func setupInterruptionHandling() {
+        NotificationCenter.default.addObserver(
+            forName: AVAudioSession.interruptionNotification,
+            object: AVAudioSession.sharedInstance(),
+            queue: .main
+        ) { [weak self] note in
+            guard let info = note.userInfo,
+                  let typeValue = info[AVAudioSessionInterruptionTypeKey] as? UInt,
+                  let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
+            Task { @MainActor in
+                guard let self else { return }
+                switch type {
+                case .began:
+                    // Player is already paused by the system — mirror the state
+                    self.isPlaying = false
+                    self.updateNowPlayingProgress()
+                case .ended:
+                    let optionsValue = info[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0
+                    let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                    if options.contains(.shouldResume), self.currentStoryID != nil {
+                        self.play()
+                    }
+                @unknown default:
+                    break
+                }
+            }
+        }
+
+        NotificationCenter.default.addObserver(
+            forName: AVAudioSession.routeChangeNotification,
+            object: AVAudioSession.sharedInstance(),
+            queue: .main
+        ) { [weak self] note in
+            guard let info = note.userInfo,
+                  let reasonValue = info[AVAudioSessionRouteChangeReasonKey] as? UInt,
+                  let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue),
+                  reason == .oldDeviceUnavailable else { return }
+            Task { @MainActor in
+                // Headphones unplugged — pause rather than blast the room
+                self?.pause()
+            }
+        }
     }
 
     func togglePlayback(for story: Story) {
@@ -95,6 +217,7 @@ final class AudioPlayerViewModel: ObservableObject {
         isPlaying = false
         currentTime = 0
         currentStoryID = story.id
+        currentStory = story
 
         // 1. Try bundled MP3 first (instant, no network needed)
         do {
@@ -105,6 +228,7 @@ final class AudioPlayerViewModel: ObservableObject {
             audioService.play()
             isPlaying = audioService.isPlaying
             startTimer()
+            publishNowPlaying()
             return
         } catch {
             print("[AudioPlayerViewModel] Bundled audio not found: \(story.audioFileName) — \(error.localizedDescription)")
@@ -166,6 +290,11 @@ final class AudioPlayerViewModel: ObservableObject {
         audioService.play()
         isPlaying = true
         startTimer()
+        if MPNowPlayingInfoCenter.default().nowPlayingInfo == nil {
+            publishNowPlaying()
+        } else {
+            updateNowPlayingProgress()
+        }
     }
 
     func pause() {
@@ -173,6 +302,7 @@ final class AudioPlayerViewModel: ObservableObject {
         isPlaying = false
         stopTimer()
         currentTime = audioService.currentTime
+        updateNowPlayingProgress()
     }
 
     func stop() {
@@ -187,6 +317,8 @@ final class AudioPlayerViewModel: ObservableObject {
         currentTime = 0
         duration = max(audioService.duration, 1)
         currentStoryID = nil
+        currentStory = nil
+        publishNowPlaying()   // clears the lock-screen card
     }
 
     func stopIfPlaying(storyID: String) {
@@ -220,16 +352,19 @@ final class AudioPlayerViewModel: ObservableObject {
     func skipForward() {
         audioService.seek(by: 15)
         currentTime = audioService.currentTime
+        updateNowPlayingProgress()
     }
 
     func skipBackward() {
         audioService.seek(by: -15)
         currentTime = audioService.currentTime
+        updateNowPlayingProgress()
     }
 
     func seekTo(time: TimeInterval) {
         audioService.seekTo(time: time)
         currentTime = audioService.currentTime
+        updateNowPlayingProgress()
     }
 
     // MARK: - Sleep Timer
