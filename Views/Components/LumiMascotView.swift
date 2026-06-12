@@ -125,3 +125,62 @@ struct LumiMascotView: View {
         }
     }
 }
+
+// MARK: - Wandering Lumi
+// Lumi flies around the screen naturally: she drifts between random
+// waypoints on slow, eased glides with a gentle bob, like a real
+// firefly. Tapping her shows her reaction to the current story.
+// Only Lumi herself is tappable — the rest of the overlay passes
+// touches through to the content beneath.
+
+struct WanderingLumiView: View {
+    let storyID: String
+
+    @State private var position: CGPoint = .zero
+    @State private var bobbing = false
+    @State private var message: String? = nil
+    @State private var started = false
+
+    var body: some View {
+        GeometryReader { geo in
+            LumiMascotView(size: 38, message: message)
+                .offset(y: bobbing ? -7 : 7)
+                .position(position == .zero ? startPoint(in: geo.size) : position)
+                .onTapGesture {
+                    message = LumiReaction.reaction(for: storyID)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                        message = nil
+                    }
+                }
+                .task {
+                    guard !started else { return }
+                    started = true
+                    position = startPoint(in: geo.size)
+                    // Gentle continuous bob
+                    withAnimation(.easeInOut(duration: 2.2).repeatForever(autoreverses: true)) {
+                        bobbing = true
+                    }
+                    // Natural wandering: glide to a new spot, pause, repeat
+                    while !Task.isCancelled {
+                        let flight = Double.random(in: 6.0...10.0)
+                        withAnimation(.easeInOut(duration: flight)) {
+                            position = randomPoint(in: geo.size)
+                        }
+                        try? await Task.sleep(for: .seconds(flight + Double.random(in: 0.8...2.5)))
+                    }
+                }
+        }
+        .accessibilityLabel("Lumi the firefly — tap to say hi")
+    }
+
+    private func startPoint(in size: CGSize) -> CGPoint {
+        CGPoint(x: size.width * 0.82, y: size.height * 0.20)
+    }
+
+    private func randomPoint(in size: CGSize) -> CGPoint {
+        CGPoint(
+            x: size.width * .random(in: 0.14...0.86),
+            y: size.height * .random(in: 0.16...0.72)
+        )
+    }
+}
