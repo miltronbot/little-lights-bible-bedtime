@@ -1,7 +1,7 @@
 
 # Terms of Use
 
-Welcome to Firefly Bible Bedtime.
+Welcome to FireFly: Bible Bedtime Stories.
 
 By using this app, you agree to the following terms:
 

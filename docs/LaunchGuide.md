@@ -1,6 +1,6 @@
-# Firefly Bible Bedtime - App Store Launch Guide
+# FireFly: Bible Bedtime Stories - App Store Launch Guide
 
-A comprehensive step-by-step guide for launching the "Firefly Bible Bedtime" iOS app on the Apple App Store.
+A comprehensive step-by-step guide for launching the "FireFly: Bible Bedtime Stories" iOS app on the Apple App Store.
 
 ## Quick Status
 
@@ -138,7 +138,7 @@ Once your account is activated:
 3. Select **"App IDs"**
 4. Choose **"App"** as the type
 5. Enter:
-   - **Description**: "Firefly Bible Bedtime"
+   - **Description**: "FireFly: Bible Bedtime Stories"
    - **Bundle ID**: Enter your unique identifier (see section 3.2 for details)
    - **Capabilities**: Select any needed capabilities (push notifications, in-app purchase, etc.)
 6. Click **"Continue"** and **"Register"**
@@ -150,7 +150,7 @@ Once your account is activated:
 3. Select **"iOS App Development"** (for testing) or **"App Store"** (for submission)
 4. Select your App ID
 5. Select your certificate
-6. Give it a name: "Firefly Bible Bedtime Distribution"
+6. Give it a name: "FireFly: Bible Bedtime Stories Distribution"
 7. Download the profile
 8. Open the downloaded file (or drag into Xcode) to install it
 
@@ -163,7 +163,7 @@ Once your account is activated:
 ## 2. App Store Screenshots Plan
 
 ### Overview
-App Store screenshots are your first impression on potential customers. For the "Firefly Bible Bedtime" app, create screenshots that appeal to parents while showcasing your app's best features.
+App Store screenshots are your first impression on potential customers. For the "FireFly: Bible Bedtime Stories" app, create screenshots that appeal to parents while showcasing your app's best features.
 
 ### Screenshot Requirements
 
@@ -366,7 +366,7 @@ Use this checklist to ensure your Xcode project is properly configured before su
 - [ ] **Set Development Team**
   - [ ] Open your Xcode project
   - [ ] Select the project in the navigator (left sidebar)
-  - [ ] Select the "Firefly Bible Bedtime" target
+  - [ ] Select the "FireFly: Bible Bedtime Stories" target
   - [ ] Go to the **"Signing & Capabilities"** tab
   - [ ] Ensure "Automatically manage signing" is **enabled**
   - [ ] Select your Development Team from the dropdown
@@ -427,7 +427,7 @@ Use this checklist to ensure your Xcode project is properly configured before su
   - [ ] In Xcode, go to **File → Add Files to "Project"**
   - [ ] Select all audio files
   - [ ] Ensure "Copy items if needed" is **checked**
-  - [ ] Ensure **"Firefly Bible Bedtime"** target is **selected**
+  - [ ] Ensure **"FireFly: Bible Bedtime Stories"** target is **selected**
   - [ ] Verify files are in Build Phases → Copy Bundle Resources
   - [ ] File size considerations:
     - [ ] Total app size ideally under 500MB
@@ -451,7 +451,7 @@ Use this checklist to ensure your Xcode project is properly configured before su
     - [ ] Data collection practices
     - [ ] SDKs used and their privacy policies
     - [ ] Tracking domains (if any)
-  - [ ] For "Firefly Bible Bedtime":
+  - [ ] For "FireFly: Bible Bedtime Stories":
     - [ ] Likely minimal data collection (local stories)
     - [ ] If using analytics, declare tracking
     - [ ] If using ads (not recommended for kids), declare
@@ -471,7 +471,7 @@ Use this checklist to ensure your Xcode project is properly configured before su
     - [ ] Microphone: `NSMicrophoneUsageDescription` (if recording audio)
     - [ ] Photos: `NSPhotoLibraryUsageDescription` (if photo selection)
     - [ ] Calendar: `NSCalendarsUsageDescription` (if calendar integration)
-  - [ ] For "Firefly Bible Bedtime", likely minimal permissions needed
+  - [ ] For "FireFly: Bible Bedtime Stories", likely minimal permissions needed
   - [ ] Always provide clear, user-friendly descriptions
 
 - [ ] **Test on Physical Device**
@@ -528,7 +528,7 @@ App Store Connect is Apple's platform for managing app metadata, pricing, analyt
 5. Fill in the following information:
 
    **App Information:**
-   - **Name**: "Firefly Bible Bedtime" (40 character max)
+   - **Name**: "FireFly: Bible Bedtime Stories" (40 character max)
    - **Primary Language**: English
    - **Bundle ID**: Select "com.littlelightsbiblebedtime.app" (created earlier)
    - **SKU**: Unique identifier you create (e.g., "LLBB001" or "littlelights-bedtime-1")
@@ -542,7 +542,7 @@ Once created, you'll be on the app's management page. Fill out each section:
 
 #### **App Information**
 
-- **App Name**: "Firefly Bible Bedtime"
+- **App Name**: "FireFly: Bible Bedtime Stories"
 - **Subtitle** (30 char max): "Sleep Stories for Children" or "Bible Bedtime Stories"
 - **App Description** (up to 4,000 characters):
   - Write for parents (primary audience)
@@ -555,7 +555,7 @@ Once created, you'll be on the app's management page. Fill out each section:
 
   **Sample Description:**
   ```
-  Help your child drift off to sleep with Firefly Bible Bedtime,
+  Help your child drift off to sleep with FireFly: Bible Bedtime Stories,
   featuring 50+ soothing Bible stories narrated by professional voice
   actors and accompanied by calming ambient sounds.
 
@@ -569,7 +569,7 @@ Once created, you'll be on the app's management page. Fill out each section:
   • Enjoy beautiful illustrations with professional narration
   • Drift off with ambient sounds like gentle rain and ocean waves
 
-  Parents love that Firefly Bible Bedtime:
+  Parents love that FireFly: Bible Bedtime Stories:
   • Contains only age-appropriate Bible stories
   • Requires no in-app purchases to access all stories
   • Works without WiFi (download once, listen anytime)
@@ -702,7 +702,7 @@ This is **critical for children's apps**. Apple requires detailed age ratings.
 3. Declare SDKs and frameworks used
 4. Be accurate - Apple audits this
 
-**For Firefly Bible Bedtime** (likely minimal):
+**For FireFly: Bible Bedtime Stories** (likely minimal):
 - No personal data collection (local app only)
 - No location tracking
 - No advertising or behavioral tracking
@@ -956,8 +956,8 @@ Your Xcode project is currently configured to target **iOS 26.0**, which is prob
 **Method 1: Using Xcode UI (Recommended)**
 
 1. Open your Xcode project
-2. Select **"Firefly Bible Bedtime"** project in navigator
-3. Select **"Firefly Bible Bedtime"** target
+2. Select **"FireFly: Bible Bedtime Stories"** project in navigator
+3. Select **"FireFly: Bible Bedtime Stories"** target
 4. Go to **"General"** tab
 5. Find **"Minimum Deployments"** section
 6. Change from iOS 26.0 to iOS 17.0
@@ -1112,6 +1112,6 @@ For issues during launch:
 
 **Document Version**: 1.0
 **Last Updated**: March 2025
-**For**: Firefly Bible Bedtime iOS App
+**For**: FireFly: Bible Bedtime Stories iOS App
 
 Good luck with your launch! This is an exciting milestone for your app.

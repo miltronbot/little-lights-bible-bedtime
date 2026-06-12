@@ -1,4 +1,4 @@
-# Firefly Bible Bedtime — iOS App
+# FireFly: Bible Bedtime Stories — iOS App
 
 > **⚡ INCOMING CLAUDE: Read `HANDOFF.md` first for full session history, all fixes applied, architecture deep-dive, and debugging commands. This file is the quick-reference summary.**
 

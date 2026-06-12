@@ -1,4 +1,4 @@
-# Firefly Bible Bedtime — Go Live Checklist
+# FireFly: Bible Bedtime Stories — Go Live Checklist
 
 ## Phase 1: Apple Developer Account (Do This First)
 - [ ] Go to https://developer.apple.com/programs/enroll/
@@ -47,7 +47,7 @@ Once your developer account is approved:
 2. Click **My Apps** → **+** → **New App**
 3. Fill in:
    - **Platform:** iOS
-   - **Name:** Firefly Bible Bedtime
+   - **Name:** FireFly: Bible Bedtime Stories
    - **Primary Language:** English (U.S.)
    - **Bundle ID:** com.littlelightsbiblebedtime.app
    - **SKU:** LittleLightsBibleBedtime

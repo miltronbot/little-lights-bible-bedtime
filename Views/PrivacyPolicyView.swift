@@ -11,7 +11,7 @@ struct PrivacyPolicyView: View {
                     .font(.largeTitle.bold())
                     .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
                 Group {
-                    Text("Firefly Bible Bedtime is designed to keep things simple and private. We have no servers and never receive any data about you or your child.")
+                    Text("FireFly: Bible Bedtime Stories is designed to keep things simple and private. We have no servers and never receive any data about you or your child.")
                     Text("We do not require users to create an account.")
                     Text("We do not collect any personal information, and there are no ads, analytics, or tracking of any kind.")
                     Text("We do not knowingly collect data from children.")

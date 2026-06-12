@@ -1,4 +1,4 @@
-# Firefly Bible Bedtime — Session Handoff
+# FireFly: Bible Bedtime Stories — Session Handoff
 **Last updated:** June 12, 2026 (end of the v2-polish marathon — PRs #42–#55)
 **Status:** v2.0 feature-complete on `main` · zero build warnings on iPhone AND iPad · v1.0 sitting in App Store review
 **Read `CLAUDE.md` first** for the quick-reference facts; this file is the deep handoff.
@@ -17,7 +17,7 @@ Also done earlier in this arc: review prompt at story milestones 5/20/60 via `re
 
 ## 1. Where things stand RIGHT NOW
 
-- **v1.0 is in Apple's review queue**, submitted by the owner. ⚠️ **OPEN QUESTION:** it may still be named "Little Lights Bible Bedtime" in App Store Connect. The app was renamed to **Firefly Bible Bedtime** (PR #20) *after* submission because "Little Lights: Bible Puzzles" already exists on the store. The owner needs to either edit the ASC name field (App Information → Name) if editable, developer-reject + rename + resubmit, or let v1.0 launch under the old name and rename via update. **Ask the owner about this first in a new session.**
+- **v1.0 is in Apple's review queue**, submitted by the owner. ⚠️ **OPEN QUESTION:** it may still be named "Little Lights Bible Bedtime" in App Store Connect. The app has since been renamed TWICE — to "Firefly Bible Bedtime" (PR #20) and then to **"FireFly: Bible Bedtime Stories"** (owner directive June 2026, exact casing "FireFly" intentional; name checked clean on the App Store + trademark sweep, and at exactly 30 chars it fits the ASC name limit). The owner needs to set the ASC name field (App Information → Name) to "FireFly: Bible Bedtime Stories" — if v1.0 is still in review and the field is locked, developer-reject + rename + resubmit, or let v1.0 launch and rename via the 2.0 update. **Remind the owner about the ASC name field in a new session.**
 - **v2.0 is done on `main`** (MARKETING_VERSION = 2.0, build 1) and is a massive upgrade over the submitted v1.0 — 40 PRs total, ~#20–#40 being the rebrand + v2 work.
 - The repo: `https://github.com/miltronbot/little-lights-bible-bedtime` (public). Flow used throughout: branch → PR → merge to main, every change builds clean before merging.
 - **Bundle ID never changes:** `com.littlelightsbiblebedtime.app` (permanent for the ASC record; invisible to users).
@@ -68,7 +68,7 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 - **Never** the word "Affirmations" → say **"Blessings"** ("Goodnight Blessings")
 - Free forever, no ads, no analytics, COPPA-clean (no accounts/servers — iCloud KVS only)
 - Work autonomously; branch→PR→merge each change; additive changes only — never lose existing work
-- Under-icon display name is **"Firefly"** (iOS strips spaces from long names); full name lives in ASC
+- Under-icon display name is **"FireFly"** (exact casing, owner directive; iOS strips spaces from long names); full name "FireFly: Bible Bedtime Stories" lives in ASC
 - Home header reads "Bible Bedtime **Stories**" (NOT the app name — owner request, PR #22)
 
 ## 5. Deferred backlog (rough priority)

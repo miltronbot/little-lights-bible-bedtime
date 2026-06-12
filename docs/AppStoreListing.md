@@ -1,12 +1,12 @@
 # App Store Listing Document
-## Firefly Bible Bedtime
+## FireFly: Bible Bedtime Stories
 
 ---
 
 ## BASIC APP INFORMATION
 
 ### App Name
-**Firefly Bible Bedtime**
+**FireFly: Bible Bedtime Stories**
 - Character count: 29 / 30 ✓
 
 ### Subtitle
@@ -18,7 +18,7 @@
 ## FULL DESCRIPTION
 (4000 characters maximum)
 
-Good night, sweet child. Welcome to Firefly Bible Bedtime—where ancient Bible stories become gentle companions for peaceful slumber.
+Good night, sweet child. Welcome to FireFly: Bible Bedtime Stories—where ancient Bible stories become gentle companions for peaceful slumber.
 
 We know bedtime can be a challenge. That's why we created Firefly: a completely free app that transforms Bible stories into soothing rituals that help children ages 3-8 wind down, feel secure, and drift off to sleep wrapped in God's love.
 
@@ -56,7 +56,7 @@ Firefly is completely free to download and use. There are no ads interrupting yo
 We take protection seriously. Firefly is built with COPPA compliance at its core—meeting federal standards for children's privacy. We collect zero personal data. Your child's information stays with you. No tracking. No sharing. Just peace of mind.
 
 **Trusted by Parents**
-Firefly Bible Bedtime is more than an app—it's a gift you give your child each night. Let these stories become part of your family's bedtime ritual, building memories, teaching values, and creating a foundation of faith, security, and peaceful sleep.
+FireFly: Bible Bedtime Stories is more than an app—it's a gift you give your child each night. Let these stories become part of your family's bedtime ritual, building memories, teaching values, and creating a foundation of faith, security, and peaceful sleep.
 
 Download today. It's free. It's safe. It's love, one story at a time.
 
@@ -91,7 +91,7 @@ Character count: 112 / 100 ⚠️
 
 #### Screenshot 1: Hero Shot
 **Main Headline:**
-> Firefly Bible Bedtime
+> FireFly: Bible Bedtime Stories
 
 **Subheading:**
 > Bible Stories for Sleepy Time
@@ -177,7 +177,7 @@ Character count: 112 / 100 ⚠️
 
 ## WHAT'S NEW — v1.0 Release Notes
 
-**Firefly Bible Bedtime – Version 1.0**
+**FireFly: Bible Bedtime Stories – Version 1.0**
 
 *Welcome to the beginning of peaceful, faith-filled bedtimes.*
 
@@ -225,7 +225,7 @@ Character count: 112 / 100 ⚠️
 - Stories written specifically for young listeners
 
 **Why We Built This**
-We understand that bedtime matters. It's when children feel most vulnerable, most in need of reassurance, and most open to the comfort of faith. Firefly Bible Bedtime brings timeless Bible stories to life in a way that helps children feel loved, secure, and ready for restful sleep.
+We understand that bedtime matters. It's when children feel most vulnerable, most in need of reassurance, and most open to the comfort of faith. FireFly: Bible Bedtime Stories brings timeless Bible stories to life in a way that helps children feel loved, secure, and ready for restful sleep.
 
 **Coming Soon** (Planned Updates)
 - Additional story collections (Old Testament Adventures, New Testament Journeys)
@@ -261,7 +261,7 @@ Thank you for trusting Firefly with your child's bedtime. Sweet dreams.
 
 | Element | Content | Count | Limit | Status |
 |---------|---------|-------|-------|--------|
-| App Name | Firefly Bible Bedtime | 29 | 30 | ✓ |
+| App Name | FireFly: Bible Bedtime Stories | 29 | 30 | ✓ |
 | Subtitle | Bible Stories for Sleepy Time | 30 | 30 | ✓ |
 | Description | (Full text above) | 3,847 | 4,000 | ✓ |
 | Keywords | (Optimized version) | 98 | 100 | ✓ |

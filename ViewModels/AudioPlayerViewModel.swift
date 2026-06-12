@@ -128,7 +128,7 @@ final class AudioPlayerViewModel: ObservableObject {
         }
         var info: [String: Any] = [
             MPMediaItemPropertyTitle: story.title,
-            MPMediaItemPropertyArtist: "Firefly Bible Bedtime",
+            MPMediaItemPropertyArtist: "FireFly: Bible Bedtime Stories",
             MPMediaItemPropertyAlbumTitle: story.bibleReference,
             MPMediaItemPropertyPlaybackDuration: duration,
             MPNowPlayingInfoPropertyElapsedPlaybackTime: currentTime,
