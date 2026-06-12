@@ -21,10 +21,17 @@ struct ParentVoiceSheet: View {
     @State private var hasRecording: Bool = false
     @State private var permissionDenied: Bool = false
     @State private var recordingFailed: Bool = false
+    /// Other children who also have this recording (file exists in their folder).
+    @State private var sharedWith: Set<String> = []
     @State private var previewPlayer: AVAudioPlayer?
     @State private var isPreviewing: Bool = false
 
     private var profile: String { appSettings.activeChildName }
+
+    /// The other children this recording could be shared with.
+    private var otherChildren: [String] {
+        appSettings.childrenNames.filter { $0 != profile }
+    }
 
     var body: some View {
         NavigationStack {
@@ -120,6 +127,53 @@ struct ParentVoiceSheet: View {
                                     .foregroundStyle(.red)
                                     .clipShape(RoundedRectangle(cornerRadius: 14))
                             }
+
+                            // Share the same take with siblings — one tap per
+                            // child copies the file into their folder.
+                            if !otherChildren.isEmpty {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("Also save it for…")
+                                        .font(.caption.bold())
+                                        .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack(spacing: 8) {
+                                            ForEach(otherChildren, id: \.self) { child in
+                                                let isShared = sharedWith.contains(child)
+                                                Button {
+                                                    toggleShare(with: child)
+                                                } label: {
+                                                    HStack(spacing: 6) {
+                                                        Image(systemName: isShared ? "checkmark.circle.fill" : "plus.circle")
+                                                            .font(.caption)
+                                                        Text(child)
+                                                            .font(.caption.bold())
+                                                    }
+                                                    .padding(.horizontal, 12)
+                                                    .padding(.vertical, 8)
+                                                    .background(
+                                                        isShared
+                                                        ? AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.85)
+                                                        : AppTheme.cardBackground(for: appSettings.isBedtimeMode)
+                                                    )
+                                                    .foregroundStyle(
+                                                        isShared
+                                                        ? .white
+                                                        : AppTheme.primaryText(for: appSettings.isBedtimeMode)
+                                                    )
+                                                    .clipShape(Capsule())
+                                                }
+                                                .buttonStyle(.plain)
+                                                .accessibilityLabel(
+                                                    isShared
+                                                    ? "Recording saved for \(child). Tap to remove."
+                                                    : "Also save recording for \(child)"
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                                .padding(.top, 4)
+                            }
                         }
                         .padding()
                         .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode).opacity(0.5))
@@ -156,6 +210,20 @@ struct ParentVoiceSheet: View {
 
     private func refreshHasRecording() {
         hasRecording = recorder.hasRecording(storyID: story.id, profile: profile)
+        sharedWith = Set(otherChildren.filter {
+            recorder.hasRecording(storyID: story.id, profile: $0)
+        })
+    }
+
+    /// Copies this child's recording to a sibling, or removes the sibling's
+    /// copy if they already have it.
+    private func toggleShare(with child: String) {
+        if sharedWith.contains(child) {
+            recorder.deleteRecording(storyID: story.id, profile: child)
+        } else {
+            recorder.copyRecording(storyID: story.id, from: profile, to: child)
+        }
+        refreshHasRecording()
     }
 
     private func beginRecording() {
