@@ -1,4 +1,4 @@
-# Remaining Tasks to Ship Little Lights Bible Bedtime
+# Remaining Tasks to Ship Firefly Bible Bedtime
 
 ## Status: Ready for App Store Submission
 The app is feature-complete. All code, audio, and content are production-ready. The following tasks are administrative/manual steps that require human action in Xcode and App Store Connect.
@@ -40,7 +40,7 @@ Your privacy policy and terms of use need to be publicly accessible URLs.
 - Go to https://appstoreconnect.apple.com
 - Click "+" → New App
 - **Platform:** iOS
-- **Name:** Little Lights Bible Bedtime
+- **Name:** Firefly Bible Bedtime
 - **Primary Language:** English (U.S.)
 - **Bundle ID:** com.littlelightsbiblebedtime.app
 - **SKU:** littlelightsbiblebedtime

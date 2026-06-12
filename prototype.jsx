@@ -186,7 +186,7 @@ function Onboarding({onDone}){
         <div className="absolute inset-0 rounded-full" style={{background:"radial-gradient(circle,rgba(99,102,241,.25),transparent 70%)",transform:"scale(2.5)"}}/>
         <div style={{fontSize:80,transition:"all .8s cubic-bezier(.34,1.56,.64,1)",transform:`scale(${vis?1:.3})`,opacity:vis?1:0}}>🌙</div>
       </div>
-      <h1 className="text-4xl font-bold text-white mb-1" style={{fontFamily:"system-ui"}}>Little Lights</h1>
+      <h1 className="text-4xl font-bold text-white mb-1" style={{fontFamily:"system-ui"}}>Firefly</h1>
       <p className="text-2xl font-bold mb-5" style={{color:"#818cf8"}}>Bible Bedtime</p>
       <p className="text-white/50 text-sm leading-relaxed mb-12">Beautiful Bible stories to help<br/>your little one drift off to sleep</p>
       <button onClick={()=>setPg(1)} className="w-full py-4 rounded-2xl font-bold text-white text-lg active:scale-95 transition-transform" style={{background:"linear-gradient(135deg,#4f46e5,#7c3aed)"}}>Get Started</button>
@@ -451,7 +451,7 @@ function Home({bedtime,childName,onStory,onRoutine,favorites}){
     <div className={`relative z-10 p-5 space-y-6 ${bedtime?"":"bg-gray-50"}`}>
       <div className="animate-fadeUp">
         <p className={`text-lg ${bedtime?"text-gray-400":"text-gray-500"}`}>{greet}{childName?`, ${childName}`:""}</p>
-        <h1 className="text-3xl font-bold"><span className={bedtime?"text-white":"text-gray-900"}>Little Lights </span><span style={{color:"#818cf8"}}>Bible Bedtime</span></h1>
+        <h1 className="text-3xl font-bold"><span className={bedtime?"text-white":"text-gray-900"}>Firefly </span><span style={{color:"#818cf8"}}>Bible Bedtime</span></h1>
       </div>
 
       {/* Streak */}
@@ -693,7 +693,7 @@ function Settings({bedtime,onToggle,onDashboard}){
       </div>
 
       <div className={`text-center pt-8 pb-6 ${bedtime?"text-gray-600":"text-gray-400"}`}>
-        <p className="text-xs font-bold">Little Lights Bible Bedtime</p>
+        <p className="text-xs font-bold">Firefly Bible Bedtime</p>
         <p className="text-xs">Version 2.0 — Free for all families</p>
         <p className="text-xs mt-0.5">Made with ❤️ for families everywhere</p>
       </div>

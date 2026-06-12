@@ -11,7 +11,7 @@ struct TermsOfUseView: View {
                     .font(.largeTitle.bold())
                     .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
                 Group {
-                    Text("Welcome to Little Lights Bible Bedtime for Kids.")
+                    Text("Welcome to Firefly Bible Bedtime for Kids.")
                     Text("By using this app, you agree to these simple terms.")
                     Text("This app is intended for personal and family use.")
                     Text("Please do not copy, resell, or redistribute app content without permission.")

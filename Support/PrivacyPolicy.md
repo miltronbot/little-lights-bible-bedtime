@@ -1,7 +1,7 @@
 
 # Privacy Policy
 
-Little Lights Bible Bedtime for Kids is designed to keep things simple and private.
+Firefly Bible Bedtime for Kids is designed to keep things simple and private.
 
 ## Information We Collect
 We do not require users to create an account.
