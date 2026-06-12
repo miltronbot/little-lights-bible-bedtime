@@ -6,6 +6,7 @@ struct LibraryView: View {
     @EnvironmentObject private var appSettings: AppSettings
 
     var initialCategory: StoryCategory? = nil
+    @State private var showFilters = false
 
     var body: some View {
         ScrollView {
@@ -20,39 +21,24 @@ struct LibraryView: View {
                 .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
                 .clipShape(RoundedRectangle(cornerRadius: 14))
 
-                // Age Group filter
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        AgeChipView(title: "All Ages", isSelected: viewModel.selectedAgeGroup == nil) {
-                            viewModel.selectedAgeGroup = nil
+                // Active filters summary — full controls live in the drawer
+                HStack(spacing: 8) {
+                    Text("\(viewModel.filteredStories.count) stories")
+                        .font(.caption)
+                        .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+
+                    if viewModel.selectedAgeGroup != nil || viewModel.selectedCategory != nil {
+                        Text("·")
+                            .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                        if let age = viewModel.selectedAgeGroup {
+                            filterPill(age.rawValue) { viewModel.selectedAgeGroup = nil }
                         }
-                        ForEach(AgeGroup.allCases) { age in
-                            AgeChipView(title: age.rawValue, isSelected: viewModel.selectedAgeGroup == age) {
-                                viewModel.selectedAgeGroup = age
-                            }
+                        if let category = viewModel.selectedCategory {
+                            filterPill(category.rawValue) { viewModel.selectedCategory = nil }
                         }
                     }
+                    Spacer()
                 }
-
-                // Category filter
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        CategoryChipView(title: "All", isSelected: viewModel.selectedCategory == nil) {
-                            viewModel.selectedCategory = nil
-                        }
-
-                        ForEach(StoryCategory.allCases) { category in
-                            CategoryChipView(title: category.rawValue, isSelected: viewModel.selectedCategory == category) {
-                                viewModel.selectedCategory = category
-                            }
-                        }
-                    }
-                }
-
-                // Results count
-                Text("\(viewModel.filteredStories.count) stories")
-                    .font(.caption)
-                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
 
                 // Story list
                 LazyVStack(spacing: 12) {
@@ -65,11 +51,47 @@ struct LibraryView: View {
         }
         .background { StarryNightBackground(alwaysStarry: true) }
         .navigationTitle("Library")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.86)) {
+                        showFilters = true
+                    }
+                } label: {
+                    Image(systemName: (viewModel.selectedAgeGroup != nil || viewModel.selectedCategory != nil)
+                        ? "line.3.horizontal.decrease.circle.fill"
+                        : "line.3.horizontal.decrease.circle")
+                        .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                }
+                .accessibilityLabel("Filter stories")
+            }
+        }
+        .overlay {
+            LibraryFilterMenu(isOpen: $showFilters)
+        }
         .onAppear {
             if let initial = initialCategory, viewModel.selectedCategory == nil {
                 viewModel.selectedCategory = initial
             }
         }
+    }
+
+    @ViewBuilder
+    private func filterPill(_ title: String, clear: @escaping () -> Void) -> some View {
+        Button(action: clear) {
+            HStack(spacing: 4) {
+                Text(title)
+                Image(systemName: "xmark")
+                    .font(.system(size: 8, weight: .bold))
+            }
+            .font(.caption.bold())
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.25))
+            .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+            .clipShape(Capsule())
+        }
+        .buttonStyle(.plain)
     }
 }
 
