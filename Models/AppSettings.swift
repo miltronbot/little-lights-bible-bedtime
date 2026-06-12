@@ -86,5 +86,6 @@ final class AppSettings: ObservableObject {
     private func saveChildrenNames(_ names: [String]) {
         guard let data = try? JSONEncoder().encode(names) else { return }
         UserDefaults.standard.set(data, forKey: "childrenNames")
+        CloudSync.mirror(data, forKey: "childrenNames")
     }
 }

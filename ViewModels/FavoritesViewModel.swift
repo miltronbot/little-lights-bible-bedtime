@@ -49,5 +49,9 @@ final class FavoritesViewModel: ObservableObject {
 
     private func saveFavorites() {
         UserDefaults.standard.set(Array(favoriteStoryIDs), forKey: storageKey)
+        CloudSync.mirror(Array(favoriteStoryIDs), forKey: storageKey)
     }
+
+    /// Re-reads from storage (after a cloud merge).
+    func reload() { loadFavorites() }
 }

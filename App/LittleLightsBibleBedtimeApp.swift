@@ -38,9 +38,13 @@ struct LittleLightsBibleBedtimeApp: App {
             .environmentObject(readingStreakViewModel)
             .environmentObject(collectiblesManager)
             .onAppear {
+                // Restore any iCloud progress, then point stores at the
+                // active child
+                CloudSync.syncDown()
                 // One-time: move pre-profile data under the first child's scope
                 migrateLegacyDataToFirstProfileIfNeeded()
                 applyActiveProfile()
+                reloadStores()
 
                 // Sync saved volume settings with audio player
                 audioPlayerViewModel.narrationVolume = Float(appSettings.narrationVolume)
@@ -75,7 +79,19 @@ struct LittleLightsBibleBedtimeApp: App {
             .onChange(of: appSettings.activeChildName) {
                 applyActiveProfile()
             }
+            .onReceive(NotificationCenter.default.publisher(
+                for: NSUbiquitousKeyValueStore.didChangeExternallyNotification)) { _ in
+                // Another device pushed progress — merge and refresh
+                CloudSync.syncDown()
+                reloadStores()
+            }
         }
+    }
+
+    private func reloadStores() {
+        favoritesViewModel.reload()
+        readingStreakViewModel.reload()
+        collectiblesManager.reload()
     }
 
     /// Points the per-child stores (favorites, streak, collectibles) at the
