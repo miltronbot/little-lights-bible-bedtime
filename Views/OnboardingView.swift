@@ -153,7 +153,7 @@ struct OnboardingView: View {
                     .font(.title2.bold())
                     .foregroundStyle(.white)
 
-                Text("We'll personalize stories and bedtime\naffirmations just for them")
+                Text("We'll personalize stories and bedtime\nblessings just for them")
                     .font(.subheadline)
                     .foregroundStyle(.white.opacity(0.6))
                     .multilineTextAlignment(.center)

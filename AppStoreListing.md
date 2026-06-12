@@ -52,7 +52,7 @@ This is where Firefly truly shines. Bedtime Routine Mode features:
 - **Sleep Timer**: Gently fade the story and sounds with customizable timers (15, 30, or 45 minutes)
 - **Ambient Soundscapes**: Choose from soothing rain, gentle ocean waves, forest nature sounds, or soft lullabies to create the perfect sleep environment
 - **Guided Breathing Exercises**: Teach your child calming breathing techniques to ease into sleep
-- **Goodnight Affirmations**: End with positive, faith-affirming messages like "God loves you" and "You are safe and loved"
+- **Goodnight Blessings**: End with positive, faith-filled messages like "God loves you" and "You are safe and loved"
 - **Day/Night Theme Modes**: Bright, engaging interface during the day; gentle, low-blue-light mode at night to protect sleep cycles
 
 **Stay Engaged with Sleep Stars Rewards**
@@ -157,7 +157,7 @@ We're thrilled to introduce Firefly Bible Bedtime! Here's what's included in our
 Carefully adapted for children ages 3-8, featuring professional narration, discussion questions, and memory verses for each story.
 
 **🌙 Complete Bedtime Routine Mode**
-Sleep timer, ambient soundscapes (rain, ocean, nature, lullaby), guided breathing exercises, and goodnight affirmations—all designed to help your child drift peacefully to sleep.
+Sleep timer, ambient soundscapes (rain, ocean, nature, lullaby), guided breathing exercises, and goodnight blessings—all designed to help your child drift peacefully to sleep.
 
 **⭐ Sleep Stars Reward System**
 Reading streaks, collectible items, and achievement tracking to keep children engaged and motivated.
