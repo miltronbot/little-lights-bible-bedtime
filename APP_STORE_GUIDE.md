@@ -112,7 +112,7 @@ You'll need to host your privacy policy online. Options:
 The privacy policy text is already in `Support/PrivacyPolicy.md`.
 
 ### Support URL
-Use a simple page or `mailto:support@littlelightsbiblebedtime.com`
+Use a simple page or `mailto:Miltonbot@icloud.com`
 
 ---
 

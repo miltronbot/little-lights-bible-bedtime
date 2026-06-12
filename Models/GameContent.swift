@@ -224,7 +224,7 @@ struct WhoAmIRiddle {
     ]
 }
 
-// MARK: True or Lumi? (true/false)
+// MARK: Lumi's True or False (true/false)
 
 struct TrueFalseItem {
     let statement: String

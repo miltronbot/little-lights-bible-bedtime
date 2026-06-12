@@ -1,24 +1,24 @@
 
 # Privacy Policy
 
-Firefly Bible Bedtime for Kids is designed to keep things simple and private.
+Firefly Bible Bedtime is designed to keep things simple and private.
 
 ## Information We Collect
 We do not require users to create an account.
-We do not collect personal information for version 1 of the app.
+We do not collect any personal information.
 We do not knowingly collect data from children.
+There are no ads, no analytics, and no tracking of any kind.
 
 ## App Data Stored on Device
 The app may store limited information locally on your device, such as:
 - favorite stories
 - bedtime mode preference
-- premium unlock status
+- reading progress, streaks, and rewards
 
-This information stays on the device unless Apple handles purchase verification through its own systems.
+This information stays on your device (and in your personal iCloud account if you enable iCloud sync). It is never sent to us or to any third party.
 
-## Purchases
-If you choose to unlock premium content, purchases are processed by Apple through the App Store.
-We do not store payment information.
+## Free App
+The app is completely free. There are no purchases, so no payment information is ever involved.
 
 ## Contact
-support@littlelightsbiblebedtime.com
+Miltonbot@icloud.com

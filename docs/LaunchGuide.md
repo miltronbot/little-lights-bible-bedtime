@@ -587,7 +587,7 @@ Once created, you'll be on the app's management page. Fill out each section:
 - **Support URL**:
   - Link to your support/help page (required)
   - Can be a simple website or email address
-  - Example: "support.littlelights.app" or "[support@littlelights.app](mailto:support@littlelights.app)"
+  - Example: "[Miltonbot@icloud.com](mailto:Miltonbot@icloud.com)"
 
 - **Privacy Policy URL**:
   - Required - must be accessible via web
