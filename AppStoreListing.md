@@ -1,7 +1,7 @@
-# Little Lights Bible Bedtime - App Store Listing
+# Firefly Bible Bedtime - App Store Listing
 
 ## 1. App Name
-**Little Lights Bible Bedtime**
+**Firefly Bible Bedtime**
 *(27 characters - under 30 character limit)*
 
 ---
@@ -33,11 +33,11 @@
 
 ### Full App Store Description:
 
-End each day with peace, faith, and gentle storytelling. **Little Lights Bible Bedtime** transforms bedtime into a cherished family tradition of spiritual growth and restful sleep.
+End each day with peace, faith, and gentle storytelling. **Firefly Bible Bedtime** transforms bedtime into a cherished family tradition of spiritual growth and restful sleep.
 
 **A Safer, Faith-Filled Bedtime App for Young Children**
 
-Parents deserve a bedtime app that combines wholesome storytelling with genuine sleep support—all without ads, in-app purchases, or screen addiction. Little Lights Bible Bedtime delivers exactly that.
+Parents deserve a bedtime app that combines wholesome storytelling with genuine sleep support—all without ads, in-app purchases, or screen addiction. Firefly Bible Bedtime delivers exactly that.
 
 **50 Beautiful Bible Stories for Children Ages 3-8**
 
@@ -47,7 +47,7 @@ Every single story includes professional audio narration—so you can either rea
 
 **Bedtime Routine Mode: Built for Better Sleep**
 
-This is where Little Lights truly shines. Bedtime Routine Mode features:
+This is where Firefly truly shines. Bedtime Routine Mode features:
 
 - **Sleep Timer**: Gently fade the story and sounds with customizable timers (15, 30, or 45 minutes)
 - **Ambient Soundscapes**: Choose from soothing rain, gentle ocean waves, forest nature sounds, or soft lullabies to create the perfect sleep environment
@@ -77,7 +77,7 @@ The adorable Lumi the firefly guides your child through each story, making the a
 
 **100% Free, No Ads, No Complications**
 
-We believe families shouldn't have to choose between quality content and protecting children from ads and predatory monetization. Little Lights Bible Bedtime is completely free with zero ads, zero in-app purchases, and zero tracking. Just wholesome, beautiful Bible stories designed to help your child sleep soundly.
+We believe families shouldn't have to choose between quality content and protecting children from ads and predatory monetization. Firefly Bible Bedtime is completely free with zero ads, zero in-app purchases, and zero tracking. Just wholesome, beautiful Bible stories designed to help your child sleep soundly.
 
 **Perfect for:**
 - Bedtime routines for toddlers and preschoolers (ages 3+)
@@ -89,9 +89,9 @@ We believe families shouldn't have to choose between quality content and protect
 
 **Built with Parents in Mind**
 
-From our team to your family, Little Lights Bible Bedtime is crafted with deep respect for childhood development, faith formation, and healthy sleep habits. Your child's safety and spiritual growth matter to us.
+From our team to your family, Firefly Bible Bedtime is crafted with deep respect for childhood development, faith formation, and healthy sleep habits. Your child's safety and spiritual growth matter to us.
 
-Start a new bedtime tradition tonight. Download Little Lights Bible Bedtime free—and give your child the gift of peaceful sleep wrapped in God's love.
+Start a new bedtime tradition tonight. Download Firefly Bible Bedtime free—and give your child the gift of peaceful sleep wrapped in God's love.
 
 ---
 
@@ -151,7 +151,7 @@ Start a new bedtime tradition tonight. Download Little Lights Bible Bedtime free
 
 **Version 1.0 - Launch Day**
 
-We're thrilled to introduce Little Lights Bible Bedtime! Here's what's included in our inaugural release:
+We're thrilled to introduce Firefly Bible Bedtime! Here's what's included in our inaugural release:
 
 **✨ 50 Beautiful Bible Stories**
 Carefully adapted for children ages 3-8, featuring professional narration, discussion questions, and memory verses for each story.
@@ -174,7 +174,7 @@ Zero ads, zero in-app purchases, zero tracking—just wholesome, faith-filled st
 **🙏 Parent Resources**
 Discussion guides for every story help you and your child connect deeper with biblical lessons and values.
 
-**Thank you for choosing Little Lights Bible Bedtime.** We can't wait to be part of your family's bedtime tradition!
+**Thank you for choosing Firefly Bible Bedtime.** We can't wait to be part of your family's bedtime tradition!
 
 Sweet dreams, little lights. ✨
 
@@ -200,5 +200,5 @@ Sweet dreams, little lights. ✨
 ## File Information
 **File Name:** AppStoreListing.md
 **Created:** 2026-03-25
-**App:** Little Lights Bible Bedtime
+**App:** Firefly Bible Bedtime
 **Target Platform:** iOS App Store

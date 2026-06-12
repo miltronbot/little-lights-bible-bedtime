@@ -466,7 +466,7 @@ const SettingsScreen = () => {
             <span>•</span>
             <a href="#" className="text-[#818CF8] hover:text-white">Terms</a>
           </p>
-          <p className="text-white/40 mt-4">© 2024 Little Lights Bible Bedtime</p>
+          <p className="text-white/40 mt-4">© 2024 Firefly Bible Bedtime</p>
         </div>
       </div>
     </div>
@@ -514,7 +514,7 @@ export default function ScreenshotShowcase() {
       <div className="max-w-7xl mx-auto mb-20">
         <div className="text-center mb-4">
           <h1 className="text-6xl font-black text-white mb-4 leading-tight">
-            Little Lights<br />Bible Bedtime
+            Firefly<br />Bible Bedtime
           </h1>
           <p className="text-xl text-[#818CF8] font-semibold mb-2">
             Soothing Bible Stories for Peaceful Sleep
@@ -551,7 +551,7 @@ export default function ScreenshotShowcase() {
       <div className="max-w-7xl mx-auto border-t border-white/10 pt-12 text-center">
         <h2 className="text-2xl font-bold text-white mb-3">Ready for Bedtime?</h2>
         <p className="text-white/70 mb-6 max-w-2xl mx-auto">
-          Download Little Lights Bible Bedtime from the App Store and start building better bedtime routines with your children today.
+          Download Firefly Bible Bedtime from the App Store and start building better bedtime routines with your children today.
         </p>
         <div className="flex justify-center gap-4 mb-8">
           <button className="px-8 py-3 rounded-full bg-[#6366F1] text-white font-semibold hover:bg-[#818CF8] transition shadow-lg">
@@ -560,7 +560,7 @@ export default function ScreenshotShowcase() {
         </div>
         <p className="text-white/50 text-sm">
           iOS 14+ • Free with Optional In-App Purchases • Designed for Kids 3-8<br />
-          © 2024 Little Lights Bible Bedtime • All rights reserved
+          © 2024 Firefly Bible Bedtime • All rights reserved
         </p>
       </div>
     </div>

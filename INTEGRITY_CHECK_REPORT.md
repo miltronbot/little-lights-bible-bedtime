@@ -1,4 +1,4 @@
-# Little Lights Bible Bedtime iOS - Integrity Check Report
+# Firefly Bible Bedtime iOS - Integrity Check Report
 
 ## Executive Summary
 ✓ **ALL CHECKS PASSED** - The project is structurally sound with no critical issues found.

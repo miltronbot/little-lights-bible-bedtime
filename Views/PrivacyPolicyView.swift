@@ -11,7 +11,7 @@ struct PrivacyPolicyView: View {
                     .font(.largeTitle.bold())
                     .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
                 Group {
-                    Text("Little Lights Bible Bedtime for Kids is designed to keep things simple and private.")
+                    Text("Firefly Bible Bedtime for Kids is designed to keep things simple and private.")
                     Text("We do not require users to create an account.")
                     Text("We do not collect personal information for version 1 of the app.")
                     Text("We do not knowingly collect data from children.")

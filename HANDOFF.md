@@ -1,4 +1,4 @@
-# Little Lights Bible Bedtime — Claude Handoff Document
+# Firefly Bible Bedtime — Claude Handoff Document
 **Last updated:** June 10, 2026
 **Handoff from:** Claude Opus 4.8 (launch-prep session)
 **Status:** Feature-complete v1.1, Release builds clean, App Store materials ready ✅ — awaiting owner's Apple ID for archive/upload
@@ -7,7 +7,7 @@
 
 ## What This App Is
 
-**Little Lights Bible Bedtime** is a free iOS children's Bible bedtime story app for ages 3–8.
+**Firefly Bible Bedtime** is a free iOS children's Bible bedtime story app for ages 3–8.
 
 - **50 fully-narrated Bible stories** with bundled MP3 audio (OpenAI tts-1-hd, 192kbps)
 - **Single Midjourney illustrations for all 50 stories** (cropped from 2x2 generation grids to one panel each); SwiftUI painted-scene system remains as fallback
@@ -259,8 +259,8 @@ The app is feature-complete and working. These are optional enhancements:
 
 ## Owner Context
 
-- **Developer:** Little Lights Team
-- **App name:** Little Lights Bible Bedtime
+- **Developer:** Firefly Team
+- **App name:** Firefly Bible Bedtime
 - **Vision:** Beautiful, calm, free Bible bedtime stories for young children — high-quality narration, rich artwork, peaceful UI. No ads, no tracking, no paywall. Pure children's content.
 - **User preference:** Work autonomously without asking for permission. Fix bugs proactively. Keep everything free and legal. Do not take shortcuts.
 - **Child profile:** User has child named "Savy" set in the app (entered during onboarding).
