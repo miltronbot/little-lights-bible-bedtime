@@ -438,6 +438,7 @@ struct StoryDetailView: View {
                         }
                         showCelebration = true
                     }
+                    readingStreak.refreshCompletionBadges(collectibleCount: collectiblesManager.collectedCount)
                 } label: {
                     let isRead = readingStreak.streak.storiesReadDates.keys.contains(story.id)
                     Label(isRead ? "Completed" : "Mark as Read", systemImage: isRead ? "checkmark.circle.fill" : "checkmark.circle")

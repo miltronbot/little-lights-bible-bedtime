@@ -19,6 +19,8 @@
 		<string>audio</string>
 	</array>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Firefly uses the microphone so a grown-up can record their own voice reading a story.</string>
+	<string>FireFly uses the microphone so a grown-up can record their own voice reading a story.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>FireFly saves your child's night-sky picture to your photo library. Nothing is ever read from your photos.</string>
 </dict>
 </plist>

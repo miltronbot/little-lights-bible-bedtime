@@ -25,6 +25,9 @@ Microphone access is requested only if a parent records their own narration. Rec
 ## Optional Narration Service
 Off by default: only if a parent adds their own ElevenLabs API key in Settings, story text (never personal information) is sent to ElevenLabs to generate narration, under ElevenLabs' own privacy policy.
 
+## Photos
+Saving a Night Sky picture uses add-only photo access: the app can save your child's creation to your Photos but can never see or read your existing photos.
+
 ## Notifications
 Bedtime reminders, if enabled, are local notifications that never leave your device.
 

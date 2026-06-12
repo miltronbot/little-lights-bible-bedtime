@@ -66,6 +66,25 @@ final class ReadingStreakViewModel: ObservableObject {
         }
     }
 
+    /// Completion rewards: all collectibles → Treasure Keeper, all core
+    /// badges → Badge Champion, both → Lumi's Grand Light. Call after any
+    /// collect/recordStoryRead pair; celebrates like any other new badge.
+    func refreshCompletionBadges(collectibleCount: Int) {
+        let previousBadges = streak.earnedBadges
+        streak.updateCompletionBadges(
+            collectibleCount: collectibleCount,
+            totalCollectibles: Collectible.all.count
+        )
+        guard streak.earnedBadges != previousBadges else { return }
+        saveStreak()
+        let newBadges = streak.earnedBadges.subtracting(previousBadges)
+        // The grand prize outshines the step it arrived with
+        if let firstNew = newBadges.first(where: { $0 == "grand-light" }) ?? newBadges.first {
+            newBadgeID = firstNew
+            showNewBadgeAlert = true
+        }
+    }
+
     /// Tonight's Goals bonus: one extra Sleep Star for a Golden Night.
     func awardBonusStar() {
         let levelBefore = FireflyLevel.level(forStars: streak.totalSleepStars).number

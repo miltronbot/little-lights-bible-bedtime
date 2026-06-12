@@ -187,3 +187,30 @@ struct TonightsGoalsCard: View {
         }
     }
 }
+
+// MARK: - Tonight's Goals screen
+// The goals card moved from the Home scroll into the side menu (owner
+// request June 2026); this is its destination screen. The card keeps all
+// of its own bonus-claim logic, so it works the same from here.
+
+struct TonightsGoalsView: View {
+    @EnvironmentObject private var appSettings: AppSettings
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 16) {
+                TonightsGoalsCard()
+
+                Text("Finish all three quests in one night for a bonus Sleep Star — a Golden Night!")
+                    .font(.caption)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    .padding(.horizontal)
+            }
+            .padding()
+        }
+        .background { StarryNightBackground(alwaysStarry: true) }
+        .navigationTitle("Tonight's Goals")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}

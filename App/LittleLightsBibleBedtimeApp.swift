@@ -85,6 +85,11 @@ struct LittleLightsBibleBedtimeApp: App {
                             collectiblesManager?.celebrationStoryID = storyID
                         }
 
+                        // Completion rewards (all treasures / all badges / grand)
+                        if let manager = collectiblesManager {
+                            readingStreakViewModel?.refreshCompletionBadges(collectibleCount: manager.collectedCount)
+                        }
+
                         // Shooting star! Rare surprise bonus (about 1 night in 7)
                         if Int.random(in: 0..<7) == 0 {
                             readingStreakViewModel?.awardBonusStar()

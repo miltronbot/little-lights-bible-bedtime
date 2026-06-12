@@ -132,5 +132,30 @@ struct ReadingStreak: Codable {
         // Moment badges (2)
         "bedtime-believer": ("Bedtime Believer", "😴", "Read a story at bedtime"),
         "weekend-wonder": ("Weekend Wonder", "☀️", "Read a story on the weekend"),
+
+        // Completion rewards (3) — the long game
+        "treasure-keeper": ("Treasure Keeper", "💎", "Collect all 50 story treasures"),
+        "badge-champion": ("Badge Champion", "🏅", "Earn all 27 badges"),
+        "grand-light": ("Lumi's Grand Light", "🌟", "Every treasure and every badge — you completed everything!"),
     ]
+
+    /// The three completion rewards above — excluded from the "all badges"
+    /// requirement so Badge Champion isn't self-referential.
+    static let completionBadgeIDs: Set<String> = ["treasure-keeper", "badge-champion", "grand-light"]
+
+    /// Awards the completion rewards: all collectibles → Treasure Keeper,
+    /// all 27 core badges → Badge Champion, both → Lumi's Grand Light.
+    /// Called whenever a collectible or badge may have been earned.
+    mutating func updateCompletionBadges(collectibleCount: Int, totalCollectibles: Int) {
+        if totalCollectibles > 0 && collectibleCount >= totalCollectibles {
+            earnedBadges.insert("treasure-keeper")
+        }
+        let coreBadges = Set(Self.badgeInfo.keys).subtracting(Self.completionBadgeIDs)
+        if coreBadges.isSubset(of: earnedBadges) {
+            earnedBadges.insert("badge-champion")
+        }
+        if earnedBadges.contains("treasure-keeper") && earnedBadges.contains("badge-champion") {
+            earnedBadges.insert("grand-light")
+        }
+    }
 }
