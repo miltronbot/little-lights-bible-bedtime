@@ -13,6 +13,12 @@ struct LittleLightsBibleBedtimeApp: App {
     @StateObject private var goalsTracker = GoalsTracker()
     @StateObject private var journeyProgress = JourneyProgressManager()
 
+    @Environment(\.scenePhase) private var scenePhase
+
+    // Bedtime reminder time (shared via UserDefaults with NotificationService).
+    @AppStorage("bedtimeHour") private var bedtimeHour = 19
+    @AppStorage("bedtimeMinute") private var bedtimeMinute = 30
+
     init() {
         // Configure audio session once at startup — must happen before any playback attempt
         AudioPlaybackService.configureAudioSession()
@@ -53,6 +59,11 @@ struct LittleLightsBibleBedtimeApp: App {
                 // Sync saved volume settings with audio player
                 audioPlayerViewModel.narrationVolume = Float(appSettings.narrationVolume)
                 audioPlayerViewModel.ambientVolume = Float(appSettings.ambientVolume)
+
+                // Wind-Down also checks on cold launch — the scenePhase
+                // onChange below only catches later background→foreground
+                // transitions, not the initial activation.
+                triggerWindDownIfNeeded()
 
                 // Wire up streak tracking and collectibles when stories finish playing
                 audioPlayerViewModel.onStoryFinished = { [weak readingStreakViewModel, weak collectiblesManager] storyID in
@@ -101,7 +112,41 @@ struct LittleLightsBibleBedtimeApp: App {
                 CloudSync.syncDown()
                 reloadStores()
             }
+            .onChange(of: scenePhase) { _, newPhase in
+                // Wind-Down auto mode: when the app comes to the foreground
+                // at/after the set bedtime, gently dim into bedtime mode and
+                // stage Tonight's Story. Stage only — never auto-play.
+                if newPhase == .active {
+                    triggerWindDownIfNeeded()
+                }
+            }
         }
+    }
+
+    /// Flips into bedtime mode and stages Tonight's Story once per night if the
+    /// app is opened at/after the family's set bedtime. iOS cannot wake a
+    /// suspended app at a clock time, so this runs on the next foreground.
+    private func triggerWindDownIfNeeded() {
+        guard appSettings.windDownAutoEnabled else { return }
+        guard WindDownService.shouldTrigger(
+            now: Date(),
+            lastFiredDayStamp: appSettings.windDownLastFired,
+            hour: bedtimeHour,
+            minute: bedtimeMinute
+        ) else {
+            // A new day before bedtime — clear last night's staged story so
+            // the wind-down banner doesn't linger into the morning.
+            if WindDownService.dayStamp() != appSettings.windDownLastFired {
+                libraryViewModel.pendingTonightsStory = nil
+            }
+            return
+        }
+
+        // Stamp first so we fire at most once tonight, even if a story is nil.
+        appSettings.windDownLastFired = WindDownService.dayStamp()
+        appSettings.isBedtimeMode = true
+        // Stage Tonight's Story for one-tap start — never auto-play (COPPA).
+        libraryViewModel.pendingTonightsStory = libraryViewModel.tonightsStory
     }
 
     private func reloadStores() {

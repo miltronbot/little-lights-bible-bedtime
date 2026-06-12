@@ -8,6 +8,10 @@ final class StoryLibraryViewModel: ObservableObject {
     @Published var selectedAgeGroup: AgeGroup?
     @Published var searchText: String = ""
 
+    /// Set by Wind-Down auto mode when the app opens at/after bedtime: the
+    /// story staged for a one-tap start on Home. Never auto-played.
+    @Published var pendingTonightsStory: Story?
+
     private let repository = StoryRepository()
 
     init() {

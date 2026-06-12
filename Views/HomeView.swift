@@ -158,10 +158,33 @@ struct HomeView: View {
                                 .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
                         }
 
+                        // Wind-Down auto mode lit up: gentle highlight + prompt to
+                        // tap straight into tonight's staged story.
+                        if viewModel.pendingTonightsStory != nil {
+                            WindDownBanner()
+                        }
+
                         NavigationLink(destination: StoryDetailView(story: tonightsStory)) {
                             TonightsStoryCard(story: tonightsStory)
+                                .overlay(alignment: .topTrailing) {
+                                    if viewModel.pendingTonightsStory != nil {
+                                        Image(systemName: "moon.zzz.fill")
+                                            .font(.title3)
+                                            .foregroundStyle(.white)
+                                            .padding(8)
+                                            .background(Circle().fill(Color.indigo.opacity(0.7)))
+                                            .padding(10)
+                                    }
+                                }
                         }
                         .buttonStyle(.plain)
+                        .overlay(alignment: .topLeading) {
+                            if viewModel.pendingTonightsStory != nil {
+                                RoundedRectangle(cornerRadius: 24)
+                                    .strokeBorder(AppTheme.accent(for: appSettings.isBedtimeMode).opacity(0.8), lineWidth: 2)
+                                    .allowsHitTesting(false)
+                            }
+                        }
                     }
                 }
 
@@ -375,6 +398,34 @@ struct HomeView: View {
             return "\(timeGreeting), \(name)"
         }
         return timeGreeting
+    }
+}
+
+// MARK: - Wind-Down Banner
+// Shown above Tonight's Story when Wind-Down auto mode has lit up for the
+// night. A calm nudge — the story is staged for a one-tap start.
+
+struct WindDownBanner: View {
+    @EnvironmentObject private var appSettings: AppSettings
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "moon.stars.fill")
+                .font(.title3)
+                .foregroundStyle(.yellow)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("It's wind-down time")
+                    .font(.subheadline.bold())
+                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                Text("Tonight's story is ready — tap to begin")
+                    .font(.caption)
+                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+            }
+            Spacer()
+        }
+        .padding(12)
+        .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
 

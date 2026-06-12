@@ -15,6 +15,12 @@ final class AppSettings: ObservableObject {
     @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
     @AppStorage("activeChildIndex") var activeChildIndex: Int = 0
 
+    // Wind-Down auto mode — when the app is opened at/after the set bedtime,
+    // gently dim into bedtime mode and line up Tonight's Story (staged, not
+    // auto-played). Fires once per night. See WindDownService.
+    @AppStorage("windDownAutoEnabled") var windDownAutoEnabled: Bool = false
+    @AppStorage("windDownLastFired") var windDownLastFired: String = ""
+
     // ElevenLabs
     @AppStorage("elevenLabsAPIKey") var elevenLabsAPIKey: String = ""
     @AppStorage("selectedVoiceID") var selectedVoiceID: String = ElevenLabsVoice.defaultVoiceID
