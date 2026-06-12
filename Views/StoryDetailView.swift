@@ -324,12 +324,23 @@ struct StoryDetailView: View {
                     }
                 }
 
-                // Story text with read-along highlighting
+                // Story text with read-along highlighting — the paragraph
+                // being narrated highlights as playback moves (no auto-scroll
+                // here; the reader controls the page)
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Story")
                         .font(.title2.bold())
                         .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                    ReadAlongTextView(storyText: story.storyText)
+                    ReadAlongTextView(
+                        storyText: story.storyText,
+                        currentParagraphIndex: audioPlayerViewModel.currentStoryID == story.id
+                            ? ReadAlongTextView.paragraphIndex(
+                                storyText: story.storyText,
+                                currentTime: audioPlayerViewModel.currentTime,
+                                duration: audioPlayerViewModel.duration
+                              )
+                            : nil
+                    )
                 }
 
                 // Takeaway

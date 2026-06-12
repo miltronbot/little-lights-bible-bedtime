@@ -21,7 +21,7 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 
 **Audio:** lock-screen Now Playing + remote commands + interruption auto-resume (`AudioPlayerViewModel`), Sleepy Speed 0.85x, Tonight's Queue (chain 3 stories), sleep timer, 6 ambient sounds, Lights Out mode (`LightsOutView` — near-black screen, audio continues; Kid Lock setting = 3s-hold to wake instead of double-tap).
 
-**Kids UX:** instant ▶ play buttons on story cards, autoplay-on-open (default ON, toggle in Settings), completion stars on cards, pulsing Read to Me, wandering tappable Lumi on story screens (glides to center before speaking — bubble max 210pt), MagicTouchLayer sparkle taps on hero art, Breathe-with-Lumi breathing exercise.
+**Kids UX:** read-along transcript highlighting — the paragraph being narrated gets an accent background + leading bar, estimated from playback progress via `ReadAlongTextView.paragraphIndex` (no word timings exist for the MP3s); on the story detail screen (highlight only) and the Bedtime Routine story step (full transcript + gentle auto-scroll that backs off for 4s whenever the reader scrolls by hand). Also: instant ▶ play buttons on story cards, autoplay-on-open (default ON, toggle in Settings), completion stars on cards, pulsing Read to Me, wandering tappable Lumi on story screens (glides to center before speaking — bubble max 210pt), MagicTouchLayer sparkle taps on hero art, Breathe-with-Lumi breathing exercise.
 
 **Gamification (the engagement architecture):**
 - Per story: Sleep Star + collectible (50, one per story — Noah = Dove, never a rainbow) + ~1-in-7 shooting-star bonus star

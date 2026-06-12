@@ -497,63 +497,97 @@ struct StoryStepView: View {
     @EnvironmentObject private var audioPlayer: AudioPlayerViewModel
     @EnvironmentObject private var appSettings: AppSettings
     @State private var hasLoadedStory: Bool = false
+    /// Pauses auto-scroll for a moment after the reader scrolls by hand, so
+    /// the follow-along never fights them.
+    @State private var lastManualScroll: Date = .distantPast
+
+    /// Which paragraph the narrator is reading — drives the highlight and the
+    /// gentle auto-scroll. Estimated from playback progress; nil when this
+    /// story isn't the one playing.
+    private var activeParagraph: Int? {
+        guard audioPlayer.currentStoryID == story.id else { return nil }
+        return ReadAlongTextView.paragraphIndex(
+            storyText: story.storyText,
+            currentTime: audioPlayer.currentTime,
+            duration: audioPlayer.duration
+        )
+    }
 
     var body: some View {
-        VStack(spacing: 20) {
-            // Story artwork
-            StoryArtworkView(story: story, cornerRadius: 16)
-                .frame(height: 200)
-                .padding()
+        VStack(spacing: 0) {
+            // One scrollable page: artwork, player, and the full transcript,
+            // so the child can scroll down and read along with the narrator
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 20) {
+                        // Story artwork
+                        StoryArtworkView(story: story, cornerRadius: 16)
+                            .frame(height: 200)
+                            .padding(.horizontal)
+                            .padding(.top)
 
-            // Story title
-            Text(story.title)
-                .font(.title2.bold())
-                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
+                        // Story title
+                        Text(story.title)
+                            .font(.title2.bold())
+                            .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
 
-            // Now playing indicator
-            HStack(spacing: 8) {
-                Image(systemName: "waveform")
-                    .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
-                    .symbolEffect(.variableColor)
+                        // Now playing indicator
+                        HStack(spacing: 8) {
+                            Image(systemName: "waveform")
+                                .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+                                .symbolEffect(.variableColor)
 
-                Text(audioPlayer.isPlaying ? "Story playing..." : "Ready to play...")
-                    .font(.subheadline)
-                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+                            Text(audioPlayer.isPlaying ? "Story playing..." : "Ready to play...")
+                                .font(.subheadline)
+                                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
 
-                Spacer()
+                            Spacer()
 
-                // Play/Pause button
-                Button {
-                    if audioPlayer.isPlaying {
-                        audioPlayer.pause()
-                    } else {
-                        audioPlayer.play()
+                            // Play/Pause button
+                            Button {
+                                if audioPlayer.isPlaying {
+                                    audioPlayer.pause()
+                                } else {
+                                    audioPlayer.play()
+                                }
+                            } label: {
+                                Image(systemName: audioPlayer.isPlaying ? "pause.circle.fill" : "play.circle.fill")
+                                    .font(.title2)
+                                    .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+                            }
+                        }
+                        .padding()
+                        .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                        .padding(.horizontal)
+
+                        // Read-along transcript — the playing paragraph
+                        // highlights and the page drifts along with it
+                        ReadAlongTextView(
+                            storyText: story.storyText,
+                            currentParagraphIndex: activeParagraph
+                        )
+                        .padding(.horizontal)
+                        .padding(.bottom, 12)
                     }
-                } label: {
-                    Image(systemName: audioPlayer.isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+                }
+                .simultaneousGesture(
+                    DragGesture().onChanged { _ in
+                        lastManualScroll = Date()
+                    }
+                )
+                .onChange(of: activeParagraph) { _, newIndex in
+                    guard let newIndex,
+                          Date().timeIntervalSince(lastManualScroll) > 4 else { return }
+                    withAnimation(.easeInOut(duration: 0.7)) {
+                        proxy.scrollTo(ReadAlongTextView.anchorID(for: newIndex), anchor: .center)
+                    }
                 }
             }
-            .padding()
-            .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
-            .clipShape(RoundedRectangle(cornerRadius: 14))
-            .padding()
 
-            // Story text (scrollable)
-            ScrollView {
-                Text(story.storyText)
-                    .font(.system(size: appSettings.fontSize))
-                    .lineSpacing(6)
-                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                    .padding()
-            }
-
-            Spacer(minLength: 20)
-
-            // Continue button
+            // Continue button — pinned so it's always reachable
             Button {
                 onContinue()
             } label: {
