@@ -19,6 +19,7 @@ struct StoryDetailView: View {
     @State private var showVerseGame: Bool = false
     @State private var showLightsOut: Bool = false
     @State private var playPulse: Bool = false
+    @State private var postcard: UIImage?
 
     var body: some View {
         ScrollView {
@@ -405,6 +406,26 @@ struct StoryDetailView: View {
         }
         .navigationTitle(story.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                // Share a keepsake postcard (artwork + verse) — lovely for
+                // sending to grandparents. Rendered once, not per redraw.
+                if let postcard {
+                    ShareLink(
+                        item: Image(uiImage: postcard),
+                        preview: SharePreview("\(story.title) — Firefly Bible Bedtime",
+                                              image: Image(uiImage: postcard))
+                    ) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                }
+            }
+        }
+        .task {
+            if postcard == nil {
+                postcard = PostcardRenderer.render(story: story)
+            }
+        }
         .onChange(of: collectiblesManager.celebrationStoryID) { _, finishedID in
             // Narration finished this story for the first time → celebrate
             guard finishedID == story.id else { return }
