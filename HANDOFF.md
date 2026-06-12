@@ -29,7 +29,11 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 - Weekly: Weekly Challenge on Rewards (theme rotates by ISO week, progress computed from `storiesReadDates`, deep-links to themed Library, bonus star once per week)
 - Levels: `FireflyLevel` — 10 named ranks from Sleep Stars (Tiny Spark → Light of the World), progress ring on Rewards, `LevelUpCelebrationView` confetti fires via `readingStreak.leveledUpTo`
 - Weekly+: **7-Day Journeys** (`JourneysView`/`JourneyDetailView` via the side menu — 4 themed week plans in `Journey.all` sequencing existing stories; per-child completed-day sets in `JourneyProgressManager` under `journeyProgress` keys, union-merged by iCloud)
-- Long-term: 27 badges (emoji cards, tap for progress via `BadgeDetailSheet`), Treasure Sets (7 theme sets in `CollectionAlbumView`), **Lumi's Night Sky** (`NightSkyView` — per-child decoratable scene: tap drawer treasure to place, drag, hold to return; positions per profile, iCloud-synced)
+- Long-term: 27 badges (emoji cards, tap for progress via `BadgeDetailSheet`), Treasure Sets (7 theme sets in `CollectionAlbumView`), **Lumi's Night Sky** (`NightSkyView` — per-child decoratable scene: an always-available sticker palette (fun from day one) PLUS earned collectible treasures; tap to place, drag, hold to return; collectibles keep the original `nightSky.positions` store, palette stickers live in a parallel `nightSky.stickers` store so old layouts load untouched; per profile, mirrored to iCloud)
+
+**Wind-Down auto mode** (Settings toggle, default OFF): opening the app at/after the family's bedtime (shared `bedtimeHour`/`bedtimeMinute` keys with NotificationService) flips bedtime mode and stages Tonight's Story — `WindDownService.shouldTrigger` is pure/testable, fires once per night via a `windDownLastFired` day-stamp, checked from BOTH `onAppear` (cold launch) and `scenePhase` onChange (re-foreground); staged story is cleared on the first pre-bedtime open of a new day. Never auto-plays. `StoryLibraryViewModel.pendingTonightsStory` drives the Home banner + card highlight.
+
+**Parent Voice** (StoryDetailView row → `.sheet`, `ParentVoiceSheet`): a grown-up records narration per story + per child to `Documents/ParentVoice/<profile>/<storyID>.m4a` (`VoiceRecordingService`; mic permission via iOS 17 `AVAudioApplication`; `NSMicrophoneUsageDescription` in Info.plist). Playback hooks in at the single chokepoint at the top of `AudioPlayerViewModel.loadStory` — recording exists → it plays instead of the bundled MP3, so lock screen/queue/sleep timer all work unchanged. Recording flips the session to `.playAndRecord` ONLY inside `startRecording`; the playback paths restore `.playback`. Failed/unsuccessful recordings are deleted immediately so a stub file can never shadow real narration. On-device only, never uploaded.
 
 **Family:** up to 4 child profiles (per-child streaks/favorites/collectibles via `ProfileScope` keys, Home-greeting switcher menu), iCloud KVS sync (`CloudSyncService` — union merges for sets, most-progress-wins for streaks; `Firefly.entitlements`), Verse of the Day card on Home, shareable story postcards (`PostcardRenderer`), story-specific Talk About It questions (all 50 in stories.json), memory-verse game (marks the nightly goal on finish), Siri "Play tonight's story" (`FireflyAppIntents` → `.playTonightsStory` notification handled at app root).
 
@@ -57,13 +61,13 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 
 1. **Update `docs/AppStoreListing.md` for 2.0** — description/What's New do NOT yet mention the v2 features (lock screen, Lights Out, iCloud, Siri, gamification, Night Sky). Then regenerate `~/Desktop/AppStoreCopy/` text files.
 2. **App Store screenshot refresh** — `~/Desktop/AppStoreScreenshots/` (iPhone-6.9 ×6 at 1320×2868, iPad-13 ×5 at 2064×2752) predates the sky/drawers/Lumi/gamification. Full recapture before the 2.0 submission.
-3. **Wind-Down Schedule** (the one unfinished v2.0-package item) — bedtime reminder exists in NotificationService; remaining: auto-flip bedtime mode + tee up Tonight's Story at T-15min.
-4. **WidgetKit extension** (streak + verse-of-day widgets) — needs a new Xcode target; create IN XCODE, not by pbxproj scripting.
-5. **v2.5 headliners:** Parent Voice recording (teleprompter + on-device audio — the marquee differentiator), verse songs, Spanish edition (TTS pipeline exists in `scripts/`), coloring-page PDFs, CarPlay.
+3. **WidgetKit extension** (streak + verse-of-day widgets) — needs a new Xcode target; create IN XCODE, not by pbxproj scripting.
+4. **v2.5 headliners:** verse songs, Spanish edition (TTS pipeline exists in `scripts/`), coloring-page PDFs, CarPlay. (Parent Voice recording shipped; a teleprompter/read-along view while recording would be a nice follow-up.)
 
 ## 6. Device/TestFlight verification checklist (simulator cannot test these)
 
 - Lock-screen Now Playing card + AirPods controls (registration PROVEN via `mediaremoted` logs; the visual card doesn't render in simulator)
+- Parent Voice mic capture (`AVAudioRecorder.record()` returns false in the simulator — host/Bluetooth input limitation; everything around it is sim-proven: file layout, failed-start cleanup, saved-state UI, and the playback chokepoint that swaps a recording in for the bundled MP3)
 - Siri phrases ("Hey Siri, play tonight's story in Firefly")
 - iCloud sync across two devices (KVS silently no-ops without an iCloud account in sim)
 - Lights Out gestures incl. Kid Lock 3s-hold; interruption auto-resume during a real phone call
