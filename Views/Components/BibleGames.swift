@@ -42,7 +42,8 @@ struct WhoAmIGameView: View {
     }
 
     private func startRound() {
-        riddles = Array(WhoAmIRiddle.bank.shuffled().prefix(riddlesPerRound))
+        riddles = GameDeck.draw(riddlesPerRound, from: WhoAmIRiddle.bank.count, key: "whoAmI")
+            .map { WhoAmIRiddle.bank[$0] }
         current = 0
         cluesShown = 1
         picked = nil
@@ -171,7 +172,8 @@ struct WhoAmIGameView: View {
 struct TrueFalseGameView: View {
     @EnvironmentObject private var appSettings: AppSettings
 
-    private let itemsPerRound = 8
+    // 6 per round x 300-item bank = 50 fully distinct rounds per pass
+    private let itemsPerRound = 6
 
     @State private var items: [TrueFalseItem] = []
     @State private var current = 0
@@ -204,7 +206,8 @@ struct TrueFalseGameView: View {
     }
 
     private func startRound() {
-        items = Array(TrueFalseItem.bank.shuffled().prefix(itemsPerRound))
+        items = GameDeck.draw(itemsPerRound, from: TrueFalseItem.bank.count, key: "trueFalse")
+            .map { TrueFalseItem.bank[$0] }
         current = 0
         score = 0
         answered = nil
@@ -399,7 +402,8 @@ struct StoryScrambleGameView: View {
     private var starCount: Int { mistakes == 0 ? 3 : mistakes <= 2 ? 2 : 1 }
 
     private func startRound() {
-        story = ScrambleStory.bank.randomElement() ?? ScrambleStory.bank[0]
+        let drawn = GameDeck.draw(1, from: ScrambleStory.bank.count, key: "storyScramble")
+        story = drawn.first.map { ScrambleStory.bank[$0] } ?? ScrambleStory.bank[0]
         shuffledSteps = story.steps.shuffled()
         placedCount = 0
         mistakes = 0
@@ -538,7 +542,10 @@ struct GuessTheStoryGameView: View {
     }
 
     private func startRound() {
-        guard let next = library.stories.randomElement() else { return }
+        // Stable order + deck rotation: all 50 pictures come up before any repeat
+        let pool = library.stories.sorted { $0.id < $1.id }
+        guard let idx = GameDeck.draw(1, from: pool.count, key: "guessTheStory").first else { return }
+        let next = pool[idx]
         story = next
         // Build decoys from distinct titles — never loop on randomElement,
         // which would spin forever if the library had fewer than 4 stories
@@ -646,29 +653,14 @@ struct VerseBuilderGameView: View {
     private var starCount: Int { mistakes == 0 ? 3 : mistakes <= 2 ? 2 : 1 }
 
     private func startRound() {
-        // A short verse works best as chips — re-roll until one fits
-        let candidates = library.stories.compactMap { story -> (String, String, String)? in
-            guard let verse = story.memoryVerse else { return nil }
-            let parts = verse.components(separatedBy: " — ")
-            let text = parts[0].trimmingCharacters(in: CharacterSet(charactersIn: "\u{201C}\u{201D}\""))
-            let ref = parts.count > 1 ? parts[1] : ""
-            let count = text.split(separator: " ").count
-            guard (4...12).contains(count) else { return nil }
-            return (story.title, text, ref)
-        }
-        // Fallback: if no verse fits the chip-friendly window, take any
-        // verse-bearing story rather than rendering an empty board
-        let fallback = library.stories.compactMap { story -> (String, String, String)? in
-            guard let verse = story.memoryVerse else { return nil }
-            let parts = verse.components(separatedBy: " — ")
-            let text = parts[0].trimmingCharacters(in: CharacterSet(charactersIn: "\u{201C}\u{201D}\""))
-            guard !text.isEmpty else { return nil }
-            return (story.title, text, parts.count > 1 ? parts[1] : "")
-        }
-        guard let (title, text, ref) = candidates.randomElement() ?? fallback.randomElement() else { return }
-        storyTitle = title
-        reference = ref
-        words = text.split(separator: " ").map(String.init)
+        // Curated chip-friendly verses — one per story, dealt so all 50
+        // come up before any repeat
+        guard let idx = GameDeck.draw(1, from: BuilderVerse.bank.count, key: "verseBuilder").first
+        else { return }
+        let verse = BuilderVerse.bank[idx]
+        storyTitle = verse.storyTitle
+        reference = verse.reference
+        words = verse.text.split(separator: " ").map(String.init)
         pool = words.enumerated().map { IndexedWord(id: $0.offset, text: $0.element) }.shuffled()
         placedCount = 0
         mistakes = 0

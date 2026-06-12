@@ -263,7 +263,9 @@ struct MemoryMatchGameView: View {
     }
 
     private func startGame() {
-        let treasures = Collectible.all.shuffled().prefix(difficulty.pairCount)
+        // Deck rotation: the next board never reuses the icons just played
+        let treasures = GameDeck.draw(difficulty.pairCount, from: Collectible.all.count, key: "treasureMatch")
+            .map { Collectible.all[$0] }
         var deck: [MatchCard] = []
         for t in treasures {
             deck.append(MatchCard(emoji: t.emoji, pairID: t.id))
@@ -416,7 +418,8 @@ struct StoryQuizView: View {
     }
 
     private func startRound() {
-        questions = Array(QuizQuestion.bank.shuffled().prefix(questionsPerRound))
+        questions = GameDeck.draw(questionsPerRound, from: QuizQuestion.bank.count, key: "storyQuiz")
+            .map { QuizQuestion.bank[$0] }
         current = 0
         score = 0
         picked = nil
