@@ -17,7 +17,7 @@
 
 A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible stories (bundled MP3s), single Midjourney illustration per story, starry "Wise Men" teal-night theme app-wide, Lumi the firefly as the living mascot/brand.
 
-**Navigation:** 5 tabs + two left drawers — Home's hamburger menu (`SideMenuView`: themes, Bedtime Routine, Lumi's Night Sky, Parent Dashboard — the designated home for new features via `SideMenuDestination`) and Library's filter drawer (`LibraryFilterMenu`, same file: collapsible Ages/Themes drop-down sections, live "Show N stories" button, dismissible filter pills on the page).
+**Navigation:** 5 tabs + two left drawers — Home's hamburger menu (`SideMenuView`: themes, 7-Day Journeys, Bedtime Routine, Lumi's Night Sky, Parent Dashboard — the designated home for new features via `SideMenuDestination`) and Library's filter drawer (`LibraryFilterMenu`, same file: collapsible Ages/Themes drop-down sections, live "Show N stories" button, dismissible filter pills on the page).
 
 **Audio:** lock-screen Now Playing + remote commands + interruption auto-resume (`AudioPlayerViewModel`), Sleepy Speed 0.85x, Tonight's Queue (chain 3 stories), sleep timer, 6 ambient sounds, Lights Out mode (`LightsOutView` — near-black screen, audio continues; Kid Lock setting = 3s-hold to wake instead of double-tap).
 
@@ -28,6 +28,7 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 - Nightly: Tonight's Goals on Home (listen / practice a verse / breathe → Golden Night bonus star) — `GoalsTracker`
 - Weekly: Weekly Challenge on Rewards (theme rotates by ISO week, progress computed from `storiesReadDates`, deep-links to themed Library, bonus star once per week)
 - Levels: `FireflyLevel` — 10 named ranks from Sleep Stars (Tiny Spark → Light of the World), progress ring on Rewards, `LevelUpCelebrationView` confetti fires via `readingStreak.leveledUpTo`
+- Weekly+: **7-Day Journeys** (`JourneysView`/`JourneyDetailView` via the side menu — 4 themed week plans in `Journey.all` sequencing existing stories; per-child completed-day sets in `JourneyProgressManager` under `journeyProgress` keys, union-merged by iCloud)
 - Long-term: 27 badges (emoji cards, tap for progress via `BadgeDetailSheet`), Treasure Sets (7 theme sets in `CollectionAlbumView`), **Lumi's Night Sky** (`NightSkyView` — per-child decoratable scene: tap drawer treasure to place, drag, hold to return; positions per profile, iCloud-synced)
 
 **Family:** up to 4 child profiles (per-child streaks/favorites/collectibles via `ProfileScope` keys, Home-greeting switcher menu), iCloud KVS sync (`CloudSyncService` — union merges for sets, most-progress-wins for streaks; `Firefly.entitlements`), Verse of the Day card on Home, shareable story postcards (`PostcardRenderer`), story-specific Talk About It questions (all 50 in stories.json), memory-verse game (marks the nightly goal on finish), Siri "Play tonight's story" (`FireflyAppIntents` → `.playTonightsStory` notification handled at app root).
@@ -38,7 +39,7 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 2. **Never nest a Button inside a NavigationLink's label** — both gestures deadlock silently. `StoryCardView` is the pattern: NavigationLink wraps the content; the play Button is a *sibling* in the HStack.
 3. **Drawer/overlay panels**: render `if isOpen` with `.transition(.move(edge: .leading))` inside a `.frame(maxWidth:.infinity, maxHeight:.infinity, alignment:.leading)` ZStack. Offset-hiding leaves a visible left-edge shading sliver (owner caught this).
 4. **`BadgeDetailSheet.targets` must mirror `ReadingStreak.checkBadges()` thresholds** — maintained in two places.
-5. **pbxproj is objectVersion 56** (explicit file refs). Every new .swift file needs 4 insertions: PBXBuildFile, PBXFileReference, group children, Sources phase. Established ID pattern `E0ABCDEF1234567890ABCC#` / `E01234567890ABCDEF1234C#` — last used **C6** (NightSkyView). Next: C7. (Appending a struct to an existing registered file avoids this entirely.)
+5. **pbxproj is objectVersion 56** (explicit file refs). Every new .swift file needs 4 insertions: PBXBuildFile, PBXFileReference, group children, Sources phase. Established ID pattern `E0ABCDEF1234567890ABCC#` / `E01234567890ABCDEF1234C#` — last used **CA** (JourneyDetailView; C7–CA are the four Journey files). Next: CB. (Appending a struct to an existing registered file avoids this entirely.)
 6. **Audio session mode is `.default`** (NOT `.spokenAudio` — old docs lied). setCategory in both loadAudio methods + startup; never `.mixWithOthers`.
 7. **ImageRenderer postcards: render once** into `@State` in `.task` — the detail view redraws 4×/sec during playback; a render-per-redraw is a real perf bug (was caught and fixed).
 8. StoryArtworkView decorative layers stay `.allowsHitTesting(false)`; MagicTouchLayer lives ONLY on the detail hero, never on cards.
@@ -57,9 +58,8 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 1. **Update `docs/AppStoreListing.md` for 2.0** — description/What's New do NOT yet mention the v2 features (lock screen, Lights Out, iCloud, Siri, gamification, Night Sky). Then regenerate `~/Desktop/AppStoreCopy/` text files.
 2. **App Store screenshot refresh** — `~/Desktop/AppStoreScreenshots/` (iPhone-6.9 ×6 at 1320×2868, iPad-13 ×5 at 2064×2752) predates the sky/drawers/Lumi/gamification. Full recapture before the 2.0 submission.
 3. **Wind-Down Schedule** (the one unfinished v2.0-package item) — bedtime reminder exists in NotificationService; remaining: auto-flip bedtime mode + tee up Tonight's Story at T-15min.
-4. **7-Day Journeys** — themed week devotional plans sequencing existing stories/verses/questions.
-5. **WidgetKit extension** (streak + verse-of-day widgets) — needs a new Xcode target; create IN XCODE, not by pbxproj scripting.
-6. **v2.5 headliners:** Parent Voice recording (teleprompter + on-device audio — the marquee differentiator), verse songs, Spanish edition (TTS pipeline exists in `scripts/`), coloring-page PDFs, CarPlay.
+4. **WidgetKit extension** (streak + verse-of-day widgets) — needs a new Xcode target; create IN XCODE, not by pbxproj scripting.
+5. **v2.5 headliners:** Parent Voice recording (teleprompter + on-device audio — the marquee differentiator), verse songs, Spanish edition (TTS pipeline exists in `scripts/`), coloring-page PDFs, CarPlay.
 
 ## 6. Device/TestFlight verification checklist (simulator cannot test these)
 

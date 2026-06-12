@@ -128,6 +128,10 @@
 		E0ABCDEF1234567890ABCC4 /* FireflyAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C4 /* App/FireflyAppIntents.swift */; };
 		E0ABCDEF1234567890ABCC5 /* FireflyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C5 /* Models/FireflyLevel.swift */; };
 		E0ABCDEF1234567890ABCC6 /* NightSkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C6 /* Views/Components/NightSkyView.swift */; };
+		E0ABCDEF1234567890ABCC7 /* Journey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C7 /* Models/Journey.swift */; };
+		E0ABCDEF1234567890ABCC8 /* JourneyProgressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C8 /* ViewModels/JourneyProgressManager.swift */; };
+		E0ABCDEF1234567890ABCC9 /* JourneysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234C9 /* Views/JourneysView.swift */; };
+		E0ABCDEF1234567890ABCCA /* JourneyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234CA /* Views/JourneyDetailView.swift */; };
 		E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */; };
 /* End PBXBuildFile section */
 
@@ -249,6 +253,10 @@
 		E01234567890ABCDEF1234C4 /* App/FireflyAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/FireflyAppIntents.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C5 /* Models/FireflyLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/FireflyLevel.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234C6 /* Views/Components/NightSkyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/NightSkyView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234C7 /* Models/Journey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Journey.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234C8 /* ViewModels/JourneyProgressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/JourneyProgressManager.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234C9 /* Views/JourneysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/JourneysView.swift; sourceTree = "<group>"; };
+		E01234567890ABCDEF1234CA /* Views/JourneyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/JourneyDetailView.swift; sourceTree = "<group>"; };
 		E01234567890ABCDEF1234A6 /* Views/Components/StoryProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/StoryProgressBar.swift; sourceTree = "<group>"; };
 		AA0001111111111111111111 /* Views/Components/LumiMascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Components/LumiMascotView.swift; sourceTree = "<group>"; };
 		AA0002222222222222222222 /* Models/Collectible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Collectible.swift; sourceTree = "<group>"; };
@@ -288,6 +296,8 @@
 				4F7DF1E87CC44948B2B4681B /* Views/RewardsView.swift */,
 				E01234567890ABCDEF1234A2 /* Views/OnboardingView.swift */,
 				E01234567890ABCDEF1234A3 /* Views/ParentDashboardView.swift */,
+				E01234567890ABCDEF1234C9 /* Views/JourneysView.swift */,
+				E01234567890ABCDEF1234CA /* Views/JourneyDetailView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -300,6 +310,7 @@
 				257E9DA7C84F4184956063B7 /* ViewModels/PurchaseViewModel.swift */,
 				229C55CBD4CC41DB982139AF /* ViewModels/StoryLibraryViewModel.swift */,
 				2EC059F15B414E308DB623A6 /* ViewModels/ReadingStreakViewModel.swift */,
+				E01234567890ABCDEF1234C8 /* ViewModels/JourneyProgressManager.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -434,6 +445,7 @@
 				198D30632ECD4C8997B1D7EF /* Models/Story.swift */,
 				3485BA021E484E4DB5C3596D /* Models/ReadingStreak.swift */,
 				AA0002222222222222222222 /* Models/Collectible.swift */,
+				E01234567890ABCDEF1234C7 /* Models/Journey.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -677,6 +689,10 @@
 				E0ABCDEF1234567890ABCC4 /* FireflyAppIntents.swift in Sources */,
 				E0ABCDEF1234567890ABCC5 /* FireflyLevel.swift in Sources */,
 				E0ABCDEF1234567890ABCC6 /* NightSkyView.swift in Sources */,
+				E0ABCDEF1234567890ABCC7 /* Journey.swift in Sources */,
+				E0ABCDEF1234567890ABCC8 /* JourneyProgressManager.swift in Sources */,
+				E0ABCDEF1234567890ABCC9 /* JourneysView.swift in Sources */,
+				E0ABCDEF1234567890ABCCA /* JourneyDetailView.swift in Sources */,
 				E0ABCDEF1234567890ABCA6 /* StoryProgressBar.swift in Sources */,
 				BB1111111111111111111111 /* Views/Components/LumiMascotView.swift in Sources */,
 				BB2222222222222222222222 /* Models/Collectible.swift in Sources */,
