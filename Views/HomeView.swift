@@ -69,9 +69,6 @@ struct HomeView: View {
                 // MARK: - Reading Streak Banner
                 StreakBannerView()
 
-                // MARK: - Verse of the Day
-                VerseOfTheDayCard()
-
                 // MARK: - Recently Read
                 if !recentlyReadStories.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
@@ -184,6 +181,9 @@ struct HomeView: View {
                         }
                     }
                 }
+
+                // MARK: - Verse of the Day
+                VerseOfTheDayCard()
 
                 // MARK: - Story of the Week
                 if let weeklyStory = storyOfTheWeek {
@@ -616,8 +616,8 @@ struct StreakBannerView: View {
             }
         }
         .padding()
-        .background(AppTheme.cardBackground(for: appSettings.isBedtimeMode))
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        // No card backing — the stats float right on the starry sky
+        // (owner request June 2026)
     }
 }
 
