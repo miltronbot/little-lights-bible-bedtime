@@ -147,6 +147,26 @@ final class VoiceRecordingService: NSObject, ObservableObject {
         guard let url = Self.recordingURL(storyID: storyID, profile: profile) else { return }
         try? FileManager.default.removeItem(at: url)
     }
+
+    /// Copies one child's recording of a story to another child's folder so a
+    /// single take can serve several children. Overwrites any existing copy.
+    @discardableResult
+    func copyRecording(storyID: String, from source: String, to target: String) -> Bool {
+        guard let src = Self.recordingURL(storyID: storyID, profile: source),
+              let dst = Self.recordingURL(storyID: storyID, profile: target),
+              FileManager.default.fileExists(atPath: src.path) else { return false }
+        try? FileManager.default.createDirectory(
+            at: dst.deletingLastPathComponent(), withIntermediateDirectories: true
+        )
+        try? FileManager.default.removeItem(at: dst)
+        do {
+            try FileManager.default.copyItem(at: src, to: dst)
+            return true
+        } catch {
+            print("[ParentVoice] Copy to \(target) failed: \(error.localizedDescription)")
+            return false
+        }
+    }
 }
 
 extension VoiceRecordingService: AVAudioRecorderDelegate {
