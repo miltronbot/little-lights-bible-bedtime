@@ -25,6 +25,21 @@ struct HomeView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
 
+                // MARK: - Awards strip (top right, scrolls with the page)
+                HStack {
+                    Spacer()
+                    Button {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                            statsExpanded = true
+                        }
+                    } label: {
+                        CompactStatsView()
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Your awards — tap to see everything")
+                }
+
                 // MARK: - Header with greeting and Lumi
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 6) {
@@ -276,13 +291,13 @@ struct HomeView: View {
                 .accessibilityLabel("Open menu")
             }
         }
-        // The streak banner, shrunk to a glanceable strip floating at the
-        // top right (not a ToolbarItem — the glass toolbar washes out the
-        // flame/star tints). Tap it to expand the full awards summary.
+        // The expanded awards summary still pops over the content (so it can
+        // be dismissed by tapping anywhere), but the strip itself lives IN
+        // the scroll — it no longer floats (owner request June 2026).
         .overlay(alignment: .topTrailing) {
-            ZStack(alignment: .topTrailing) {
-                // Tap-outside-to-close scrim, only while expanded
-                if statsExpanded {
+            if statsExpanded {
+                ZStack(alignment: .topTrailing) {
+                    // Tap-outside-to-close scrim
                     Color.black.opacity(0.001)
                         .ignoresSafeArea()
                         .onTapGesture {
@@ -290,8 +305,6 @@ struct HomeView: View {
                                 statsExpanded = false
                             }
                         }
-                }
-                if statsExpanded {
                     ExpandedStatsCard {
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
                             statsExpanded = false
@@ -300,20 +313,6 @@ struct HomeView: View {
                     .padding(.trailing, 16)
                     .padding(.top, 6)
                     .transition(.scale(scale: 0.3, anchor: .topTrailing).combined(with: .opacity))
-                } else {
-                    Button {
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-                            statsExpanded = true
-                        }
-                    } label: {
-                        CompactStatsView()
-                            .padding(.trailing, 16)
-                            .padding(.top, 6)
-                            .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Your awards — tap to see everything")
-                    .transition(.scale(scale: 1.4, anchor: .topTrailing).combined(with: .opacity))
                 }
             }
         }
@@ -612,7 +611,7 @@ struct CompactStatsView: View {
     @EnvironmentObject private var appSettings: AppSettings
 
     var body: some View {
-        HStack(spacing: 7) {
+        HStack(spacing: 18) {
             stat(icon: "flame.fill", tint: .orange,
                  value: readingStreak.currentStreak, label: "day streak")
             stat(icon: "star.fill", tint: .yellow,
@@ -620,17 +619,17 @@ struct CompactStatsView: View {
             stat(icon: "book.fill", tint: AppTheme.accent(for: appSettings.isBedtimeMode),
                  value: readingStreak.totalStoriesRead, label: "stories read")
         }
-        // Never let the nav bar truncate the strip into "…"
         .fixedSize()
     }
 
     private func stat(icon: String, tint: Color, value: Int, label: String) -> some View {
-        HStack(spacing: 2) {
+        HStack(spacing: 6) {
             Image(systemName: icon)
-                .font(.system(size: 10, weight: .bold))
+                .font(.system(size: 30, weight: .bold))
                 .foregroundStyle(tint)
+                .shadow(color: tint.opacity(0.6), radius: 7)
             Text("\(value)")
-                .font(.caption2.bold())
+                .font(.system(size: 32, weight: .bold, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
         }
