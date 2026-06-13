@@ -8,18 +8,10 @@ struct HomeView: View {
     @EnvironmentObject private var audioPlayer: AudioPlayerViewModel
     @EnvironmentObject private var favoritesViewModel: FavoritesViewModel
 
-    @State private var lumiGreeting: String? = nil
     @State private var showSideMenu = false
     @State private var menuDestination: SideMenuDestination?
     /// The top-right stats strip expands into the full awards summary.
     @State private var statsExpanded = false
-
-    private var lumiTimeMessage: String {
-        let hour = Calendar.current.component(.hour, from: Date())
-        if hour >= 18 { return "Sleepy time!" }
-        else if hour >= 12 { return "Story time!" }
-        else { return "Good morning!" }
-    }
 
     var body: some View {
         ScrollView {
@@ -75,20 +67,7 @@ struct HomeView: View {
                         .buttonStyle(.plain)
                         .accessibilityLabel("Your awards — tap to see everything")
                     }
-
-                    // Row 2: the big title, Lumi keeping watch on the right
-                    HStack(alignment: .top) {
-                        Text("Bible Bedtime")
-                            .font(.system(size: 34, weight: .bold, design: .rounded))
-                            .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                        + Text(" Stories")
-                            .font(.system(size: 34, weight: .bold, design: .rounded))
-                            .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
-                        Spacer(minLength: 8)
-                        LumiMascotView(size: 32, message: lumiGreeting)
-                    }
                 }
-                .onAppear { lumiGreeting = lumiTimeMessage }
 
                 // MARK: - Recently Read
                 if !recentlyReadStories.isEmpty {
@@ -632,11 +611,11 @@ struct CompactStatsView: View {
     private func stat(icon: String, tint: Color, value: Int, label: String) -> some View {
         HStack(spacing: 5) {
             Image(systemName: icon)
-                .font(.system(size: 27, weight: .bold))
+                .font(.system(size: 22, weight: .bold))
                 .foregroundStyle(tint)
-                .shadow(color: tint.opacity(0.6), radius: 7)
+                .shadow(color: tint.opacity(0.6), radius: 6)
             Text("\(value)")
-                .font(.system(size: 29, weight: .bold, design: .rounded))
+                .font(.system(size: 23, weight: .bold, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
         }

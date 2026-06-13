@@ -18,7 +18,7 @@ struct GamesView: View {
 
     /// A story with a memory verse for Verse Practice — re-rolled each visit.
     private var verseStory: Story? {
-        library.stories.filter { $0.memoryVerse != nil }.randomElement()
+        library.stories.filter { MemoryVerseGame.isPlayable($0.memoryVerse) }.randomElement()
     }
 
     var body: some View {
