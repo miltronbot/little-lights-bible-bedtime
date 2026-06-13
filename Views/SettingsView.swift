@@ -399,6 +399,10 @@ struct SettingsView: View {
                     Text("50 Bible bedtime stories with love")
                         .font(.caption2)
                         .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
+                    Text("Scripture quotations from the World English Bible (public domain).")
+                        .font(.caption2)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
                 }
                 .frame(maxWidth: .infinity)
             }
