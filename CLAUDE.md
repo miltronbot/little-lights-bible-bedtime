@@ -7,7 +7,7 @@
 ## Project Overview
 A free SwiftUI children's Bible bedtime story app for iOS 17+. Features 50 fully-narrated Bible stories, rich procedural artwork, bedtime routine tools, reading streaks, and collectibles. Completely free — no paywall, no ads, no analytics. COPPA compliant.
 
-**Current status: v2.0 feature-complete on main (zero warnings); v1.0 in App Store review. App renamed "FireFly: Bible Bedtime Stories" — ASC name field still needs the owner (HANDOFF §1 + ⭐ START HERE for all open items).**
+**Current status: v2.0 feature-complete on main (zero warnings); v1.0 in App Store review. ASC name is set ("FireFly: Bible Bedtime Stories", owner-confirmed June 2026); Home bobbing confirmed FIXED; listing copy rewritten for 2.0. Main pre-2.0-submission item left: screenshot recapture (HANDOFF ⭐ START HERE).**
 
 ## Tech Stack
 - **Language:** Swift 5.0
