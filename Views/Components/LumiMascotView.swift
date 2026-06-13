@@ -55,27 +55,32 @@ struct LumiMascotView: View {
     }
 
     var body: some View {
-        VStack(spacing: 12) {
-            firefly
-                .onAppear {
-                    startGlowAnimation()
-                    if message != nil {
-                        showSpeechBubble = true
-                        dismissSpeechBubbleAfterDelay()
-                    }
+        // The bubble is an OVERLAY, not a stacked sibling: it must never
+        // occupy layout, or every show/hide bobs the whole page up and down
+        // (this was visibly rocking the Home scroll — owner bug report).
+        firefly
+            .onAppear {
+                startGlowAnimation()
+                if message != nil {
+                    showSpeechBubble = true
+                    dismissSpeechBubbleAfterDelay()
                 }
-                .onChange(of: message) { oldValue, newValue in
-                    if newValue != nil {
-                        showSpeechBubble = true
-                        dismissSpeechBubbleAfterDelay()
-                    }
-                }
-
-            if showSpeechBubble, let message = message {
-                speechBubble(with: message)
-                    .transition(.scale(scale: 0.8).combined(with: .opacity))
             }
-        }
+            .onChange(of: message) { oldValue, newValue in
+                if newValue != nil {
+                    showSpeechBubble = true
+                    dismissSpeechBubbleAfterDelay()
+                }
+            }
+            .overlay(alignment: .topTrailing) {
+                if showSpeechBubble, let message = message {
+                    speechBubble(with: message)
+                        .frame(width: 210, alignment: .trailing)
+                        .offset(y: size + 18)
+                        .transition(.scale(scale: 0.8).combined(with: .opacity))
+                        .allowsHitTesting(false)
+                }
+            }
     }
 
     // MARK: - Subviews
