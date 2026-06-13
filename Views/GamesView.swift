@@ -135,15 +135,39 @@ struct GameCard: View {
 
     @EnvironmentObject private var appSettings: AppSettings
 
+    /// Bundled Midjourney artwork for this game, when the owner has added
+    /// it to Assets.xcassets (same pipeline as story art). Named
+    /// "game-<slug>" from the title; falls back to the SF-symbol tile so
+    /// the hub never breaks while artwork is pending.
+    private var artworkName: String {
+        "game-" + title.lowercased()
+            .replacingOccurrences(of: "'", with: "")
+            .replacingOccurrences(of: "?", with: "")
+            .trimmingCharacters(in: .whitespaces)
+            .replacingOccurrences(of: " ", with: "-")
+    }
+
     var body: some View {
         HStack(spacing: 14) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(tint.opacity(0.22))
-                    .frame(width: 54, height: 54)
-                Image(systemName: icon)
-                    .font(.system(size: 24))
-                    .foregroundStyle(tint)
+            if let artwork = UIImage(named: artworkName) {
+                Image(uiImage: artwork)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 58, height: 58)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Color.white.opacity(0.12), lineWidth: 1)
+                    )
+            } else {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 14)
+                        .fill(tint.opacity(0.22))
+                        .frame(width: 54, height: 54)
+                    Image(systemName: icon)
+                        .font(.system(size: 24))
+                        .foregroundStyle(tint)
+                }
             }
 
             VStack(alignment: .leading, spacing: 3) {

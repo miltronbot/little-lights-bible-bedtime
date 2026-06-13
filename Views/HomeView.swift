@@ -11,6 +11,8 @@ struct HomeView: View {
     @State private var lumiGreeting: String? = nil
     @State private var showSideMenu = false
     @State private var menuDestination: SideMenuDestination?
+    /// The top-right stats strip expands into the full awards summary.
+    @State private var statsExpanded = false
 
     private var lumiTimeMessage: String {
         let hour = Calendar.current.component(.hour, from: Date())
@@ -276,12 +278,44 @@ struct HomeView: View {
         }
         // The streak banner, shrunk to a glanceable strip floating at the
         // top right (not a ToolbarItem — the glass toolbar washes out the
-        // flame/star tints)
+        // flame/star tints). Tap it to expand the full awards summary.
         .overlay(alignment: .topTrailing) {
-            CompactStatsView()
-                .padding(.trailing, 16)
-                .padding(.top, 6)
-                .allowsHitTesting(false)
+            ZStack(alignment: .topTrailing) {
+                // Tap-outside-to-close scrim, only while expanded
+                if statsExpanded {
+                    Color.black.opacity(0.001)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                                statsExpanded = false
+                            }
+                        }
+                }
+                if statsExpanded {
+                    ExpandedStatsCard {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                            statsExpanded = false
+                        }
+                    }
+                    .padding(.trailing, 16)
+                    .padding(.top, 6)
+                    .transition(.scale(scale: 0.3, anchor: .topTrailing).combined(with: .opacity))
+                } else {
+                    Button {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                            statsExpanded = true
+                        }
+                    } label: {
+                        CompactStatsView()
+                            .padding(.trailing, 16)
+                            .padding(.top, 6)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Your awards — tap to see everything")
+                    .transition(.scale(scale: 1.4, anchor: .topTrailing).combined(with: .opacity))
+                }
+            }
         }
         .overlay {
             SideMenuView(isOpen: $showSideMenu, selection: $menuDestination)
@@ -602,6 +636,101 @@ struct CompactStatsView: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(value) \(label)")
+    }
+}
+
+// MARK: - Expanded Stats (awards summary)
+// Tapping the compact strip blooms into this card: everything the child
+// has earned, at a glance. Tap the chevron or anywhere outside to close.
+
+struct ExpandedStatsCard: View {
+    let onClose: () -> Void
+
+    @EnvironmentObject private var readingStreak: ReadingStreakViewModel
+    @EnvironmentObject private var collectiblesManager: CollectiblesManager
+    @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var library: StoryLibraryViewModel
+
+    private var earnedBadgeCount: Int { readingStreak.earnedBadges.count }
+    private var gameStars: Int { UserDefaults.standard.integer(forKey: GameStars.key) }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text("Everything You Have")
+                    .font(.subheadline.bold())
+                    .foregroundStyle(.white)
+                Spacer()
+                Button(action: onClose) {
+                    Image(systemName: "chevron.up.circle.fill")
+                        .font(.title3)
+                        .foregroundStyle(.white.opacity(0.6))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Close awards summary")
+            }
+
+            let level = FireflyLevel.level(forStars: readingStreak.sleepStars)
+            Text("Level \(level.number) · \(level.name)")
+                .font(.caption.bold())
+                .foregroundStyle(.yellow)
+
+            row(icon: "flame.fill", tint: .orange, label: "Night streak",
+                value: "\(readingStreak.currentStreak)",
+                detail: "best \(readingStreak.longestStreak)")
+            row(icon: "star.fill", tint: .yellow, label: "Sleep Stars",
+                value: "\(readingStreak.sleepStars)", detail: nil)
+            row(icon: "book.fill", tint: Color(red: 0.55, green: 0.58, blue: 0.95), label: "Stories read",
+                value: "\(readingStreak.totalStoriesRead)",
+                detail: "of \(max(library.stories.count, 1))")
+            row(icon: "shippingbox.fill", tint: .brown, label: "Treasures",
+                value: "\(collectiblesManager.collectedCount)",
+                detail: "of \(Collectible.all.count)")
+            row(icon: "seal.fill", tint: .mint, label: "Badges",
+                value: "\(earnedBadgeCount)",
+                detail: "of \(ReadingStreak.badgeInfo.count)")
+            row(icon: "gamecontroller.fill", tint: .pink, label: "Game stars",
+                value: "\(gameStars)", detail: nil)
+
+            Text("See them all in the Rewards tab ⭐")
+                .font(.caption2)
+                .foregroundStyle(.white.opacity(0.6))
+        }
+        .padding(14)
+        .frame(width: 250)
+        .background(
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color(red: 0.06, green: 0.10, blue: 0.18).opacity(0.96))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(Color.white.opacity(0.15), lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.5), radius: 18)
+    }
+
+    @ViewBuilder
+    private func row(icon: String, tint: Color, label: String, value: String, detail: String?) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: icon)
+                .font(.caption)
+                .foregroundStyle(tint)
+                .frame(width: 18)
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(.white.opacity(0.85))
+            Spacer()
+            Text(value)
+                .font(.caption.bold())
+                .monospacedDigit()
+                .foregroundStyle(.white)
+            if let detail {
+                Text(detail)
+                    .font(.caption2)
+                    .foregroundStyle(.white.opacity(0.5))
+            }
+        }
+        .accessibilityElement(children: .combine)
     }
 }
 
