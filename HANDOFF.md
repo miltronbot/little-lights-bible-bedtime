@@ -1,19 +1,34 @@
 # FireFly: Bible Bedtime Stories — Session Handoff
-**Last updated:** June 12, 2026 (end of the v2-polish marathon — PRs #42–#55)
-**Status:** v2.0 feature-complete on `main` · zero build warnings on iPhone AND iPad · v1.0 sitting in App Store review
+**Last updated:** June 12, 2026, late session (owner-feedback marathon — PRs #56–#69)
+**Status:** v2.0 feature-complete on `main` · zero build warnings · v1.0 sitting in App Store review · app renamed "FireFly: Bible Bedtime Stories"
 **Read `CLAUDE.md` first** for the quick-reference facts; this file is the deep handoff.
 
 ---
 
-## ⭐ START HERE — where the last session ended
+## ⭐ START HERE — open items for the next session
 
-**Rewards icon upgrade: DONE** (the owner's "emoji icons seem cheap" request). Shipped as option (a): procedural SF Symbol compositions in `Support/RewardIcons.swift` — `CollectibleIconView` (radial-gradient gem disc, glassy highlight, gold ring + sparkle when earned, grayscale-dimmed until then) and `BadgeIconView` (seal.fill medal backplate, inner rim, symbol glyph). Specs live in `RewardIconCatalog` (50 collectible + 27 badge entries, every symbol verified present on iOS 16/17 via the system glyph database; if a symbol is ever missing at runtime the views fall back to the original emoji — which is why the `emoji` fields stay in the models). Updated render sites: RewardsView cards, CollectionAlbumView (featured + grid), CollectiblesShowcaseView, BadgeDetailSheet, ParentDashboardView milestones, StoryDetailView collectible row, Story/Badge celebration overlays (now take `collectible:`/`badgeID:` instead of emoji strings), NightSkyView placed treasures + drawer (palette stickers deliberately stay emoji so earned treasures look special), Treasure Match card faces (a11y labels now say the treasure name). **Adding a new collectible/badge now requires a `RewardIconCatalog` entry** alongside the model row. If the owner wants to go further later: option (b) was a Midjourney icon set (midjourney.com blocked in claude-in-chrome, see §7).
+**1. THE HOME-PAGE "BOBBING" — verify with the owner FIRST.** The owner reported the Home screen visibly bobbing up and down, three times. Two real causes were found and fixed: (a) Lumi's speech bubble lived in the header layout and shoved the page on every show/hide — made a layout-neutral overlay (PR #67); (b) the REAL engine: ~80 twinkling stars + 12 floating particles in `StarryNightBackground` each fired `withAnimation(.repeatForever)` from `onAppear` during Home's commit, leaking the repeating transaction into the page's own layout — every repeatForever in the app is now scoped via `.animation(_, value:)` (PR #69, see gotcha #9 in §3). AFTER #69, the current main build was verified pixel-still: title template-matched at 0px across 22 frames/10s (normal mode) and 20 frames/5s (bedtime mode), with near-zero whole-screen pixel deltas. The owner's third "still bobbing" report came seconds after #69 merged — almost certainly a STALE BUILD on their side. → First step next session: have the owner pull main, rebuild in Xcode, run. If they STILL see bobbing on a fresh build, get a screen recording + their run destination (device vs sim) before touching code; the candidates left are perceptual (Lumi's glow pulse in the header scales 0.95↔1.1; the "Sleepy time!" bubble popping in/out on each Home visit) — both could be calmed if the owner confirms that's what they're seeing.
 
-Possible follow-ups if the owner asks: upgrade the Night Sky palette stickers and Games-hub emoji accents to the same language; deferred backlog in §5.
+**2. Midjourney game-tile artwork — owner's court.** The Games hub is wired (`GameCard` loads Assets named `game-<slug>`, falls back to SF tiles). The owner generates the eight images from `docs/GameArtPrompts.md` (ready-to-paste prompts, style-matched to story art) and drops them into Assets.xcassets — zero code changes. midjourney.com is blocked for claude-in-chrome.
 
-Also done earlier in this arc: review prompt at story milestones 5/20/60 via `requestReview` in ContentView (`lastReviewMilestone` key, 6s delay so it never lands on a celebration).
+**3. App Store Connect name — owner's court.** Set App Information → Name to "FireFly: Bible Bedtime Stories" (exactly 30 chars = the ASC limit; cleared on App Store + trademark sweep June 2026). If v1.0 review locks the field: developer-reject + rename + resubmit, or rename with 2.0.
 
----
+**4. Listing copy + screenshots are now DOUBLY stale** (§5): docs/AppStoreListing.md predates v2 features AND the FireFly rename. Regenerate before 2.0 submission. Also suggest (again) one hour of trademark/terms attorney review before 2.0 ships.
+
+### What shipped this session (PRs #56–#69, all merged, each verified + zero warnings)
+- **#56** Reward icons: procedural gem/medal compositions replace emoji (`Support/RewardIcons.swift`, `RewardIconCatalog` — new rewards need a catalog entry)
+- **#57** All contact → Miltonbot@icloud.com; hardened ToU (arbitration, $0 cap, class waiver); "True or Lumi?" → "Lumi's True or False" (never imply Lumi = false)
+- **#58** Side menu: collapsible Browse by Theme (icon stack ↔ cards) + More tiles in theme-card styling
+- **#59** Legal airtight pass: parent acceptance, Apple EULA provisions, CA §1542, health/content disclaimers, Parent Voice user-content terms; privacy policy rewritten ACCURATE for v2 (iCloud, mic, ElevenLabs, profiles) — KEEP THE SIX LEGAL SURFACES IN SYNC (now seven incl. photo-add disclosure)
+- **#60** Games: 50+ versions each — banks cover all 50 stories (300 quiz / 300 T-F / 50 riddles / 50 scrambles / 50 builder verses), `GameDeck` persisted no-repeat dealing
+- **#61** Renamed everything "FireFly: Bible Bedtime Stories" (exact casing; under-icon "FireFly"; bundle id unchanged)
+- **#62** Night Sky: 100-sticker drop-down palette (first 8 ids frozen) + camera→Photos (add-only permission); Tonight's Goals moved to side menu; 3 completion badges (Treasure Keeper / Badge Champion / Lumi's Grand Light via `refreshCompletionBadges`)
+- **#63–#64** Home: verse below Tonight's Story; floating-then-unfloating stats; centered inline "Home"; artwork above the fold
+- **#65** Game-art plumbing + tap-to-expand `ExpandedStatsCard` ("Everything You Have")
+- **#66** Awards strip: in scroll flow (no floating), ~3× size
+- **#67** Bobbing cause #1: speech bubble → layout-neutral overlay; strip beside greeting
+- **#68** Autoplay REMOVED (`autoPlayNarration` deleted; narration starts on tap only)
+- **#69** Bobbing cause #2 (the engine): every `withAnimation(.repeatForever)` in Views converted to scoped `.animation(_, value:)` — see gotcha #9
 
 ## 1. Where things stand RIGHT NOW
 
