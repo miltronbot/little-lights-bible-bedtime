@@ -488,11 +488,8 @@ struct StoryDetailView: View {
                 playPulse = true
             }
             refreshParentVoice()
-            // Tap the story, hear the story — auto-start narration unless
-            // the parent turned it off in Settings
-            if appSettings.autoPlayNarration && audioPlayerViewModel.currentStoryID != story.id {
-                audioPlayerViewModel.loadAndPlay(story: story)
-            }
+            // No auto-play: narration starts only when the family taps the
+            // play button (owner request June 2026 — autoplay removed)
         }
         .onDisappear {
             // Full-screen covers (Lights Out, blessings) also trigger

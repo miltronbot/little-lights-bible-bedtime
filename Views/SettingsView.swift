@@ -66,9 +66,6 @@ struct SettingsView: View {
                     }
                 }
 
-                Toggle(isOn: $appSettings.autoPlayNarration) {
-                    Label("Auto-play Narration", systemImage: "play.circle")
-                }
 
                 VStack(alignment: .leading, spacing: 8) {
                     Label("Narration Volume", systemImage: "speaker.wave.2.fill")
