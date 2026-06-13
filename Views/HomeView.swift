@@ -25,24 +25,10 @@ struct HomeView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
 
-                // MARK: - Awards strip (top right, scrolls with the page)
-                HStack {
-                    Spacer()
-                    Button {
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-                            statsExpanded = true
-                        }
-                    } label: {
-                        CompactStatsView()
-                            .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Your awards — tap to see everything")
-                }
-
-                // MARK: - Header with greeting and Lumi
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 6) {
+                // MARK: - Header
+                VStack(alignment: .leading, spacing: 8) {
+                    // Row 1: greeting on the left, awards strip on its right
+                    HStack(alignment: .center) {
                         // With multiple children, tapping the greeting switches profiles
                         if appSettings.childrenNames.count > 1 {
                             Menu {
@@ -61,6 +47,9 @@ struct HomeView: View {
                                 HStack(spacing: 6) {
                                     Text(personalizedGreeting)
                                         .font(.title2)
+                                        .lineLimit(2)
+                                        .minimumScaleFactor(0.6)
+                                        .multilineTextAlignment(.leading)
                                     Image(systemName: "chevron.up.chevron.down")
                                         .font(.caption)
                                 }
@@ -69,17 +58,35 @@ struct HomeView: View {
                         } else {
                             Text(personalizedGreeting)
                                 .font(.title2)
+                                .lineLimit(2)
+                                .minimumScaleFactor(0.6)
+                                .multilineTextAlignment(.leading)
                                 .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
                         }
+                        Spacer(minLength: 8)
+                        Button {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                                statsExpanded = true
+                            }
+                        } label: {
+                            CompactStatsView()
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Your awards — tap to see everything")
+                    }
+
+                    // Row 2: the big title, Lumi keeping watch on the right
+                    HStack(alignment: .top) {
                         Text("Bible Bedtime")
                             .font(.system(size: 34, weight: .bold, design: .rounded))
                             .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
                         + Text(" Stories")
                             .font(.system(size: 34, weight: .bold, design: .rounded))
                             .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
+                        Spacer(minLength: 8)
+                        LumiMascotView(size: 32, message: lumiGreeting)
                     }
-                    Spacer()
-                    LumiMascotView(size: 32, message: lumiGreeting)
                 }
                 .onAppear { lumiGreeting = lumiTimeMessage }
 
@@ -611,7 +618,7 @@ struct CompactStatsView: View {
     @EnvironmentObject private var appSettings: AppSettings
 
     var body: some View {
-        HStack(spacing: 18) {
+        HStack(spacing: 12) {
             stat(icon: "flame.fill", tint: .orange,
                  value: readingStreak.currentStreak, label: "day streak")
             stat(icon: "star.fill", tint: .yellow,
@@ -623,13 +630,13 @@ struct CompactStatsView: View {
     }
 
     private func stat(icon: String, tint: Color, value: Int, label: String) -> some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 5) {
             Image(systemName: icon)
-                .font(.system(size: 30, weight: .bold))
+                .font(.system(size: 27, weight: .bold))
                 .foregroundStyle(tint)
                 .shadow(color: tint.opacity(0.6), radius: 7)
             Text("\(value)")
-                .font(.system(size: 32, weight: .bold, design: .rounded))
+                .font(.system(size: 29, weight: .bold, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
         }
