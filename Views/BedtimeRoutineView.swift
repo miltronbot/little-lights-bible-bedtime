@@ -726,6 +726,7 @@ struct GoodnightStepView: View {
                     )
                     .frame(height: 320)
                     .opacity(showAffirmation ? 1 : 0)
+                    .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: glowOpacity)
 
                 // Star icon
                 VStack(spacing: 20) {
@@ -778,10 +779,8 @@ struct GoodnightStepView: View {
                 showAffirmation = true
             }
 
-            // Pulse glow animation
-            withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
-                glowOpacity = 0.8
-            }
+            // Pulse glow animation (scoped on the glow circle)
+            glowOpacity = 0.8
         }
     }
 }

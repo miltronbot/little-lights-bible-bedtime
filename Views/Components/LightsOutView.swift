@@ -23,11 +23,8 @@ struct LightsOutView: View {
                 .font(.system(size: 26))
                 .foregroundStyle(Color(red: 0.55, green: 0.55, blue: 0.62).opacity(0.35))
                 .offset(moonOffset)
-                .onAppear {
-                    withAnimation(.easeInOut(duration: 60).repeatForever(autoreverses: true)) {
-                        moonOffset = CGSize(width: 60, height: 30)
-                    }
-                }
+                .animation(.easeInOut(duration: 60).repeatForever(autoreverses: true), value: moonOffset)
+                .onAppear { moonOffset = CGSize(width: 60, height: 30) }
 
             if showHint {
                 VStack(spacing: 10) {

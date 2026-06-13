@@ -138,11 +138,8 @@ private struct PaintedSceneBackground: View {
                 .offset(x: -size.width * 0.1, y: size.height * 0.12)
                 .blur(radius: 24)
         }
-        .onAppear {
-            withAnimation(.easeInOut(duration: 4).repeatForever(autoreverses: true)) {
-                shimmer = true
-            }
-        }
+        .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true), value: shimmer)
+        .onAppear { shimmer = true }
     }
 
     private var skyTop: Color { style.primary }
@@ -190,11 +187,8 @@ private struct SpotlightLayer: View {
             .frame(width: size.width * 0.9, height: size.height * 0.65)
             .position(x: size.width * 0.5, y: size.height * 0.38)
             .blur(radius: 18)
-            .onAppear {
-                withAnimation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true)) {
-                    pulse = true
-                }
-            }
+            .animation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true), value: pulse)
+            .onAppear { pulse = true }
     }
 }
 
@@ -248,11 +242,8 @@ private struct AtmosphericGlow: View {
                 .offset(x: size.width * 0.15, y: -size.height * 0.15)
                 .blur(radius: 20)
         }
-        .onAppear {
-            withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
-                glowPulse = true
-            }
-        }
+        .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: glowPulse)
+        .onAppear { glowPulse = true }
     }
 
     private var glowColor: Color {

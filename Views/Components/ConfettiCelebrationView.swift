@@ -215,6 +215,7 @@ struct BadgeCelebrationView: View {
                                 )
                             )
                             .frame(width: 200, height: 200)
+                            .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: glowOpacity)
 
                         // Badge medal — same artwork language as collectibles
                         BadgeIconView(badgeID: badgeID, size: 104)
@@ -275,10 +276,8 @@ struct BadgeCelebrationView: View {
             }
         }
 
-        // Glow pulse
-        withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
-            glowOpacity = 0.6
-        }
+        // Glow pulse (scoped on the glow ring)
+        glowOpacity = 0.6
     }
 }
 

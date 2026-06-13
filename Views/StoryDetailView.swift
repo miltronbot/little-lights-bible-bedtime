@@ -83,6 +83,9 @@ struct StoryDetailView: View {
                             .opacity(audioPlayerViewModel.isPlaying ? 0 : (playPulse ? 0.65 : 0.15)),
                             radius: playPulse ? 14 : 6)
                         .scaleEffect(!audioPlayerViewModel.isPlaying && playPulse ? 1.015 : 1.0)
+                        // Scoped pulse — withAnimation(.repeatForever) in
+                        // onAppear leaks into screen layout (page bobbing)
+                        .animation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true), value: playPulse)
                     }
 
                     Button {
@@ -484,9 +487,7 @@ struct StoryDetailView: View {
             showCelebration = true
         }
         .onAppear {
-            withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
-                playPulse = true
-            }
+            playPulse = true
             refreshParentVoice()
             // No auto-play: narration starts only when the family taps the
             // play button (owner request June 2026 — autoplay removed)
