@@ -61,6 +61,7 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 6. **Audio session mode is `.default`** (NOT `.spokenAudio` — old docs lied). setCategory in both loadAudio methods + startup; never `.mixWithOthers`.
 7. **ImageRenderer postcards: render once** into `@State` in `.task` — the detail view redraws 4×/sec during playback; a render-per-redraw is a real perf bug (was caught and fixed).
 8. StoryArtworkView decorative layers stay `.allowsHitTesting(false)`; MagicTouchLayer lives ONLY on the detail hero, never on cards.
+9. **NEVER use `withAnimation(.repeatForever)` inside `onAppear`/`task`** — the repeating transaction leaks into whatever else is committing (nav-bar metrics, scroll insets, sibling layout) and the WHOLE SCREEN visibly bobs forever (owner hit this twice on Home, June 2026; ~80 twinkling stars each doing it was the main engine). Always scope loops with `.animation(.repeatForever…, value: someState)` attached to the animated view, then set the state plainly. All existing sites were converted in the bobbing-round2 PR — keep new ones scoped.
 
 ## 4. Owner preferences (PERMANENT — also in memory files)
 

@@ -91,6 +91,9 @@ struct LumiMascotView: View {
             .scaleEffect(isGlowing ? 1.1 : 0.95)
             .opacity(isGlowing ? 1 : 0.7)
             .shadow(color: AppTheme.accent(for: settings.isBedtimeMode).opacity(0.8), radius: isGlowing ? 12 : 4)
+            // Scoped to the glow only — withAnimation(.repeatForever) in
+            // onAppear leaks into surrounding layout (Home-page bobbing)
+            .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: isGlowing)
     }
 
     @ViewBuilder
@@ -120,9 +123,7 @@ struct LumiMascotView: View {
     // MARK: - Animations
 
     private func startGlowAnimation() {
-        withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
-            isGlowing = true
-        }
+        isGlowing = true
     }
 
     private func dismissSpeechBubbleAfterDelay() {
@@ -153,6 +154,7 @@ struct WanderingLumiView: View {
         GeometryReader { geo in
             LumiMascotView(size: 38, message: message)
                 .offset(y: bobbing ? -7 : 7)
+                .animation(.easeInOut(duration: 2.2).repeatForever(autoreverses: true), value: bobbing)
                 .position(position == .zero ? startPoint(in: geo.size) : position)
                 .onTapGesture {
                     // Glide toward the middle first so her speech bubble
@@ -175,10 +177,8 @@ struct WanderingLumiView: View {
                     guard !started else { return }
                     started = true
                     position = startPoint(in: geo.size)
-                    // Gentle continuous bob
-                    withAnimation(.easeInOut(duration: 2.2).repeatForever(autoreverses: true)) {
-                        bobbing = true
-                    }
+                    // Gentle continuous bob (animation scoped on the view)
+                    bobbing = true
                     // Natural wandering: glide to a new spot, pause, repeat
                     while !Task.isCancelled {
                         let flight = Double.random(in: 6.0...10.0)

@@ -199,15 +199,18 @@ struct TwinklingStar: View {
             .opacity((isTwinkling ? star.opacity : star.opacity * 0.3) * intensity)
             .shadow(color: color.opacity(0.5 * intensity), radius: star.size)
             .position(x: star.x, y: star.y)
-            .onAppear {
-                withAnimation(
-                    .easeInOut(duration: star.twinkleSpeed)
+            // Scoped to THIS star's opacity only. The previous
+            // withAnimation(.repeatForever) in onAppear — fired by ~80 stars
+            // during the screen's commit — leaked the repeating animation
+            // into the page's own layout work and made the whole Home
+            // screen bob up and down.
+            .animation(
+                .easeInOut(duration: star.twinkleSpeed)
                     .repeatForever(autoreverses: true)
-                    .delay(star.delay)
-                ) {
-                    isTwinkling = true
-                }
-            }
+                    .delay(star.delay),
+                value: isTwinkling
+            )
+            .onAppear { isTwinkling = true }
     }
 }
 
@@ -259,22 +262,23 @@ struct FloatAnimation: ViewModifier {
     let startY: CGFloat
     let duration: Double
 
-    @State private var offset: CGSize = .zero
-    @State private var opacity: Double = 0
+    @State private var drift: CGSize = .zero
+    @State private var floating = false
 
     func body(content: Content) -> some View {
         content
-            .offset(offset)
-            .opacity(opacity)
+            .offset(floating ? drift : .zero)
+            .opacity(floating ? 1 : 0)
             .position(x: startX, y: startY)
+            // Scoped — see TwinklingStar; never withAnimation(.repeatForever)
+            // in onAppear
+            .animation(.easeInOut(duration: duration).repeatForever(autoreverses: true), value: floating)
             .onAppear {
-                withAnimation(.easeInOut(duration: duration).repeatForever(autoreverses: true)) {
-                    offset = CGSize(
-                        width: CGFloat.random(in: -30...30),
-                        height: CGFloat.random(in: -40...40)
-                    )
-                    opacity = 1
-                }
+                drift = CGSize(
+                    width: CGFloat.random(in: -30...30),
+                    height: CGFloat.random(in: -40...40)
+                )
+                floating = true
             }
     }
 }
