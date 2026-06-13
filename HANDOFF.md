@@ -1,5 +1,5 @@
 # FireFly: Bible Bedtime Stories — Session Handoff
-**Last updated:** June 12, 2026, late session (owner-feedback marathon — PRs #56–#69)
+**Last updated:** June 12, 2026, follow-up session (PR #71 — last verse gaps + Home header calmed)
 **Status:** v2.0 feature-complete on `main` · zero build warnings · v1.0 sitting in App Store review · app renamed "FireFly: Bible Bedtime Stories"
 **Read `CLAUDE.md` first** for the quick-reference facts; this file is the deep handoff.
 
@@ -7,7 +7,7 @@
 
 ## ⭐ START HERE — open items for the next session
 
-**1. THE HOME-PAGE "BOBBING" — verify with the owner FIRST.** The owner reported the Home screen visibly bobbing up and down, three times. Two real causes were found and fixed: (a) Lumi's speech bubble lived in the header layout and shoved the page on every show/hide — made a layout-neutral overlay (PR #67); (b) the REAL engine: ~80 twinkling stars + 12 floating particles in `StarryNightBackground` each fired `withAnimation(.repeatForever)` from `onAppear` during Home's commit, leaking the repeating transaction into the page's own layout — every repeatForever in the app is now scoped via `.animation(_, value:)` (PR #69, see gotcha #9 in §3). AFTER #69, the current main build was verified pixel-still: title template-matched at 0px across 22 frames/10s (normal mode) and 20 frames/5s (bedtime mode), with near-zero whole-screen pixel deltas. The owner's third "still bobbing" report came seconds after #69 merged — almost certainly a STALE BUILD on their side. → First step next session: have the owner pull main, rebuild in Xcode, run. If they STILL see bobbing on a fresh build, get a screen recording + their run destination (device vs sim) before touching code; the candidates left are perceptual (Lumi's glow pulse in the header scales 0.95↔1.1; the "Sleepy time!" bubble popping in/out on each Home visit) — both could be calmed if the owner confirms that's what they're seeing.
+**1. THE HOME-PAGE "BOBBING" — verify with the owner FIRST.** The owner reported the Home screen visibly bobbing up and down, three times. Two real causes were found and fixed: (a) Lumi's speech bubble lived in the header layout and shoved the page on every show/hide — made a layout-neutral overlay (PR #67); (b) the REAL engine: ~80 twinkling stars + 12 floating particles in `StarryNightBackground` each fired `withAnimation(.repeatForever)` from `onAppear` during Home's commit, leaking the repeating transaction into the page's own layout — every repeatForever in the app is now scoped via `.animation(_, value:)` (PR #69, see gotcha #9 in §3). AFTER #69, the current main build was verified pixel-still: title template-matched at 0px across 22 frames/10s (normal mode) and 20 frames/5s (bedtime mode), with near-zero whole-screen pixel deltas. The owner's third "still bobbing" report came seconds after #69 merged — almost certainly a STALE BUILD on their side. → First step next session: have the owner pull main, rebuild in Xcode, run. If they STILL see bobbing on a fresh build, get a screen recording + their run destination (device vs sim) before touching code; the candidates left were perceptual (Lumi's glow pulse in the header; the "Sleepy time!" bubble popping in/out on each Home visit) — **both were removed pre-emptively in PR #71**: the in-body title row (big "Bible Bedtime Stories" + LumiMascotView + greeting bubble) is gone from Home; the inline "Home" nav title remains. If the owner misses the big title text, restore it as a static line WITHOUT the mascot/bubble. If they STILL report bobbing on a fresh post-#71 build, there are no known candidates left — get the recording first.
 
 **2. Midjourney game-tile artwork — owner's court.** The Games hub is wired (`GameCard` loads Assets named `game-<slug>`, falls back to SF tiles). The owner generates the eight images from `docs/GameArtPrompts.md` (ready-to-paste prompts, style-matched to story art) and drops them into Assets.xcassets — zero code changes. midjourney.com is blocked for claude-in-chrome.
 
@@ -29,6 +29,7 @@
 - **#67** Bobbing cause #1: speech bubble → layout-neutral overlay; strip beside greeting
 - **#68** Autoplay REMOVED (`autoPlayNarration` deleted; narration starts on tap only)
 - **#69** Bobbing cause #2 (the engine): every `withAnimation(.repeatForever)` in Views converted to scoped `.animation(_, value:)` — see gotcha #9
+- **#71** (follow-up session) Last 5 empty `memoryVerse` fields filled (Abraham's stars / burning bush / Red Sea / Elijah's ravens / Eden) — all 50 stories now playable in Verse Practice; GamesView verse door now gates via `MemoryVerseGame.isPlayable` like StoryDetailView; Home in-body title row removed (Lumi glow + greeting bubble = the last perceptual-bobbing candidates), stats glyphs resized; prototype "Affirmations"→"Blessings"
 
 ## 1. Where things stand RIGHT NOW
 
@@ -85,7 +86,7 @@ A free, fully offline, COPPA-clean SwiftUI bedtime app: 50 narrated Bible storie
 - Free forever, no ads, no analytics, COPPA-clean (no accounts/servers — iCloud KVS only)
 - Work autonomously; branch→PR→merge each change; additive changes only — never lose existing work
 - Under-icon display name is **"FireFly"** (exact casing, owner directive; iOS strips spaces from long names); full name "FireFly: Bible Bedtime Stories" lives in ASC
-- Home header reads "Bible Bedtime **Stories**" (NOT the app name — owner request, PR #22)
+- Home in-body header REMOVED in PR #71 (it carried the Lumi glow/bubble bobbing candidates); only the inline "Home" nav title remains. If a big title ever returns it must be a STATIC "Bible Bedtime **Stories**" line (NOT the app name — owner request, PR #22) with no mascot attached
 
 ## 5. Deferred backlog (rough priority)
 
