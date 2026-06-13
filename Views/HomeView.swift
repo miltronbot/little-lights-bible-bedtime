@@ -21,7 +21,7 @@ struct HomeView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 18) {
 
                 // MARK: - Header with greeting and Lumi
                 HStack(alignment: .top) {
@@ -65,9 +65,6 @@ struct HomeView: View {
                     LumiMascotView(size: 32, message: lumiGreeting)
                 }
                 .onAppear { lumiGreeting = lumiTimeMessage }
-
-                // MARK: - Reading Streak Banner
-                StreakBannerView()
 
                 // MARK: - Recently Read
                 if !recentlyReadStories.isEmpty {
@@ -261,6 +258,9 @@ struct HomeView: View {
             StarryNightBackground(alwaysStarry: true, deepField: true)
         }
         .navigationTitle("Home")
+        // Inline = "Home" centered at the top, and the freed large-title
+        // space slides everything up (owner request June 2026)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -273,6 +273,15 @@ struct HomeView: View {
                 }
                 .accessibilityLabel("Open menu")
             }
+        }
+        // The streak banner, shrunk to a glanceable strip floating at the
+        // top right (not a ToolbarItem — the glass toolbar washes out the
+        // flame/star tints)
+        .overlay(alignment: .topTrailing) {
+            CompactStatsView()
+                .padding(.trailing, 16)
+                .padding(.top, 6)
+                .allowsHitTesting(false)
         }
         .overlay {
             SideMenuView(isOpen: $showSideMenu, selection: $menuDestination)
@@ -559,65 +568,40 @@ struct SeasonalPickCard: View {
     }
 }
 
-// MARK: - Streak Banner
+// MARK: - Compact Stats
+// The streak banner shrunk to a glanceable nav-bar strip (top right of
+// Home, owner request June 2026): 🔥 streak · ⭐ stars · 📖 stories. A
+// green check joins it once today's story is done.
 
-struct StreakBannerView: View {
+struct CompactStatsView: View {
     @EnvironmentObject private var readingStreak: ReadingStreakViewModel
     @EnvironmentObject private var appSettings: AppSettings
 
     var body: some View {
-        HStack(spacing: 16) {
-            VStack(spacing: 2) {
-                Image(systemName: "flame.fill")
-                    .font(.title2)
-                    .foregroundStyle(.orange)
-                Text("\(readingStreak.currentStreak)")
-                    .font(.title3.bold())
-                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                Text("Streak")
-                    .font(.caption2)
-                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
-            }
-
-            Divider().frame(height: 40)
-
-            VStack(spacing: 2) {
-                Image(systemName: "star.fill")
-                    .font(.title2)
-                    .foregroundStyle(.yellow)
-                Text("\(readingStreak.sleepStars)")
-                    .font(.title3.bold())
-                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                Text("Sleep Stars")
-                    .font(.caption2)
-                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
-            }
-
-            Divider().frame(height: 40)
-
-            VStack(spacing: 2) {
-                Image(systemName: "book.fill")
-                    .font(.title2)
-                    .foregroundStyle(AppTheme.accent(for: appSettings.isBedtimeMode))
-                Text("\(readingStreak.totalStoriesRead)")
-                    .font(.title3.bold())
-                    .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
-                Text("Stories")
-                    .font(.caption2)
-                    .foregroundStyle(AppTheme.secondaryText(for: appSettings.isBedtimeMode))
-            }
-
-            Spacer()
-
-            if readingStreak.isActiveToday {
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.title)
-                    .foregroundStyle(.green)
-            }
+        HStack(spacing: 7) {
+            stat(icon: "flame.fill", tint: .orange,
+                 value: readingStreak.currentStreak, label: "day streak")
+            stat(icon: "star.fill", tint: .yellow,
+                 value: readingStreak.sleepStars, label: "Sleep Stars")
+            stat(icon: "book.fill", tint: AppTheme.accent(for: appSettings.isBedtimeMode),
+                 value: readingStreak.totalStoriesRead, label: "stories read")
         }
-        .padding()
-        // No card backing — the stats float right on the starry sky
-        // (owner request June 2026)
+        // Never let the nav bar truncate the strip into "…"
+        .fixedSize()
+    }
+
+    private func stat(icon: String, tint: Color, value: Int, label: String) -> some View {
+        HStack(spacing: 2) {
+            Image(systemName: icon)
+                .font(.system(size: 10, weight: .bold))
+                .foregroundStyle(tint)
+            Text("\(value)")
+                .font(.caption2.bold())
+                .monospacedDigit()
+                .foregroundStyle(AppTheme.primaryText(for: appSettings.isBedtimeMode))
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(value) \(label)")
     }
 }
 
